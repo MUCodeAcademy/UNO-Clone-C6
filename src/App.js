@@ -20,19 +20,19 @@ function App() {
   return (
     <Router>
       <Switch>
-        {/* <ProtectedRoutes currentUser={currentUser} path="/Login" authRequired={false} component={LoginPage} /> */}
-        {/* <ProtectedRoutes currentUser={currentUser} path="/Signup" authRequired={false} component={SignupPage} /> */}
+        {/* <ProtectedRoutes currentUser={currentUser} path="/login" authRequired={false} component={LoginPage} /> */}
+        {/* <ProtectedRoutes currentUser={currentUser} path="/signup" authRequired={false} component={SignupPage} /> */}
         <ProtectedRoutes
           currentUser={currentUser}
-          path="/ResetPassword"
+          path="/reset-password"
           authRequired={false}
           component={ResetPasswordPage}
         />
-        {/* <ProtectedRoutes currentUser={currentUser} path="/UserSettings" authRequired={true} component={UserSettingsPage} /> */}
+        {/* <ProtectedRoutes currentUser={currentUser} path="/user-settings" authRequired={true} component={UserSettingsPage} /> */}
         {/* <ProtectedRoutes currentUser={currentUser} path="/" authRequired={true} component={HomePage} /> */}
-        {/* <ProtectedRoutes currentUser={currentUser} path="/GamePage" authRequired={true} component={GamePage} /> */}
+        {/* <ProtectedRoutes currentUser={currentUser} path="/game/:gameId" authRequired={true} component={GamePage} /> */}
         {/* <Route path = "*"> */}
-        {/* <Redirect to = "/Login" /> */}
+        {/* <Redirect to = "/login" /> */}
         {/* </Route> */}
       </Switch>
     </Router>
