@@ -1,19 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { UserProvider } from './shared/UserContext';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { UserProvider } from "./shared/UserContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <UserProvider>
-    <App />
+      <App />
     </UserProvider>
   </React.StrictMode>,
-  
-
-  document.getElementById('root')
+  document.getElementById("root")
 );
-
 
 reportWebVitals();
