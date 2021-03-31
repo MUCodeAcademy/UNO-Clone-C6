@@ -1,7 +1,7 @@
 import { Button, Grid, makeStyles, Paper, TextField } from "@material-ui/core";
-import React, { useState } from "react";
-import { useHistory } from "react-router";
-import { AuthContext } from "../contexts/AuthContext";
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { UserContext } from "../../shared/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,7 +30,7 @@ export default function UserSettingsPage() {
     updateEmail,
     updatePassword,
     updateUsername,
-  } = useContext(AuthContext);
+  } = useContext(UserContext);
   const originalEmail = currentUser.email; //need a way to get users original email
   const originalPassword = "*********";
   const originalUsername = currentUser.username; //need a way to get users original username
