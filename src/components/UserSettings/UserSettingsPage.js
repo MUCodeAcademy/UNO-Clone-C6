@@ -25,22 +25,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function UserSettingsPage() {
   const classes = useStyles();
-  console.log(classes);
-  const originalEmail = "test@test.com"; //need a way to get users original email
-  const originalPassword = "*********";
-  const originalUsername = "Username"; //need a way to get users original username
-  const [email, setEmail] = useState(originalEmail);
-  const [password, setPassword] = useState(originalPassword);
-  const [passwordConfirm, setPasswordConfirm] = useState(originalPassword);
-  const [username, setUsername] = useState(originalUsername);
-  const [errors, setErrors] = useState("");
-  const [loading, setLoading] = useState(false);
   const {
     currentUser,
     updateEmail,
     updatePassword,
     updateUsername,
   } = useContext(AuthContext);
+  const originalEmail = currentUser.email; //need a way to get users original email
+  const originalPassword = "*********";
+  const originalUsername = currentUser.username; //need a way to get users original username
+  const [email, setEmail] = useState(originalEmail);
+  const [password, setPassword] = useState(originalPassword);
+  const [passwordConfirm, setPasswordConfirm] = useState(originalPassword);
+  const [username, setUsername] = useState(originalUsername);
+  const [errors, setErrors] = useState("");
+  const [loading, setLoading] = useState(false);
   const history = useHistory(0);
   function handleSubmit(e) {
     setErrors("");
@@ -71,7 +70,7 @@ export default function UserSettingsPage() {
 
     Promise.all(upDates)
       .then(() => {
-        history.push("/Create");
+        history.push("/");
       })
       .catch(() => {
         setErrors("Failed to update your account.");
