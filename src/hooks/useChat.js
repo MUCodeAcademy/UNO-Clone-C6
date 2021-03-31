@@ -1,33 +1,39 @@
 import {useState, useEffect, useRef} from "react"
 import socketIOClient from "socket.io-client"
 
-const SERVER_URL = "http://localhost:3000"
+const SERVER_URL = "http://localhost:3001"
 
 const useChat = (username, room) =>{
     const [messages, setMessages] = useState([])
     const socketRef = useRef()
-
     useEffect(() => {
         setMessages([])
         socketRef.current = socketIOClient(SERVER_URL)
         socketRef.current.on("leave room", (data)=>{
-            let newMsgs = [...messages, data]
-            setMessages(newMsgs)
+            setMessages((newMsgs)=>[...newMsgs, data])
         })
         socketRef.current.on("message", (data)=>{
-            let newMsgs = [...messages, data]
-            setMessages(newMsgs)
+            // console.log(data)
+            // let newMsgs = [...messages, data]
+            // console.log(newMsgs)
+            // console.log([...newMsgs])
+            setMessages((newMsgs)=>[...newMsgs, data])
+            console.log([...messages])
         })
         socketRef.current.on("enter room", (data) =>{
-            let newMsgs = [...messages, data]
-            setMessages(newMsgs)
+            setMessages((newMsgs)=>[...newMsgs, data])
         })
     }, [room])
 
-    const sendMessage = (body) =>{
+    function sendMessage(body){
+        console.log(body)
         socketRef.current.emit("message", {username: username, body: body, room: room})
     }
-    return (messages, sendMessage)
+
+    function joinRoom(){
+        socketRef.current.emit("join room", {username: username, room: room})
+    }
+    return {messages: [messages], sendMessage, joinRoom}
 }
 
 export default useChat;
