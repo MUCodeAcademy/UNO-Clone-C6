@@ -1,12 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
-import Chat from "./components/Game/GameComponents/Chat"
+import React, { useContext } from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  useHistory,
+  Redirect,
+} from "react-router-dom";
+import GamePage from "./components/Game/GamePage";
+import HomePage from "./components/Home/HomePage";
+import UserSettingsPage from "./components/UserSettings/UserSettingsPage";
+import LoginPage from "./components/Login/LoginPage";
+import SignupPage from "./components/Signup/SignupPage";
+import ResetPasswordPage from "./components/ResetPassword/ResetPasswordPage";
+import ProtectedRoutes from "./shared/ProtectedRoutes";
+import { UserContext } from "./shared/UserContext";
 
 function App() {
+  const { currentUser } = useContext(UserContext);
   return (
-    <div className="App">
-    <Chat></Chat>
-    </div>
+    <Router>
+      <Switch>
+        {/* <ProtectedRoutes currentUser={currentUser} path="/login" authRequired={false} component={LoginPage} /> */}
+        {/* <ProtectedRoutes currentUser={currentUser} path="/signup" authRequired={false} component={SignupPage} /> */}
+        <ProtectedRoutes
+          currentUser={currentUser}
+          path="/reset-password"
+          authRequired={false}
+          component={ResetPasswordPage}
+        />
+        {/* <ProtectedRoutes currentUser={currentUser} path="/user-settings" authRequired={true} component={UserSettingsPage} /> */}
+        {/* <ProtectedRoutes currentUser={currentUser} path="/" authRequired={true} component={HomePage} /> */}
+        {/* <ProtectedRoutes currentUser={currentUser} path="/game/:gameId" authRequired={true} component={GamePage} /> */}
+        {/* <Route path = "*"> */}
+        {/* <Redirect to = "/login" /> */}
+        {/* </Route> */}
+      </Switch>
+    </Router>
   );
 }
 
