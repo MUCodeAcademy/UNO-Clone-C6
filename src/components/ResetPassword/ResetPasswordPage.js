@@ -66,7 +66,7 @@ export default function ResetPasswordPage() {
                 Reset Password
               </Button>
             </form>
-            <div>{/* <Link to="/login">Login</Link> */}</div>
+            <div><Link to="/login">Login</Link></div>
             <div>
               {/* Don't have an account? <Link to="signup">Sign Up</Link> */}
             </div>

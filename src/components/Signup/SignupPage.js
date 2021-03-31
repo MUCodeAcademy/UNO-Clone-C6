@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignupPage() {
   const classes = useStyles();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [passwordConfirm, setPasswordConfirm] = useState();
   const { signUp } = useContext(UserContext);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -48,15 +48,15 @@ export default function SignupPage() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+    if (password !== passwordConfirm) {
       return setError("Passwords must match");
     }
     try {
       setError("");
       setLoading(true);
       await signUp(
-        emailRef.current.value,
-        passwordRef.current.value
+        email,
+        password,
       );
       console.log(signUp);
       // history.push("/login");
@@ -88,7 +88,8 @@ export default function SignupPage() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                ref={emailRef}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </Grid>{" "}
             <Grid item xs={12}>
@@ -100,8 +101,9 @@ export default function SignupPage() {
                 label="Password"
                 type="password"
                 id="password"
-                // autoComplete="current-password"
-                ref={passwordRef}
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -113,16 +115,11 @@ export default function SignupPage() {
                 label="Re-enter Password"
                 type="password"
                 id="password2"
-                // autoComplete="current-password"
-                ref={passwordConfirmRef}
+                autoComplete="current-password"
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
               />
             </Grid>
-            {/* <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid> */}
           </Grid>
           <Button
             type="submit"
