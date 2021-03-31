@@ -1,7 +1,7 @@
 import { Button, Grid, makeStyles, Paper, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-// import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
