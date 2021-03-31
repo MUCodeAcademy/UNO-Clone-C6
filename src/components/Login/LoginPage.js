@@ -1,5 +1,5 @@
-import React from "react";
-import { auth } from "../../Firebase";
+import React, { useRef, useState, useContext } from "react";
+import { UserContext } from "../../shared/UserContext";
 import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -14,19 +14,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import MuiAlert from "@material-ui/lab/Alert";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://en.wikipedia.org/wiki/Copyright">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -49,20 +38,31 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginPage() {
-  const classes = useStyles();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { logIn } = useContext(UserContext);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
+  const classes = useStyles();
 
-  const signIn = (e) => {
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    auth
-      .signInWithEmailAndPassword()
-      .then((auth) => {
-        history.push("/");
-      })
-      .catch((error) => alert(error.message));
-  };
-
+    try {
+      setError("");
+      setLoading(true);
+      await logIn(emailRef.current.value, passwordRef.current.value);
+      history.push("/signup");
+    } catch {
+      setError("Something went wrong, unable to sign in. Please try again.");
+    }
+    setLoading(false);
+  }
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -73,6 +73,7 @@ export default function LoginPage() {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+        {error && <Alert severity="error">{error}</Alert>}
         <form className={classes.form} noValidate>
           <TextField
             variant="outlined"
@@ -80,6 +81,7 @@ export default function LoginPage() {
             required
             fullWidth
             id="email"
+            ref={emailRef}
             label="Email Address"
             name="email"
             autoComplete="email"
@@ -94,6 +96,7 @@ export default function LoginPage() {
             label="Password"
             type="password"
             id="password"
+            ref={passwordRef}
             autoComplete="current-password"
           />
           <FormControlLabel
@@ -105,8 +108,9 @@ export default function LoginPage() {
             fullWidth
             variant="contained"
             color="primary"
+            disable={loading}
             className={classes.submit}
-            onClick={signIn}
+            onClick={handleSubmit}
           >
             Sign In
           </Button>
@@ -118,7 +122,7 @@ export default function LoginPage() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/SignupPage" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
@@ -126,7 +130,7 @@ export default function LoginPage() {
         </form>
       </div>
       <Box mt={8}>
-        <Copyright />
+        
       </Box>
     </Container>
   );

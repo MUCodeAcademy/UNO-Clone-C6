@@ -4,6 +4,7 @@ import { UserContext } from "../../shared/UserContext";
 import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
 import MuiAlert from "@material-ui/lab/Alert";
+
 export default function ResetPasswordPage() {
   const emailRef = useRef();
   const { resetPassword } = useContext(UserContext);
@@ -11,6 +12,7 @@ export default function ResetPasswordPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
+
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
