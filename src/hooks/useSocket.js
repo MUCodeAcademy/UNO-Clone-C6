@@ -3,7 +3,7 @@ import socketIOClient from "socket.io-client"
 
 const SERVER_URL = "http://localhost:3001"
 
-const useChat = (username, room, host) =>{
+const useSocket = (username, room, host) =>{
     const [messages, setMessages] = useState([])
     const socketRef = useRef()
     const [isHost, setIsHost] = useState(host)
@@ -60,20 +60,4 @@ const useChat = (username, room, host) =>{
     return {messages: [messages], gameData: gameData, sendMessage, joinRoom, sendPlayerData}
 }
 
-export default useChat;
-
-//26
-socket.on("send player data",(data) =>{
-    io.in(data.room).emit(`host data`, {data})
-})
-
-socket.on("host data send", (data) =>{
-    io.in(data.room).emit(`update game`, {data})
-})
-
-    io.in(socket.room).emit("enter room", {
-        username: "SYSTEM", 
-        body: `${name} has entered the chat`})
-
-        io.in(room).emit('enter room', {username: username, playerHand: []})
-//17
+export default useSocket;
