@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { UserContext } from "../../shared/UserContext";
 import { useHistory } from "react-router-dom";
 import Avatar from "@material-ui/core/Avatar";
@@ -38,12 +38,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginPage() {
-  const emailRef = useRef();
-  const passwordRef = useRef();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   const { logIn } = useContext(UserContext);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  // const history = useHistory();
   const classes = useStyles();
 
   function Alert(props) {
@@ -56,8 +56,8 @@ export default function LoginPage() {
     try {
       setError("");
       setLoading(true);
-      await logIn(emailRef.current.value, passwordRef.current.value);
-      history.push("/signup");
+      await logIn(email, password);
+      // history.push("/home");
     } catch {
       setError("Something went wrong, unable to sign in. Please try again.");
     }
@@ -81,11 +81,12 @@ export default function LoginPage() {
             required
             fullWidth
             id="email"
-            ref={emailRef}
+            value={email}
             label="Email Address"
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -96,8 +97,9 @@ export default function LoginPage() {
             label="Password"
             type="password"
             id="password"
-            ref={passwordRef}
+            value={password}
             autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -117,7 +119,7 @@ export default function LoginPage() {
 
           <Grid container>
             <Grid item xs>
-              <Link href="/ResetPasswordPage" variant="body2">
+              <Link href="/resetPassword" variant="body2">
                 Forgot password?
               </Link>
             </Grid>

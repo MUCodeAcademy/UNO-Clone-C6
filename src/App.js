@@ -22,18 +22,13 @@ function App() {
       <Switch>
         <ProtectedRoutes currentUser={currentUser} path="/login" authRequired={false} component={LoginPage} />
         <ProtectedRoutes currentUser={currentUser} path="/signup" authRequired={false} component={SignupPage} />
-        <ProtectedRoutes
-          currentUser={currentUser}
-          path="/resetPassword"
-          authRequired={false}
-          component={ResetPasswordPage}
-        />
+        <ProtectedRoutes currentUser={currentUser} path="/resetPassword" authRequired={false} component={ResetPasswordPage} />
         {/* <ProtectedRoutes currentUser={currentUser} path="/userSettings" authRequired={true} component={UserSettingsPage} /> */}
         {/* <ProtectedRoutes currentUser={currentUser} path="/" authRequired={true} component={HomePage} /> */}
         {/* <ProtectedRoutes currentUser={currentUser} path="/game/:gameId" authRequired={true} component={GamePage} /> */}
-        {/* <Route path = "*"> */}
-        {/* <Redirect to = "/login" /> */}
-        {/* </Route> */}
+        <Route path = "*">
+        <Redirect to = "/login" />
+        </Route>
       </Switch>
     </Router>
   );
