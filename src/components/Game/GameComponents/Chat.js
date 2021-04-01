@@ -1,5 +1,5 @@
 import {React, useEffect, useState, useRef} from "react"
-import useChat from '../../../hooks/useChat.js'
+import useSocket from '../../../hooks/useSocket.js'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button"
 import TextField from "@material-ui/core/TextField"
@@ -27,7 +27,7 @@ const Chat = (props) => {
     const [msg, setMsg] = useState("");
     const [username, setUsername] = useState(""); //
     const [loggedIn, setLoggedIn] = useState(false);
-    const {messages, sendMessage, joinRoom} = useChat(username, "room" //placeholder for testing
+    const {messages, sendMessage, joinRoom} = useSocket(username, "room" //placeholder for testing
         // props.username, props.room what it will actually be
         );
     const classes = useStyles();
