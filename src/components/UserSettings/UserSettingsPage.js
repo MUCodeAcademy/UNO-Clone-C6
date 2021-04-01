@@ -189,7 +189,7 @@ export default function UserSettingsPage() {
             >
               Submit changes
             </Button>
-            <div className="text-center align-center margin-top-4">
+            <div>
                 <Link href="/">Cancel</Link>
             </div>
           </Grid>
