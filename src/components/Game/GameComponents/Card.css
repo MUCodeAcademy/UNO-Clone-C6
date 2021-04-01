@@ -1,170 +1,42 @@
 .card {
-  width: 116px;
-  height: 178px;
-  float: left;
-  background: white;
-  border-radius: 5px;
-  display: table;
-  box-sizing: border-box;
-  padding: 5px;
-  margin: 10px;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 90px;
-  text-align: center;
-  position: relative;
-}
-.card .inner {
-  display: table-cell;
-  vertical-align: middle;
-  border-radius: 5px;
-  overflow: hidden;
-}
 
-.card .action {
-  font-size: 75px;
-}
+    width: 116px;
+    height: 178px;
+    float: left;
+    background: white;
+    border-radius: 5px;
+    display: table;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 90px;
+    text-align: center;
+    position: relative;
+    border: 5px solid white;
+  }
+  .card .inner {
+    border-radius: 5px;
+    overflow: hidden;
+    background: #ffffff;
+    margin: auto;
+    margin-top: 20px;
+    padding: 2px 20px;
+    border-radius: 100px 60px / 120px 60px;
+    line-height: 1.4;
+    font-size: 75px;
+    width: 55px;
+    color: black;
 
-.card .mark {
-  display: inline-block;
-  vertical-align: middle;
-  background: #ffffff;
-  margin: auto;
-  padding: 1px 20px;
-  border-radius: 100px 60px / 120px 60px;
-  line-height: 1.4;
-  font-size: 75px;
-  width: 55px;
-}
+  }
 
-.card:before,
-.card:after {
-  display: inline-block;
-  position: absolute;
-  line-height: 0;
-  font-size: 15px;
-  color: #ffffff;
-}
+  .card-bottom-right{
+      font-size: 10px;
+      text-align: right;
+      margin-top: 15px;
 
-.card:before {
-  top: 15px;
-  left: 10px;
-}
-.card:after {
-  bottom: 15px;
-  right: 10px;
-}
-
-.card.blue {
-  color: blue;
-}
-
-.card.blue .inner {
-  background: blue;
-}
-
-.card.green {
-  color: green;
-}
-
-.card.green .inner {
-  background: green;
-}
-
-.card.red {
-  color: rgb(226, 3, 3);
-}
-
-.card.red .inner {
-  background: rgb(226, 3, 3);
-}
-
-.card.yellow {
-  color: rgb(255, 230, 0);
-}
-
-.card.yellow .inner {
-  background: rgb(255, 230, 0);
-}
-
-.card.black {
-  color: black;
-}
-
-.card.black .inner {
-  background: black;
-}
-
-.card.wild:before,
-.card.wild:after {
-  content: "Wild";
-}
-
-.card.wild-draw:before,
-.card.wild-draw:after {
-  content: "Draw Four";
-}
-
-.card.reverse:before,
-.card.reverse:after {
-  content: "Reverse";
-}
-
-.card.skip:before,
-.card.skip:after {
-  content: "Skip";
-}
-
-.card.drawtwo:before,
-.card.drawtwo:after {
-  content: "Draw Two";
-}
-
-.card.num-0:before,
-.card.num-0:after {
-  content: "0";
-}
-
-.card.num-1:before,
-.card.num-1:after {
-  content: "1";
-}
-
-.card.num-2:before,
-.card.num-2:after {
-  content: "2";
-}
-
-.card.num-3:before,
-.card.num-3:after {
-  content: "3";
-}
-
-.card.num-4:before,
-.card.num-4:after {
-  content: "4";
-}
-
-.card.num-5:before,
-.card.num-5:after {
-  content: "5";
-}
-
-.card.num-6:before,
-.card.num-6:after {
-  content: "6";
-}
-
-.card.num-7:before,
-.card.num-7:after {
-  content: "7";
-}
-
-.card.num-8:before,
-.card.num-8:after {
-  content: "8";
-}
-
-.card.num-9:before,
-.card.num-9:after {
-  content: "9";
+  }
+  .card-top-left{
+    font-size: 10px;
+    text-align: left;
 }
