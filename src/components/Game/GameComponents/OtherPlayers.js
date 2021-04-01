@@ -38,7 +38,7 @@ const OtherPlayers = (props) => {
                 return(
             <Box className = {classes.opponentHand}>
                 <div className = {classes.text}>{m.username}</div>
-                <div className = {classes.card}><Card color = "purple" value = "UNO"/></div>
+                <div><Card color = "purple" value = "UNO" size = "small"/></div>
                 {/* Card is a placeholder for when we get a back of card finalized */}
                 <div className = {classes.text}>{m.hand.length} card(s) in hand</div>
             </Box>)

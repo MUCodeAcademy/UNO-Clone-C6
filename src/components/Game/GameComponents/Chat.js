@@ -1,4 +1,4 @@
-import {React, useEffect, useState, useRef} from "react"
+import {React, useState} from "react"
 import useSocket from '../../../hooks/useSocket.js'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button"
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column-reverse',
         overflowY: `auto`,
         textOverflow: `clip`,
-        height: '200px'
+        height: '300px'
     }
   }));
 const Chat = (props) => {
@@ -27,11 +27,7 @@ const Chat = (props) => {
     const [msg, setMsg] = useState("");
     const [username, setUsername] = useState(""); //
     const [loggedIn, setLoggedIn] = useState(false);
-    // const {messages, sendMessage, joinRoom} = useSocket(username, "room" //placeholder for testing
-        // props.username, props.room what it will actually be
-        // );
     const classes = useStyles();
-
 
 return(<div>
 
@@ -64,7 +60,7 @@ return(<div>
                     props.sendMessage(msg)
                     setMsg("")
                 }}}>Send</Button>
-            <button onClick = {()=>{props.joinRoom()}}>Join Room</button> 
+            {/* <button onClick = {()=>{props.joinRoom()}}>Join Room</button>  */}
         </div>
     </div>}
 </div>)
