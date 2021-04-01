@@ -16,7 +16,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import MuiAlert from "@material-ui/lab/Alert";
 
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -38,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginPage() {
-  const [email, setEmail]= useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { logIn } = useContext(UserContext);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -57,7 +56,7 @@ export default function LoginPage() {
       setError("");
       setLoading(true);
       await logIn(email, password);
-      // history.push("/home");
+      return;
     } catch {
       setError("Something went wrong, unable to sign in. Please try again.");
     }
@@ -110,7 +109,7 @@ export default function LoginPage() {
             fullWidth
             variant="contained"
             color="primary"
-            disable={loading}
+            disabled={loading}
             className={classes.submit}
             onClick={handleSubmit}
           >
@@ -131,9 +130,7 @@ export default function LoginPage() {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        
-      </Box>
+      <Box mt={8}></Box>
     </Container>
   );
 }
