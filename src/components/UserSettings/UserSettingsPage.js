@@ -1,223 +1,257 @@
-import { Button, Grid, makeStyles, Paper, TextField } from "@material-ui/core";
+import { Button, Grid, makeStyles, TextField, Link } from "@material-ui/core";
 import React, { useContext, useState } from "react";
-import { useHistory } from "react-router-dom";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import MuiAlert from "@material-ui/lab/Alert";
 import { UserContext } from "../../shared/UserContext";
+import { NavLink } from "react-router-dom";
+import Snackbar from "@material-ui/core/Snackbar";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
-  },
-  root: {
-    flexGrow: 1,
-  },
   paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
-  testErr: {
-    color: "red",
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
 }));
 
 export default function UserSettingsPage() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   const classes = useStyles();
-  const {
-    currentUser,
-    updateEmail,
-    updatePassword,
-    updateUsername,
-  } = useContext(UserContext);
-  const originalEmail = currentUser.email; //need a way to get users original email
-  const originalPassword = "*********";
-  const originalUsername = currentUser.username; //need a way to get users original username
+  const { currentUser, updateEmail, updatePassword } = useContext(UserContext);
+  const originalEmail = currentUser.email;
   const [email, setEmail] = useState(originalEmail);
-  const [password, setPassword] = useState(originalPassword);
-  const [passwordConfirm, setPasswordConfirm] = useState(originalPassword);
-  const [username, setUsername] = useState(originalUsername);
-  const [errors, setErrors] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
-  const history = useHistory(0);
-  function handleSubmit(e) {
-    setErrors("");
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+  async function changePassword(e) {
     e.preventDefault();
+    setError("");
+    setSuccess("");
     if (password !== passwordConfirm) {
-      return setErrors("Passwords must match");
+      setError("Passwords must match");
+      setOpen(true);
+      return;
     }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      return setErrors("Please enter a valid email");
-    }
-    if (username < 4) {
-      return setErrors("Username must be more than 4 charectors");
-    }
-    const upDates = [];
     setLoading(true);
-    setErrors("");
-
-    if (email !== originalEmail) {
-      upDates.push(updateEmail(email));
+    try {
+      await updatePassword(password);
+      setSuccess("Successfully updated password");
+    } catch (err) {
+      setError("Failed to update your account.");
+    } finally {
+      setLoading(false);
+      setOpen(true);
     }
+  }
 
-    if (password !== originalPassword) {
-      upDates.push(updatePassword(password));
+  async function changeEmail(e) {
+    e.preventDefault();
+    setError("");
+    if (!/\S+@\S+\.\S+/.test(email) || email === originalEmail) {
+      setError("Invalid email provided");
+      setOpen(true);
+      return;
     }
-    if (username !== originalUsername) {
-      upDates.push(updateUsername(username));
+    setLoading(true);
+    try {
+      await updateEmail(email);
+      setSuccess("Successfully updated email");
+    } catch (err) {
+      setError("Failed to update your account.");
+    } finally {
+      setLoading(false);
+      setOpen(true);
     }
-
-    Promise.all(upDates)
-      .then(() => {
-        history.push("/");
-      })
-      .catch(() => {
-        setErrors("Failed to update your account.");
-      })
-      .finally(() => {
-        setLoading(false);
-      });
   }
 
   return (
-    <form noValidate autoComplete="off">
-      <div className={classes.root}>
-        <Grid
-          container
-          alignItems="center"
-          direction="row"
-          spacing={1}
-          justify="center"
-        >
-          <Grid item xs={12}>
-            <Paper className={classes.paper}></Paper>
-          </Grid>
-          <Grid item xs={7} sm={4}>
-            <Paper className={classes.paper}>Change email:</Paper>
-          </Grid>
-          <Grid item xs={5} sm={4}>
-            <TextField
-              id="outlined-basic"
-              label={`Change email ${
-                email !== originalEmail ? "*Changed" : ""
-              }`}
-              variant="outlined"
-              defaultValue={originalEmail}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              error={!/\S+@\S+\.\S+/.test(email)}
-              helperText={
-                !/\S+@\S+\.\S+/.test(email) ? "Please enter a valid email" : ""
-              }
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          alignItems="center"
-          direction="row"
-          spacing={1}
-          justify="center"
-        >
-          <Grid item xs={7} sm={4}>
-            <Paper className={classes.paper}>Change password:</Paper>
-          </Grid>
-          <Grid item xs={5} sm={4}>
-            <TextField
-              id="outlined-basic"
-              type="password"
-              label={`New password ${
-                password !== originalPassword ? "*Changed" : ""
-              }`}
-              variant="outlined"
-              defaultValue={originalPassword}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          alignItems="center"
-          direction="row"
-          spacing={1}
-          justify="center"
-        >
-          <Grid item xs={7} sm={4}>
-            <Paper className={classes.paper}>Confirm password:</Paper>
-          </Grid>
-          <Grid item xs={5} sm={4}>
-            <TextField
-              id="outlined-basic"
-              label="Confirm password"
-              variant="outlined"
-              type="password"
-              defaultValue={originalPassword}
-              onChange={(e) => {
-                setPasswordConfirm(e.target.value);
-              }}
-              error={password !== passwordConfirm}
-              helperText={
-                password !== passwordConfirm ? "Passwords must match" : ""
-              }
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          alignItems="center"
-          direction="row"
-          spacing={1}
-          justify="center"
-        >
-          <Grid item xs={7} sm={4}>
-            <Paper className={classes.paper}>Change username:</Paper>
-          </Grid>
-          <Grid item xs={5} sm={4}>
-            <TextField
-              error={username.length < 4}
-              id="outlined-basic"
-              label={`New Username ${
-                username !== originalUsername ? "*Changed" : ""
-              }`}
-              variant="outlined"
-              defaultValue={originalUsername}
-              helperText={
-                username.length < 4 ? "Must be greater than 4 charecters" : ""
-              }
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          alignItems="center"
-          direction="row"
-          spacing={1}
-          justify="flex-end"
-        >
-          <Grid item xs={7} sm={4}>
-            <Paper className={classes.paper} className={classes.testErr}>
-              {errors}
-            </Paper>
-          </Grid>
-          <Grid item xs={7} sm={4}>
-            <Button
-              onClick={handleSubmit}
-              disabled={loading}
-              variant="contained"
-              color="primary"
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Typography component="h1" variant="h4">
+          Change Settings
+        </Typography>
+
+        <form style={{ marginTop: "30px" }} noValidate autoComplete="off">
+          <div className={classes.root}>
+            <Grid
+              container
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              justify="center"
             >
-              Submit changes
-            </Button>
-          </Grid>
-        </Grid>
+              <Typography component="h4" variant="h6">
+                Change Email
+              </Typography>
+              <Grid item xs={12}>
+                <TextField
+                  id="new-email"
+                  label={`${
+                    email !== originalEmail ? "*New Email" : "Current Email"
+                  }`}
+                  variant="outlined"
+                  fullWidth
+                  defaultValue={originalEmail}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  error={!/\S+@\S+\.\S+/.test(email)}
+                  helperText={
+                    !/\S+@\S+\.\S+/.test(email)
+                      ? "Please enter a valid email"
+                      : ""
+                  }
+                />
+              </Grid>
+            </Grid>
+            <Grid container alignItems="center" justify="flex-end">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                disabled={loading}
+                onClick={changeEmail}
+              >
+                Update Email
+              </Button>
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              justify="center"
+            >
+              <Typography
+                style={{ marginTop: "20px" }}
+                component="h4"
+                variant="h6"
+              >
+                Change Password
+              </Typography>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  id="new-password"
+                  type="password"
+                  label={`New password ${password !== "" ? "*Changed" : ""}`}
+                  error={password !== passwordConfirm}
+                  helperText={
+                    password !== passwordConfirm ? "Passwords must match" : ""
+                  }
+                  variant="outlined"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              justify="center"
+            >
+              <Grid item xs={12}>
+                <TextField
+                  style={{ marginTop: "20px" }}
+                  fullWidth
+                  id="confirm-password"
+                  label="Confirm New Password"
+                  variant="outlined"
+                  type="password"
+                  value={passwordConfirm}
+                  onChange={(e) => {
+                    setPasswordConfirm(e.target.value);
+                  }}
+                  error={password !== passwordConfirm}
+                  helperText={
+                    password !== passwordConfirm ? "Passwords must match" : ""
+                  }
+                />
+              </Grid>
+              <Grid container alignItems="center" justify="flex-end">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                  disabled={loading}
+                  onClick={changePassword}
+                >
+                  Update Password
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              justify="center"
+            ></Grid>
+            <Grid
+              style={{ marginTop: "20px" }}
+              container
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              justify="flex-end"
+            >
+              <div>
+                <Link component={NavLink} to="/">
+                  Cancel
+                </Link>
+              </div>
+            </Grid>
+          </div>
+        </form>
       </div>
-    </form>
+      <Box mt={5}></Box>
+
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity={error ? "error" : "success"}>
+          {error ? error : success}
+        </Alert>
+      </Snackbar>
+    </Container>
   );
 }

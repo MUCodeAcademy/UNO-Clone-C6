@@ -36,13 +36,13 @@ function App() {
           />
           <ProtectedRoutes
             currentUser={currentUser}
-            path="/resetPassword"
+            path="/reset-password"
             authRequired={false}
             component={ResetPasswordPage}
           />
           <ProtectedRoutes
             currentUser={currentUser}
-            path="/userSettings"
+            path="/settings"
             authRequired={true}
             component={UserSettingsPage}
           />
@@ -53,10 +53,10 @@ function App() {
             component={HomePage}
           />
           {/* <ProtectedRoutes currentUser={currentUser} path="/game/:gameId" authRequired={true} component={GamePage} /> */}
-          <Route path="*">
-            <Redirect to="/login" />
-          </Route>
         </Switch>
+        <Route path="*">
+          <Redirect to="/login" />
+        </Route>
       </div>
     </Router>
   );
