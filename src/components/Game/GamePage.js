@@ -40,7 +40,7 @@ const GamePage = (props) => {
                 <Chat messages = {messages} username = {props.username} sendMessage = {sendMessage} joinRoom = {joinRoom}></Chat>
             </div>
             <div className = {classes.mainContainer}>
-            <OtherPlayers style = {{border: "2px solid green!important"}}
+                <OtherPlayers
                 players = {[
                 {username: "jimbo",
                 hand: [{color: "green", value: "7"},
@@ -69,7 +69,9 @@ const GamePage = (props) => {
                 {color: "red", value: "2"},
                 {color: "blue", value: "Reverse"}]
                 }
-            ]}/>
+                ]}/>
+                <div style = {{height: "200px", backgroundColor: "gray"}}></div>
+                <div style = {{height: "200px", backgroundColor: "green"}}></div>
             </div>
         <div/>
     </div>
