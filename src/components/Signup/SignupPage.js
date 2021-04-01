@@ -40,7 +40,7 @@ export default function SignupPage() {
   const { signUp } = useContext(UserContext);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  // const history = useHistory();
+  const history = useHistory();
 
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -59,7 +59,7 @@ export default function SignupPage() {
         password,
       );
       console.log(signUp);
-      // history.push("/login");
+      history.push("/");
     } catch(error) {
       console.log(error);
       setError(

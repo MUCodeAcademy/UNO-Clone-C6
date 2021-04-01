@@ -1,4 +1,4 @@
-import { Button, Grid, makeStyles, Paper, TextField } from "@material-ui/core";
+import { Button, Grid, makeStyles, Paper, TextField, Link } from "@material-ui/core";
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { UserContext } from "../../shared/UserContext";
@@ -29,18 +29,16 @@ export default function UserSettingsPage() {
     currentUser,
     updateEmail,
     updatePassword,
-    updateUsername,
   } = useContext(UserContext);
-  const originalEmail = currentUser.email; //need a way to get users original email
+  const originalEmail = currentUser.email;
   const originalPassword = "*********";
-  const originalUsername = currentUser.username; //need a way to get users original username
   const [email, setEmail] = useState(originalEmail);
   const [password, setPassword] = useState(originalPassword);
   const [passwordConfirm, setPasswordConfirm] = useState(originalPassword);
-  const [username, setUsername] = useState(originalUsername);
   const [errors, setErrors] = useState("");
   const [loading, setLoading] = useState(false);
   const history = useHistory(0);
+
   function handleSubmit(e) {
     setErrors("");
     e.preventDefault();
@@ -50,9 +48,7 @@ export default function UserSettingsPage() {
     if (!/\S+@\S+\.\S+/.test(email)) {
       return setErrors("Please enter a valid email");
     }
-    if (username < 4) {
-      return setErrors("Username must be more than 4 charectors");
-    }
+
     const upDates = [];
     setLoading(true);
     setErrors("");
@@ -63,9 +59,6 @@ export default function UserSettingsPage() {
 
     if (password !== originalPassword) {
       upDates.push(updatePassword(password));
-    }
-    if (username !== originalUsername) {
-      upDates.push(updateUsername(username));
     }
 
     Promise.all(upDates)
@@ -173,26 +166,7 @@ export default function UserSettingsPage() {
           spacing={1}
           justify="center"
         >
-          <Grid item xs={7} sm={4}>
-            <Paper className={classes.paper}>Change username:</Paper>
-          </Grid>
-          <Grid item xs={5} sm={4}>
-            <TextField
-              error={username.length < 4}
-              id="outlined-basic"
-              label={`New Username ${
-                username !== originalUsername ? "*Changed" : ""
-              }`}
-              variant="outlined"
-              defaultValue={originalUsername}
-              helperText={
-                username.length < 4 ? "Must be greater than 4 charecters" : ""
-              }
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-            />
-          </Grid>
+          
         </Grid>
         <Grid
           container
@@ -215,7 +189,11 @@ export default function UserSettingsPage() {
             >
               Submit changes
             </Button>
+            <div className="text-center align-center margin-top-4">
+                <Link href="/">Cancel</Link>
+            </div>
           </Grid>
+          
         </Grid>
       </div>
     </form>
