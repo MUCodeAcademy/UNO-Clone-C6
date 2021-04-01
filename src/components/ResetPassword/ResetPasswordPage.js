@@ -1,16 +1,18 @@
-import React, { useRef, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../shared/UserContext";
 import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
 import MuiAlert from "@material-ui/lab/Alert";
+
 export default function ResetPasswordPage() {
-  const emailRef = useRef();
+  const [email, setEmail] = useState();
   const { resetPassword } = useContext(UserContext);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
+
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
@@ -21,7 +23,7 @@ export default function ResetPasswordPage() {
       setError("");
       setLoading(true);
       setOpen(true);
-      await resetPassword(emailRef.current.value);
+      await resetPassword(email);
       setMessage("Check your email inbox for further instructions.");
     } catch {
       setError("Failed to reset password.");
@@ -53,7 +55,12 @@ export default function ResetPasswordPage() {
             <form onSubmit={handleSubmit}>
               <div id="email">
                 <label>Email</label>
-                <input type="email" ref={emailRef} required />
+                <input
+                  type="email"
+                  value={email}
+                  onchange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
               <Button
                 variant="contained"
@@ -64,9 +71,11 @@ export default function ResetPasswordPage() {
                 Reset Password
               </Button>
             </form>
-            <div>{/* <Link to="/login">Login</Link> */}</div>
             <div>
-              {/* Don't have an account? <Link to="signup">Sign Up</Link> */}
+              <Link to="/login">Login</Link>
+            </div>
+            <div>
+              Don't have an account? <Link to="signup">Sign Up</Link>
             </div>
           </div>
         </form>
