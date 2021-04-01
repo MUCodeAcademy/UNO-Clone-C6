@@ -1,0 +1,41 @@
+.card {
+    width: 116px;
+    height: 178px;
+    float: left;
+    background: white;
+    border-radius: 5px;
+    display: table;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 90px;
+    text-align: center;
+    position: relative;
+    border: 5px solid white;
+  }
+  .card .inner {
+    border-radius: 5px;
+    overflow: hidden;
+    background: #ffffff;
+    margin: auto;
+    margin-top: 20px;
+    padding: 2px 20px;
+    border-radius: 100px 60px / 120px 60px;
+    line-height: 1.4;
+    font-size: 75px;
+    width: 55px;
+    color: black;
+
+  }
+
+  .card-bottom-right{
+      font-size: 10px;
+      text-align: right;
+      margin-top: 15px;
+
+  }
+  .card-top-left{
+    font-size: 10px;
+    text-align: left;
+}
