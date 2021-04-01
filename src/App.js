@@ -36,7 +36,7 @@ function App() {
           />
           <ProtectedRoutes
             currentUser={currentUser}
-            path="/resetPassword"
+            path="/reset-password"
             authRequired={false}
             component={ResetPasswordPage}
           />

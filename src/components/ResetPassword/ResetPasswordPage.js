@@ -96,8 +96,8 @@ export default function ResetPasswordPage() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link component={NavLink} to="/resetPassword" variant="body2">
-                  Forgot password?
+                <Link component={NavLink} to="/login" variant="body2">
+                  Remember you password?
                 </Link>
               </Grid>
               <Grid item>
