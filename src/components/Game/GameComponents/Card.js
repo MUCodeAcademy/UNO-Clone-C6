@@ -1,13 +1,16 @@
-import React from "react";
+import React from "react"
+import "./Card.css"
 
-const Card = () => {
-  const colors = ["red", "yellow", "blue", "green"];
-  const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const commands = ["draw two", "reverse", "skip"];
-  const wildcard = "wildcard";
-  const wildcardDrawFour = "wildcardDrawFour";
-};
 
+
+const Card = (props) =>{
+    let firstChar = props.value.charAt(0)
+    return(
+        <div style = {{backgroundColor: `${props.color}`}} className = {`card`}>
+            <div className = "card-top-left">{props.value}</div>
+            <div className = "inner">{firstChar}</div>
+            <div className = "card-bottom-right">{props.value}</div>
+        </div>
+    )
+}
 export default Card;
-
-
