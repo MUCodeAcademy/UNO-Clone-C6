@@ -27,9 +27,9 @@ const Chat = (props) => {
     const [msg, setMsg] = useState("");
     const [username, setUsername] = useState(""); //
     const [loggedIn, setLoggedIn] = useState(false);
-    const {messages, sendMessage, joinRoom} = useSocket(username, "room" //placeholder for testing
+    // const {messages, sendMessage, joinRoom} = useSocket(username, "room" //placeholder for testing
         // props.username, props.room what it will actually be
-        );
+        // );
     const classes = useStyles();
 
 
@@ -46,8 +46,8 @@ return(<div>
     </> :
     <div className = {classes.root}>
         <ScrollToBottom debug = {false} className = {classes.root, classes.chatDisplay}>
-            {messages[0].length > 0 && 
-                messages[0].map((m, idx)=>{
+            {props.messages[0].length > 0 && 
+                props.messages[0].map((m, idx)=>{
                     return(
                     <div className = {classes.root} style = {{textAlign: "left"}}key={idx}>
                         <b>{m.username}</b>
@@ -61,10 +61,10 @@ return(<div>
             onChange = {(evt)=>{setMsg(evt.target.value)}}></TextField>
             <Button variant = "contained" color = "primary"
                 onClick = {()=>{if(msg){
-                    sendMessage(msg)
+                    props.sendMessage(msg)
                     setMsg("")
                 }}}>Send</Button>
-            <button onClick = {()=>{joinRoom()}}>Join Room</button> 
+            <button onClick = {()=>{props.joinRoom()}}>Join Room</button> 
         </div>
     </div>}
 </div>)

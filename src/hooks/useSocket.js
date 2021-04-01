@@ -25,7 +25,8 @@ const useSocket = (username, room, host) =>{
             console.log([...messages])
         })
         socketRef.current.on("enter room", (data) =>{
-            setMessages((newMsgs)=>[...newMsgs, data])
+            console.log(data)
+            setMessages((newMsgs)=>[...newMsgs, {username: "SYSTEM", body: `${data.username} has entered the Room`}])
         })
 
         if(isHost === true){
@@ -35,7 +36,7 @@ const useSocket = (username, room, host) =>{
             })
 
             socketRef.current.on("enter room", (data) =>{
-                sendPlayerData({...gameData, players: [...players, data]})
+                sendPlayerData({...gameData, players: [...gameData.players, data]})
             })
         }
 
