@@ -118,7 +118,7 @@ export default function LoginPage() {
 
           <Grid container>
             <Grid item xs>
-              <Link href="/resetPassword" variant="body2">
+              <Link href="/reset" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
