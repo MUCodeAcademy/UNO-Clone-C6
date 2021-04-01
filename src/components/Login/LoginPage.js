@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LoginPage() {
-  const [email, setEmail] = useState();
+  const [email, setEmail]= useState();
   const [password, setPassword] = useState();
   const { logIn } = useContext(UserContext);
   const [error, setError] = useState("");
