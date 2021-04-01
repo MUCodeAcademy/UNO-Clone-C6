@@ -4,6 +4,50 @@ import deck from "./deck";
 export const GameContext = React.createContext();
 
 export function GameProvider({ children }) {
+  const [isHost, setIsHost] = useState[false];
+  const [canPlay, setCanPlay] = useState[true];
+  const [playerArray, setPlayerArray] = useState[[]];
+  const [gameActive, setGameActive] = useState[false];
+
+  function reverse() {
+    let currentOrder = [...playerArray];
+    setPlayerArray(currentOrder.reverse());
+  }
+
+  function skip() {
+    let players = playerArray;
+    let skipper = players.shift();
+    let skippee = players.shift();
+    let newOrder = [...players, skipper, skippee];
+    setPlayerArray(newOrder);
+  }
+
+
+  function drawCard(playerHand) {
+    playerHand.push(draw.shift());
+  }
+
+  function playCard(player, playCard, topDiscard) {
+    if (playCard.value === topDiscard.value || playCard.color === topDiscard.color) {
+      topDiscard.push(playCard);
+      if (playCard.value === "Reverse") {
+        reverse()
+      }
+    }
+    if () {}
+  }
+
+  
+
+  useEffect(() => {
+      if (playerArray.length === 1) {
+        setIsHost(true);
+      };
+      []
+  })
+
+  
+
   return (
     <GameContext.Provider value={value}>
       {!loading && children}
