@@ -51,13 +51,12 @@ function App() {
           component={HomePage}
         />
         {/* <ProtectedRoutes currentUser={currentUser} path="/game/:gameId" authRequired={true} component={GamePage} /> */}
-        <Route path="*">
-          <Redirect to="/login" />
-        </Route>
       </Switch>
+      <Route path="*">
+        <Redirect to="/login" />
+      </Route>
     </Router>
   );
-
 }
 
 export default App;
