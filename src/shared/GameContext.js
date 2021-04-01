@@ -9,18 +9,28 @@ export function GameProvider({ children }) {
   const [playerArray, setPlayerArray] = useState[[]];
   const [gameActive, setGameActive] = useState[false];
 
+  function shuffleDrawDeck(draw) {
+    for (let i = 0; i < draw.length; i++) {
+      let j = Math.floor(Math.random() * i);
+      let temp = draw[i];
+      draw[i] = draw[j];
+      draw[j] = temp;
+    }
+  }
+
   function deal() {
+    let shuffledDeck = shuffleDrawDeck(deck);
     for (let i = 0; i < playerArray.length; i++) {
       for (let j = 1; j <= 4; j++) {
-        let dealt = deck.shift();
+        let dealt = shuffledDeck.shift();
         let dealee = playerArray[i];
         dealee.push(dealt);
       }
     }
-    deck.forEach((card) => {
+    shuffledDeck.forEach((card) => {
       draw.push(card);
     });
-    deck.splice(0);
+    shuffledDeck.splice(0);
     discard.push(draw.shift());
   }
 
