@@ -1,30 +1,30 @@
-import React, { useContext, useState, useHistory } from "react";
+import React, { useContext, useState } from "react";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import { UserContext } from "../../shared/UserContext";
 import MuiAlert from "@material-ui/lab/Alert";
-
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', 
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -40,7 +40,6 @@ export default function SignupPage() {
   const { signUp } = useContext(UserContext);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  // const history = useHistory();
 
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -54,14 +53,8 @@ export default function SignupPage() {
     try {
       setError("");
       setLoading(true);
-      await signUp(
-        email,
-        password,
-      );
-      console.log(signUp);
-      // history.push("/login");
-    } catch(error) {
-      console.log(error);
+      await signUp(email, password);
+    } catch (error) {
       setError(
         "Something went wrong, unable to create account. Please try again."
       );
@@ -133,16 +126,14 @@ export default function SignupPage() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link component={NavLink} to="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
-        
-      </Box>
+      <Box mt={5}></Box>
     </Container>
   );
 }
