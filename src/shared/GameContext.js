@@ -9,13 +9,20 @@ export function GameProvider({ children }) {
   const [playerArray, setPlayerArray] = useState[[]];
   const [gameActive, setGameActive] = useState[false];
 
+  function numCard() {
+    let players = [...playerArray]
+    let justPlayed = players.shift();
+    let newOrder = [...players, justPlayed];
+    setPlayerArray(newOrder);
+  }
+
   function reverse() {
     let currentOrder = [...playerArray];
     setPlayerArray(currentOrder.reverse());
   }
 
   function skip() {
-    let players = playerArray;
+    let players = [...playerArray];
     let skipper = players.shift();
     let skippee = players.shift();
     let newOrder = [...players, skipper, skippee];
@@ -30,14 +37,18 @@ export function GameProvider({ children }) {
   function playCard(player, playCard, topDiscard) {
     if (playCard.value === topDiscard.value || playCard.color === topDiscard.color) {
       topDiscard.push(playCard);
+      if (!isNAN(playCard.val)) {
+        numCard();
+      }
       if (playCard.value === "Reverse") {
-        reverse()
+        reverse();
+      }
+      if (playCard.value === "Skip") {
+        skip();
       }
     }
     if () {}
   }
-
-  
 
   useEffect(() => {
       if (playerArray.length === 1) {
