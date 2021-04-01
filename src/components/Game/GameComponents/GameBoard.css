@@ -1,0 +1,67 @@
+.startDiv {
+    justify-content: center;
+    display: flex;
+  }
+  
+  .startButton {
+    width: 100px;
+    height: 100px;
+    background-color:green;
+    border-radius: 50%;
+    text-align: center;
+  }
+  
+  .discard {
+      width: 116px;
+      height: 178px;
+      float: left;
+      background: white;
+      border-radius: 5px;
+      display: table;
+      box-sizing: border-box;
+      padding: 5px;
+      margin: 10px;
+      position: relative;
+      border: 2px solid black;
+  }
+  
+  .boardContainer {
+    display: flex;
+    min-width: 50%;
+    justify-content: center;
+    margin-top: 150px;
+  }
+  
+  .cardback {
+  
+    width: 116px;
+    height: 178px;
+    float: left;
+    background: black;
+    background-image: "https://i.ibb.co/rFh7Lm2/unoback-small.jpg";
+    border-radius: 5px;
+    display: table;
+    box-sizing: border-box;
+    padding: 5px;
+    margin: 10px;
+    position: relative;
+    padding: 2px solid black;
+    border: 2px solid white;
+  }
+  
+  .logo {
+    margin-top: 45px;
+  }
+  
+  .gameStart {
+    margin-top: 33px;
+    justify-content: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif
+  }
+
+  .text {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 150%;
+  }
