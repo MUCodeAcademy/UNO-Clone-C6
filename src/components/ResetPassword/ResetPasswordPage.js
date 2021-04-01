@@ -68,6 +68,7 @@ export default function ResetPasswordPage() {
             Reset Password
           </Typography>
           {error && <Alert severity="error">{error}</Alert>}
+          {message && <Alert severity="success">{message}</Alert>}
           <form onSubmit={handleSubmit} className={classes.form}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
