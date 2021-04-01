@@ -9,14 +9,29 @@ export function GameProvider({ children }) {
   const [playerArray, setPlayerArray] = useState[[]];
   const [gameActive, setGameActive] = useState[false];
 
-  function numCard() {
-    let players = [...playerArray]
+  function deal() {
+    for (let i = 0; i < playerArray.length; i++) {
+      for (let j = 1; j <= 4; j++) {
+        let dealt = deck.shift();
+        let dealee = playerArray[i];
+        dealee.push(dealt);
+      }
+    }
+    deck.forEach((card) => {
+      draw.push(card);
+    });
+    deck.splice(0);
+    discard.push(draw.shift());
+  }
+
+  function plyOver() {
+    let players = [...playerArray];
     let justPlayed = players.shift();
     let newOrder = [...players, justPlayed];
     setPlayerArray(newOrder);
   }
 
-  function reverse() {
+  function reverseCard() {
     let currentOrder = [...playerArray];
     setPlayerArray(currentOrder.reverse());
   }
@@ -29,35 +44,37 @@ export function GameProvider({ children }) {
     setPlayerArray(newOrder);
   }
 
-
   function drawCard(playerHand) {
     playerHand.push(draw.shift());
   }
 
-  function playCard(player, playCard, topDiscard) {
-    if (playCard.value === topDiscard.value || playCard.color === topDiscard.color) {
+  function playCard(playCard, topDiscard) {
+    if (
+      playCard.value === topDiscard.value ||
+      playCard.color === topDiscard.color
+    ) {
       topDiscard.push(playCard);
-      if (!isNAN(playCard.val)) {
-        numCard();
+      if (!isNAN(playCard.val) || playCard.value === "Draw Two") {
+        plyOver();
+        return;
       }
       if (playCard.value === "Reverse") {
-        reverse();
+        reverseCard();
+        return;
       }
       if (playCard.value === "Skip") {
         skip();
+        return;
       }
     }
-    if () {}
   }
 
   useEffect(() => {
-      if (playerArray.length === 1) {
-        setIsHost(true);
-      };
-      []
-  })
-
-  
+    if (playerArray.length === 1) {
+      setIsHost(true);
+    }
+    [];
+  });
 
   return (
     <GameContext.Provider value={value}>
