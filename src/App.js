@@ -42,7 +42,7 @@ function App() {
           />
           <ProtectedRoutes
             currentUser={currentUser}
-            path="/userSettings"
+            path="/settings"
             authRequired={true}
             component={UserSettingsPage}
           />
