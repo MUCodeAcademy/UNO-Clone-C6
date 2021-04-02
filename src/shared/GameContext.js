@@ -1,118 +1,92 @@
 import React, { useState, useEffect } from "react";
+import deck from "./deck";
 
 export const GameContext = React.createContext();
 
 export function GameProvider({ children }) {
-  const [cards, setCards] = useState[
-    ({ value: "0", color: "blue", points: 0 },
-    { value: "0", color: "green", points: 0 },
-    { value: "0", color: "red", points: 0 },
-    { value: "0", color: "yellow", points: 0 },
-    { value: "1", color: "blue", points: 1 },
-    { value: "1", color: "blue", points: 1 },
-    { value: "1", color: "green", points: 1 },
-    { value: "1", color: "green", points: 1 },
-    { value: "1", color: "red", points: 1 },
-    { value: "1", color: "red", points: 1 },
-    { value: "1", color: "yellow", points: 1 },
-    { value: "1", color: "yellow", points: 1 },
-    { value: "2", color: "blue", points: 2 },
-    { value: "2", color: "blue", points: 2 },
-    { value: "2", color: "green", points: 2 },
-    { value: "2", color: "green", points: 2 },
-    { value: "2", color: "red", points: 2 },
-    { value: "2", color: "red", points: 2 },
-    { value: "2", color: "yellow", points: 2 },
-    { value: "2", color: "yellow", points: 2 },
-    { value: "3", color: "blue", points: 3 },
-    { value: "3", color: "blue", points: 3 },
-    { value: "3", color: "green", points: 3 },
-    { value: "3", color: "green", points: 3 },
-    { value: "3", color: "red", points: 3 },
-    { value: "3", color: "red", points: 3 },
-    { value: "3", color: "yellow", points: 3 },
-    { value: "3", color: "yellow", points: 3 },
-    { value: "4", color: "blue", points: 4 },
-    { value: "4", color: "blue", points: 4 },
-    { value: "4", color: "green", points: 4 },
-    { value: "4", color: "green", points: 4 },
-    { value: "4", color: "red", points: 4 },
-    { value: "4", color: "red", points: 4 },
-    { value: "4", color: "yellow", points: 4 },
-    { value: "4", color: "yellow", points: 4 },
-    { value: "5", color: "blue", points: 5 },
-    { value: "5", color: "blue", points: 5 },
-    { value: "5", color: "green", points: 5 },
-    { value: "5", color: "green", points: 5 },
-    { value: "5", color: "red", points: 5 },
-    { value: "5", color: "red", points: 5 },
-    { value: "5", color: "yellow", points: 5 },
-    { value: "5", color: "yellow", points: 5 },
-    { value: "6", color: "blue", points: 6 },
-    { value: "6", color: "blue", points: 6 },
-    { value: "6", color: "green", points: 6 },
-    { value: "6", color: "green", points: 6 },
-    { value: "6", color: "red", points: 6 },
-    { value: "6", color: "red", points: 6 },
-    { value: "6", color: "yellow", points: 6 },
-    { value: "6", color: "yellow", points: 6 },
-    { value: "7", color: "blue", points: 7 },
-    { value: "7", color: "blue", points: 7 },
-    { value: "7", color: "green", points: 7 },
-    { value: "7", color: "green", points: 7 },
-    { value: "7", color: "red", points: 7 },
-    { value: "7", color: "red", points: 7 },
-    { value: "7", color: "yellow", points: 7 },
-    { value: "7", color: "yellow", points: 7 },
-    { value: "8", color: "blue", points: 8 },
-    { value: "8", color: "blue", points: 8 },
-    { value: "8", color: "green", points: 8 },
-    { value: "8", color: "green", points: 8 },
-    { value: "8", color: "red", points: 8 },
-    { value: "8", color: "red", points: 8 },
-    { value: "8", color: "yellow", points: 8 },
-    { value: "8", color: "yellow", points: 8 },
-    { value: "9", color: "blue", points: 9 },
-    { value: "9", color: "blue", points: 9 },
-    { value: "9", color: "green", points: 9 },
-    { value: "9", color: "green", points: 9 },
-    { value: "9", color: "red", points: 9 },
-    { value: "9", color: "red", points: 9 },
-    { value: "9", color: "yellow", points: 9 },
-    { value: "9", color: "yellow", points: 9 },
-    { value: "Draw Two", color: "blue", points: 20 },
-    { value: "Draw Two", color: "blue", points: 20 },
-    { value: "Draw Two", color: "green", points: 20 },
-    { value: "Draw Two", color: "green", points: 20 },
-    { value: "Draw Two", color: "red", points: 20 },
-    { value: "Draw Two", color: "red", points: 20 },
-    { value: "Draw Two", color: "yellow", points: 20 },
-    { value: "Draw Two", color: "yellow", points: 20 },
-    { value: "Reverse", color: "blue", points: 20, function: "reverse" },
-    { value: "Reverse", color: "blue", points: 20, function: "reverse" },
-    { value: "Reverse", color: "green", points: 20, function: "reverse" },
-    { value: "Reverse", color: "green", points: 20, function: "reverse" },
-    { value: "Reverse", color: "red", points: 20, function: "reverse" },
-    { value: "Reverse", color: "red", points: 20, function: "reverse" },
-    { value: "Reverse", color: "yellow", points: 20, function: "reverse" },
-    { value: "Reverse", color: "yellow", points: 20, function: "reverse" },
-    { value: "Skip", color: "blue", points: 20, function: "skip" },
-    { value: "Skip", color: "blue", points: 20, function: "skip" },
-    { value: "Skip", color: "green", points: 20, function: "skip" },
-    { value: "Skip", color: "green", points: 20, function: "skip" },
-    { value: "Skip", color: "red", points: 20, function: "skip" },
-    { value: "Skip", color: "red", points: 20, function: "skip" },
-    { value: "Skip", color: "yellow", points: 20, function: "skip" },
-    { value: "Skip", color: "yellow", points: 20, function: "skip" },
-    { value: "Wild", color: "black", points: 50 },
-    { value: "Wild", color: "black", points: 50 },
-    { value: "Wild", color: "black", points: 50 },
-    { value: "Wild", color: "black", points: 50 },
-    { value: "Wild Draw Four", color: "black", points: 50 },
-    { value: "Wild Draw Four", color: "black", points: 50 },
-    { value: "Wild Draw Four", color: "black", points: 50 },
-    { value: "Wild Draw Four", color: "black", points: 50 })
-  ];
+  const [isHost, setIsHost] = useState[false];
+  const [canPlay, setCanPlay] = useState[false];
+  const [playerArray, setPlayerArray] = useState[[]];
+  const [gameActive, setGameActive] = useState[false];
+  const [drawDeck, setDrawDeck] = useState[[]];
+  const [discardDeck, setDiscardDeck] = useState[[]];
+
+  useEffect(() => {
+    if (playerArray.length === 1) {
+      setIsHost(true);
+    }
+    [];
+  });
+
+  function shuffleDrawDeck(draw) {
+    for (let i = 0; i < draw.length; i++) {
+      let j = Math.floor(Math.random() * i);
+      let temp = draw[i];
+      draw[i] = draw[j];
+      draw[j] = temp;
+    }
+  }
+
+  function deal() {
+    let shuffledDeck = shuffleDrawDeck(deck);
+    for (let i = 0; i < playerArray.length; i++) {
+      for (let j = 1; j <= 4; j++) {
+        let dealt = shuffledDeck.shift();
+        let dealee = playerArray[i];
+        dealee.push(dealt);
+      }
+    }
+    shuffledDeck.forEach((card) => {
+      draw.push(card);
+    });
+    shuffledDeck.splice(0);
+    discard.push(draw.shift());
+  }
+
+  function regularTurn() {
+    let players = [...playerArray];
+    let justPlayed = players.shift();
+    let newOrder = [...players, justPlayed];
+    setPlayerArray(newOrder);
+  }
+
+  function reverseCard() {
+    let currentOrder = [...playerArray];
+    setPlayerArray(currentOrder.reverse());
+  }
+
+  function skip() {
+    let players = [...playerArray];
+    let skipper = players.shift();
+    let skippee = players.shift();
+    let newOrder = [...players, skipper, skippee];
+    setPlayerArray(newOrder);
+  }
+
+  function drawCard(playerHand) {
+    playerHand.push(draw.shift());
+  }
+
+  function playCard(playCard, topDiscard) {
+    if (
+      playCard.value === topDiscard.value ||
+      playCard.color === topDiscard.color
+    ) {
+      topDiscard.push(playCard);
+      if (!isNAN(playCard.val) || playCard.value === "Draw Two") {
+        regularTurn();
+        return;
+      }
+      if (playCard.value === "Reverse") {
+        reverseCard();
+        return;
+      }
+      if (playCard.value === "Skip") {
+        skip();
+        return;
+      }
+    }
+  }
 
   return (
     <GameContext.Provider value={value}>
