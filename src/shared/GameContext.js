@@ -5,9 +5,18 @@ export const GameContext = React.createContext();
 
 export function GameProvider({ children }) {
   const [isHost, setIsHost] = useState[false];
-  const [canPlay, setCanPlay] = useState[true];
+  const [canPlay, setCanPlay] = useState[false];
   const [playerArray, setPlayerArray] = useState[[]];
   const [gameActive, setGameActive] = useState[false];
+  const [drawDeck, setDrawDeck] = useState[[]];
+  const [discardDeck, setDiscardDeck] = useState[[]];
+
+  useEffect(() => {
+    if (playerArray.length === 1) {
+      setIsHost(true);
+    }
+    [];
+  });
 
   function shuffleDrawDeck(draw) {
     for (let i = 0; i < draw.length; i++) {
@@ -34,7 +43,7 @@ export function GameProvider({ children }) {
     discard.push(draw.shift());
   }
 
-  function plyOver() {
+  function regularTurn() {
     let players = [...playerArray];
     let justPlayed = players.shift();
     let newOrder = [...players, justPlayed];
@@ -65,7 +74,7 @@ export function GameProvider({ children }) {
     ) {
       topDiscard.push(playCard);
       if (!isNAN(playCard.val) || playCard.value === "Draw Two") {
-        plyOver();
+        regularTurn();
         return;
       }
       if (playCard.value === "Reverse") {
@@ -78,13 +87,6 @@ export function GameProvider({ children }) {
       }
     }
   }
-
-  useEffect(() => {
-    if (playerArray.length === 1) {
-      setIsHost(true);
-    }
-    [];
-  });
 
   return (
     <GameContext.Provider value={value}>
