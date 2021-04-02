@@ -1,73 +1,48 @@
+.card .inner {
+  border-radius: 5px;
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 100px 60px / 120px 60px;
+  font-size: 75px;
+  margin: 5px;
+  color: black;
+}
+.card-bottom-right,
+.card-top-left {
+  font-size: 10px;
+  color: white;
+}
+
+.card-bottom-right {
+  text-align: right;
+}
+.card-top-left {
+  text-align: left;
+}
+
 .card {
+  padding: 5px;
+  width: 84px;
+  background: white;
+  border-radius: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  border: 5px solid white;
+}
+.cardSmall {
+  padding: 5px;
+  width: 40px;
+  background: white;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
+  border: 5px solid white;
+}
 
-    width: 116px;
-    height: 178px;
-    float: left;
-    background: white;
-    border-radius: 5px;
-    display: table;
-    box-sizing: border-box;
-    padding: 5px;
-    margin: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 90px;
-    text-align: center;
-    position: relative;
-    border: 5px solid white;
-  }
-  .cardSmall {
-
-    width: 90px;
-    height: 120px;
-    float: left;
-    background: white;
-    border-radius: 5px;
-    display: table;
-    box-sizing: border-box;
-    padding: 0px;
-    margin: 10px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 90px;
-    text-align: center;
-    position: relative;
-    border: 5px solid white;
-  }
-  .cardSmall .inner {
-    border-radius: 5px;
-    overflow: hidden;
-    background: #ffffff;
-    margin: auto;
-    margin-top: 10px;
-    padding: 2px 10px;
-    border-radius: 50px 30px / 60px 30px;
-    line-height: 1.4;
-    font-size: 50px;
-    width: 55px;
-    color: black;
-
-  }
-  .card .inner {
-    border-radius: 5px;
-    overflow: hidden;
-    background: #ffffff;
-    margin: auto;
-    margin-top: 20px;
-    padding: 2px 20px;
-    border-radius: 100px 60px / 120px 60px;
-    line-height: 1.4;
-    font-size: 75px;
-    width: 55px;
-    color: black;
-
-  }
-
-  .card-bottom-right{
-      font-size: 10px;
-      text-align: right;
-      margin-top: 15px;
-
-  }
-  .card-top-left{
-    font-size: 10px;
-    text-align: left;
+.cardSmall .inner {
+  background: #ffffff;
+  margin: 2px;
+  border-radius: 50px 30px / 60px 30px;
+  font-size: 40px;
+  padding: 2px;
+  color: black;
 }

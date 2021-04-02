@@ -15,22 +15,24 @@ const useStyles = makeStyles((theme) => ({
     margin: "0px !important",
   },
   otherPlayers: {
-    flexBasis: 150,
+    flexBasis: 125,
     margin: "8px auto",
     width: "calc(100% - 16px)",
   },
   info: {
-    flexBasis: 150,
+    flexBasis: 125,
     width: "calc(100% - 18px)",
     textAlign: "center",
     margin: "8px auto",
   },
   chat: {
-    flexBasis: "calc(100% - 216px)",
+    flexBasis: 50,
+    flexGrow: 1,
     width: "calc(100% - 18px)",
     textAlign: "center",
     display: "flex",
     flexDirection: "column",
+    margin: "8px auto",
   },
   sectionContainer: {
     padding: "5px !important",
@@ -39,15 +41,17 @@ const useStyles = makeStyles((theme) => ({
   },
   gameBoard: {
     width: "calc(100% - 16px)",
-    flexBasis: "calc(100% - 330px)",
-    margin: "5px auto",
+    flexBasis: 100,
+    flexGrow: 1,
+    margin: "8px auto",
   },
-  section: { border: "1px solid black", padding: 8 },
+  section: { border: "1px solid black", padding: 8, overflowY: "hidden" },
 
   playerHand: {
-    flexBasis: 200,
+    flexBasis: 145,
     width: "calc(100% - 16px)",
     margin: "8px auto",
+    overflowY: "scroll",
   },
 }));
 
@@ -134,6 +138,17 @@ const GamePage = (props) => {
               { color: "green", value: "7" },
               { color: "red", value: "2" },
               { color: "blue", value: "Reverse" },
+              { color: "green", value: "7" },
+              { color: "red", value: "2" },
+              { color: "blue", value: "Reverse" },
+              { color: "green", value: "7" },
+              { color: "red", value: "2" },
+              { color: "blue", value: "Reverse" },
+              { color: "green", value: "7" },
+              { color: "red", value: "2" },
+              { color: "blue", value: "Reverse" },
+              { color: "green", value: "7" },
+              { color: "red", value: "2" },
             ]}
           />
         </Grid>
