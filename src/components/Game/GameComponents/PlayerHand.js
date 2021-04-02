@@ -1,13 +1,12 @@
 import React from "react";
 import Card from "../GameComponents/Card";
-import ".src/App.css";
 
 const PlayerHand = (props) => {
   return (
     <>
       <div className="play-area">
-        {props.hand.map((card) => (
-          <Card color={`${card.color}`} value={`${card.value}`} />
+        {props.hand.map((card, idx) => (
+          <Card color={`${card.color}`} value={`${card.value}`} key={idx} />
         ))}
       </div>
     </>

@@ -34,9 +34,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignupPage() {
   const classes = useStyles();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [passwordConfirm, setPasswordConfirm] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const { signUp } = useContext(UserContext);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
