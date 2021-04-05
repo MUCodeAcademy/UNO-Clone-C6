@@ -13,6 +13,12 @@ export function GameProvider({ children }) {
   const [discardDeck, setDiscardDeck] = useState([]);
   const [userInfo, setUserInfo] = useState({});
 
+  function PlayerObject(username, userID, hand) {
+    this.username = username;
+    this.userID = userID;
+    this.hand = hand;
+  }
+
   function createUserInfo(providedName) {
     let ID =
       Math.random().toString(36).substring(2, 4) +
@@ -29,7 +35,7 @@ export function GameProvider({ children }) {
   }, [playerArray]);
 
   useEffect(() => {
-    if (playerArray[1].hand === []) {
+    if (playerArray[1].hand === [] || !playerArray[1]) {
       setGameActive(false);
     }
   }, [playerArray]);
@@ -56,12 +62,6 @@ export function GameProvider({ children }) {
       )
     );
     return shuffled;
-  }
-
-  function PlayerObject(username, userID, hand) {
-    this.username = username;
-    this.userID = userID;
-    this.hand = hand;
   }
 
   function WildCard(value, color, points) {
