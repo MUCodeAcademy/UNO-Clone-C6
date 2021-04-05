@@ -35,7 +35,7 @@ export function GameProvider({ children }) {
   }, [playerArray]);
 
   useEffect(() => {
-    if (playerArray[1].hand === [] || !playerArray[1]) {
+    if (playerArray[1].hand === []) {
       setGameActive(false);
     }
   }, [playerArray]);
@@ -89,11 +89,10 @@ export function GameProvider({ children }) {
     let discard = [...discardDeck];
     discard.push(draw.shift());
     setDiscardDeck(discard);
+    console.log(playerArray);
   }
 
   function startGame() {
-    setDiscardDeck([]);
-    setDrawDeck([]);
     setGameActive(true);
     deal();
   }
@@ -151,14 +150,10 @@ export function GameProvider({ children }) {
     setPlayerArray([...players, player]);
   }
 
-  function setColor(newColor) {
-    let newCard = new WildCard(
-      discardDeck[0].value,
-      newColor,
-      discardDeck[0].points
-    );
-    let discard = [discardDeck];
-    discard.shift();
+  function setColor(playedCard, newColor) {
+    let newCard = new WildCard(playedCard.value, newColor, playedCard.points);
+    let discard = [...discardDeck];
+    // discard.shift();
     discard.unshift(newCard);
     setDiscardDeck(discard);
   }
@@ -200,7 +195,8 @@ export function GameProvider({ children }) {
       let discard = [...discardDeck];
       if (
         playCard.value === topDiscard.value ||
-        playCard.color === topDiscard.color
+        playCard.color === topDiscard.color ||
+        playCard.value.toString().includes("Wild")
       ) {
         discard.unshift(playCard);
         setDiscardDeck(discard);
@@ -210,7 +206,7 @@ export function GameProvider({ children }) {
           return;
         }
         if (playCard.value.toString().includes("Wild")) {
-          setColor(wildToColor);
+          setColor(playCard, wildToColor);
           if (playCard.value.toString().includes("Four")) {
             drawFour();
             regularTurn();
