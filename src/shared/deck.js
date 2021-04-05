@@ -1,4 +1,4 @@
-export var deck = [
+export default deck = [
   { value: 0, color: "blue", points: 0 },
   { value: 0, color: "green", points: 0 },
   { value: 0, color: "red", points: 0 },

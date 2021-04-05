@@ -9,8 +9,12 @@
     background-color:green;
     border-radius: 50%;
     text-align: center;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif
   }
-  
+ 
+ 
+
   .discard {
       width: 116px;
       height: 178px;
@@ -27,41 +31,53 @@
   
   .boardContainer {
     display: flex;
+    max-height: 100%;
     min-width: 50%;
     justify-content: center;
-    margin-top: 150px;
+    /* margin-top: 150px; */
+  }
+
+  .drawContainer {
+    max-height: 100px;
+    margin: auto;
+  }
+
+  .discardContainer {
+    max-height: 100px;
+    margin: auto;
   }
   
   .cardback {
-  
+    /* width: 81px;
+    height: 125px; */
     width: 116px;
     height: 178px;
     float: left;
     background: black;
-    background-image: "https://i.ibb.co/rFh7Lm2/unoback-small.jpg";
+    /* background-image: "https://i.ibb.co/Swt80hJ/uno-tiny.jpg";
+    background-size: contain; */
     border-radius: 5px;
-    display: table;
+    /* display: table; */
     box-sizing: border-box;
     padding: 5px;
     margin: 10px;
     position: relative;
-    padding: 2px solid black;
+    /* padding: 2px solid black; */
     border: 2px solid white;
+    
   }
   
   .logo {
     margin-top: 45px;
   }
   
-  .gameStart {
-    margin-top: 33px;
-    justify-content: center;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif
-  }
 
   .text {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 150%;
+    font-size: 25px;
+  }
+
+  .quitGame {
+    height: 48px;
   }
