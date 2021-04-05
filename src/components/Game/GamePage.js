@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import GameInfo from "./GameComponents/GameInfo.js";
 import PlayerHand from "./GameComponents/PlayerHand.js";
+import GameBoard from "./GameComponents/GameBoard.js"
 
 const useStyles = makeStyles((theme) => ({
   gamePage: {
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gameBoard: {
     width: "calc(100% - 16px)",
+  
     flexBasis: 100,
     flexGrow: 1,
     margin: "8px auto",
@@ -135,7 +137,7 @@ const GamePage = (props) => {
           />
         </Grid>
         <Grid className={`${classes.gameBoard} ${classes.section}`}>
-          <div>Game Board</div>
+            <GameBoard />
         </Grid>
         <Grid className={`${classes.playerHand} ${classes.section}`}>
           <PlayerHand
