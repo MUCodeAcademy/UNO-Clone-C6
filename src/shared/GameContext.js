@@ -64,6 +64,12 @@ export function GameProvider({ children }) {
     this.hand = hand;
   }
 
+  function WildCard(value, color, points) {
+    this.value = value;
+    this.color = color;
+    this.points = points;
+  }
+
   function deal() {
     let shuffled = shuffleDeck(deck);
     let newPlayerArray = [...playerArray];
@@ -110,6 +116,51 @@ export function GameProvider({ children }) {
     setPlayerArray(newOrder);
   }
 
+  function drawTwo() {
+    let drawing = [...drawDeck];
+    let cards = [drawing.shift(), drawing.shift()];
+    let newHand = [...playerArray[1].hand];
+    newHand.push(cards);
+    let players = [...playerArray];
+    let player = new PlayerObject(
+      playerArray[1].username,
+      playerArray[1].userID,
+      newHand
+    );
+    setPlayerArray([...players, player]);
+  }
+
+  function drawFour() {
+    let drawing = [...drawDeck];
+    let cards = [
+      drawing.shift(),
+      drawing.shift(),
+      drawing.shift(),
+      drawing.shift(),
+    ];
+    let newHand = [...playerArray[1].hand];
+    newHand.push(cards);
+    let players = [...playerArray];
+    let player = new PlayerObject(
+      playerArray[1].username,
+      playerArray[1].userID,
+      newHand
+    );
+    setPlayerArray([...players, player]);
+  }
+
+  function setColor(newColor) {
+    let newCard = new WildCard(
+      discardDeck[0].value,
+      newColor,
+      discardDeck[0].points
+    );
+    let discard = [discardDeck];
+    discard.shift();
+    discard.unshift(newCard);
+    setDiscardDeck(discard);
+  }
+
   function drawCard(playerID) {
     if (gameActive && canPlay) {
       let draw = [...drawDeck];
@@ -118,12 +169,13 @@ export function GameProvider({ children }) {
       console.log("Top card:", discardDeck[0]);
       console.log("Drawn card:", card);
       // let discard = [...discardDeck];
-      setDrawDeck([...draw]);
+      setDrawDeck(draw);
       if (
         card.color === discardDeck[0].color ||
         card.value === discardDeck[0].value ||
-        card.value.includes("Wild")
+        card.value.toString().includes("Wild")
       ) {
+        console.log("Playing drawn card");
         playCard(card, discardDeck[0]);
       } else {
         let newHand = [...player[0].hand, card];
@@ -141,7 +193,7 @@ export function GameProvider({ children }) {
     }
   }
 
-  function playCard(playCard, topDiscard) {
+  function playCard(playCard, topDiscard, wildToColor) {
     if (gameActive && canPlay) {
       let discard = [...discardDeck];
       if (
@@ -151,8 +203,20 @@ export function GameProvider({ children }) {
         discard.unshift(playCard);
         setDiscardDeck(discard);
         if (!isNaN(playCard.val) || playCard.value === "Draw Two") {
+          drawTwo();
           regularTurn();
           return;
+        }
+        if (playCard.value.toString().includes("Wild")) {
+          setColor(wildToColor);
+          if (playCard.value.toString().includes("Four")) {
+            drawFour();
+            regularTurn();
+            return;
+          } else {
+            regularTurn();
+            return;
+          }
         }
         if (playCard.value === "Reverse") {
           reverseCard();
