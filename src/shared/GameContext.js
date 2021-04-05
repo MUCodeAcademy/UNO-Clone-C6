@@ -4,14 +4,14 @@ import deck from "./deck";
 export const GameContext = React.createContext();
 
 export function GameProvider({ children }) {
-  const [isHost, setIsHost] = useState[false];
-  const [canPlay, setCanPlay] = useState[false];
-  const [playerArray, setPlayerArray] = useState[[]];
-  const [gameActive, setGameActive] = useState[false];
-  const [cards, setCards] = useState[deck];
-  const [drawDeck, setDrawDeck] = useState[[]];
-  const [discardDeck, setDiscardDeck] = useState[[]];
-  const [userInfo, setUserInfo] = useState[{}];
+  const [isHost, setIsHost] = useState(false);
+  const [canPlay, setCanPlay] = useState(false);
+  const [playerArray, setPlayerArray] = useState();
+  const [gameActive, setGameActive] = useState(false);
+  // const [cards, setCards] = useState(deck);
+  const [drawDeck, setDrawDeck] = useState([]);
+  const [discardDeck, setDiscardDeck] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
 
   function createUserInfo(providedName) {
     let ID =
@@ -19,6 +19,20 @@ export function GameProvider({ children }) {
       Math.random().toString(36).substring(2, 6);
     setUserInfo({ username: providedName, userID: ID });
   }
+
+  useEffect(() => {
+    if (playerArray[0].userID === userInfo.userID) {
+      setCanPlay(true);
+    } else {
+      setCanPlay(false);
+    }
+  }, [playerArray]);
+
+  useEffect(() => {
+    if (playerArray[1].hand === []) {
+      setGameActive(false);
+    }
+  }, [playerArray]);
 
   function oneShuffle(toShuffle) {
     let pre = [...toShuffle];
@@ -41,32 +55,39 @@ export function GameProvider({ children }) {
         oneShuffle(oneShuffle(oneShuffle(oneShuffle(oneShuffle(toBeShuffled)))))
       )
     );
-    setCards(shuffled);
+    return shuffled;
   }
 
-  function deal(toBeDealt) {
-    let shuffled = shuffleDeck([...cards]);
-    for (let i = 0; i < playerArray.length; i++) {
-      let newPlayerArray = [...playerArray];
+  function PlayerObject(username, userID, hand) {
+    this.username = username;
+    this.userID = userID;
+    this.hand = hand;
+  }
+
+  function deal() {
+    let shuffled = shuffleDeck(deck);
+    let newPlayerArray = [...playerArray];
+    for (let i = 0; i < newPlayerArray.length; i++) {
       for (let j = 1; j <= 7; j++) {
         let dealtCard = shuffled.shift();
-        newPlayerArray[i] = {
-          ...newPlayerArray[i],
-          hand: { ...newPlayerArray[i].hand, dealtCard },
-        };
-        setPlayerArray(...newPlayerArray);
+        newPlayerArray[i].hand = [...newPlayerArray[i].hand, dealtCard];
       }
+      setPlayerArray(newPlayerArray);
     }
+    let draw = [...drawDeck];
     shuffled.forEach((card) => {
       draw.push(card);
     });
-    shuffledDeck.splice(0);
+    shuffled.splice(0);
+    setDrawDeck(draw);
+    let discard = [...discardDeck];
     discard.push(draw.shift());
+    setDiscardDeck(discard);
   }
 
   function startGame() {
-    let gameCards = shuffleDeck();
-    deal(gameCards);
+    setGameActive(true);
+    deal();
   }
 
   function regularTurn() {
@@ -89,30 +110,64 @@ export function GameProvider({ children }) {
     setPlayerArray(newOrder);
   }
 
-  function drawCard(playerHand) {
-    playerHand.push(draw.shift());
+  function drawCard(playerID) {
+    if (gameActive && canPlay) {
+      let draw = [...drawDeck];
+      let player = playerArray.filter((p) => p.userID === playerID);
+      let card = draw.shift();
+      console.log("Top card:", discardDeck[0]);
+      console.log("Drawn card:", card);
+      // let discard = [...discardDeck];
+      setDrawDeck([...draw]);
+      if (
+        card.color === discardDeck[0].color ||
+        card.value === discardDeck[0].value ||
+        card.value.includes("Wild")
+      ) {
+        playCard(card, discardDeck[0]);
+      } else {
+        let newHand = [...player[0].hand, card];
+        let afterDraw = new PlayerObject(
+          player[0].username,
+          player[0].userID,
+          newHand
+        );
+        let players = [...playerArray];
+        players.shift();
+        setPlayerArray([...players, afterDraw]);
+      }
+    } else {
+      return;
+    }
   }
 
   function playCard(playCard, topDiscard) {
-    if (
-      playCard.value === topDiscard.value ||
-      playCard.color === topDiscard.color
-    ) {
-      topDiscard.push(playCard);
-      if (!isNAN(playCard.val) || playCard.value === "Draw Two") {
-        regularTurn();
-        return;
+    if (gameActive && canPlay) {
+      let discard = [...discardDeck];
+      if (
+        playCard.value === topDiscard.value ||
+        playCard.color === topDiscard.color
+      ) {
+        discard.unshift(playCard);
+        setDiscardDeck(discard);
+        if (!isNaN(playCard.val) || playCard.value === "Draw Two") {
+          regularTurn();
+          return;
+        }
+        if (playCard.value === "Reverse") {
+          reverseCard();
+          return;
+        }
+        if (playCard.value === "Skip") {
+          skip();
+          return;
+        }
       }
-      if (playCard.value === "Reverse") {
-        reverseCard();
-        return;
-      }
-      if (playCard.value === "Skip") {
-        skip();
-        return;
-      }
+    } else {
+      return;
     }
   }
+  function quitGame() {}
 
   return (
     <GameContext.Provider value={value}>
