@@ -92,6 +92,8 @@ export function GameProvider({ children }) {
   }
 
   function startGame() {
+    setDiscardDeck([]);
+    setDrawDeck([]);
     setGameActive(true);
     deal();
   }
