@@ -63,6 +63,11 @@ const GamePage = (props) => {
     props.room,
     props.host
   ); //placeholder for testing
+
+  useEffect(() => {
+    setPlayerArray([...gameData.players]);
+  }, [gameData.players]);
+
   const classes = useStyles();
   useEffect(() => {
     joinRoom(props.room);

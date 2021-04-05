@@ -1,4 +1,6 @@
-export default deck = [
+const deck = [
+
+
   { value: 0, color: "blue", points: 0 },
   { value: 0, color: "green", points: 0 },
   { value: 0, color: "red", points: 0 },
@@ -108,3 +110,5 @@ export default deck = [
   { value: "Wild Draw Four", color: "black", points: 50 },
   { value: "Wild Draw Four", color: "black", points: 50 },
 ];
+
+export default deck;
