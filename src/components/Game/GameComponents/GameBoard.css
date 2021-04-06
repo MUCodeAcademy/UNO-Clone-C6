@@ -15,10 +15,14 @@
  
 
   .discard {
-      width: 116px;
-      height: 178px;
+    /* width: 116px;
+    height: 178px; */
+    width: 60px;
+    height: 80px;
+    display: flex;
       float: left;
       background: white;
+      
       border-radius: 5px;
       display: table;
       box-sizing: border-box;
@@ -29,10 +33,11 @@
   }
   
   .boardContainer {
-    display: flex;
+    display: flex;  
+    justify-content: center;
     max-height: 100%;
     min-width: 50%;
-    justify-content: center;
+    
     /* margin-top: 150px; */
   }
 /* 
@@ -53,11 +58,13 @@
     height: 178px;
     float: left;
     background: black;
-    /* background-image: "https://i.ibb.co/Swt80hJ/uno-tiny.jpg";
-    background-size: contain; */
+  
     border-radius: 5px;
     /* display: table; */
+    background: url(https://i.ibb.co/G7mPBRw/uno140.jpg);
+    background-repeat: no-repeat;
     box-sizing: border-box;
+    background-size: 90px 40px;
     padding: 5px;
     margin: 10px;
     position: relative;
@@ -105,4 +112,12 @@
 
   .alert {
     width: 150px;
+  }
+
+  .thing {
+    padding-top: 100%;
+    background: url(https://i.ibb.co/Swt80hJ/uno-tiny.jpg);
+    background-repeat: no-repeat;
+    background-origin: padding-box;
+    background-size: cover;
   }
