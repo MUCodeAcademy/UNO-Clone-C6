@@ -13,6 +13,7 @@ export function GameProvider({ children }) {
   const [drawDeck, setDrawDeck] = useState([]);
   const [discardDeck, setDiscardDeck] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const [room, setRoom] = useState("");
   const history = useHistory();
   const { loading } = useContext(UserContext);
 
@@ -253,6 +254,8 @@ export function GameProvider({ children }) {
     setDiscardDeck,
     userInfo,
     setUserInfo,
+    room,
+    setRoom,
     createUserInfo,
     deal,
     startGame,
