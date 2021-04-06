@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "../GameComponents/Card";
 import { makeStyles } from "@material-ui/core/styles";
+import { GameContext } from "../../../shared/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   playArea: {
@@ -13,10 +14,12 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerHand = (props) => {
   const classes = useStyles();
+  const { playerArray, userInfo } = useContext(GameContext);
+  const me = playerArray.filter((player) => player.userID === userInfo.userID);
   return (
     <>
       <div className={classes.playArea}>
-        {props.hand.map((card, idx) => (
+        {me.hand.map((card, idx) => (
           <Card color={`${card.color}`} value={`${card.value}`} key={idx} />
         ))}
       </div>

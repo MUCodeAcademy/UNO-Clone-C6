@@ -2,6 +2,7 @@ import { React } from "react";
 import Card from "./Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import GameContext from "../../../shared/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,13 +28,15 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
   },
 }));
-const OtherPlayers = (props) => {
-  // Especting a array of players in props, array is of objects containing username and array of cards in hand
+const OtherPlayers = () => {
+  // Expecting a array of players, array is of objects containing username and array of cards in hand
   const classes = useStyles();
+  const { playerArray };
   return (
     <Box className={classes.root}>
-      {props.players.length > 0 &&
-        props.players.map((m, idx) => {
+      {playerArray.length > 0 &&
+        playerArray.map((m, idx) => {
+          //this may need to be changed since we are mapping an array of objects
           return (
             <Box key={idx} className={classes.opponentHand}>
               <div className={classes.text}>{m.username}</div>

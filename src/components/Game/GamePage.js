@@ -82,7 +82,7 @@ const GamePage = (props) => {
     startGame,
     drawCard,
     playCard,
-  } = useContext(GameProvider);
+  } = useContext(GameContext);
 
   useEffect(() => {
     if (isHostCon === true) {
@@ -141,18 +141,10 @@ const GamePage = (props) => {
       </Grid>
       <Grid item xs={9} className={classes.sectionContainer}>
         <Grid className={`${classes.otherPlayers} ${classes.section}`}>
-          <OtherPlayers playerArray={playerArray} />
+          <OtherPlayers />
         </Grid>
         <Grid className={`${classes.gameBoard} ${classes.section}`}>
-          <GameBoard
-            drawCard={drawCard}
-            regularTurn={regularTurn}
-            canPlay={canPlay}
-            drawCard={drawCard}
-            isHost={isHost}
-            startGame={startGame}
-            quitGame={quitGame}
-          />
+          <GameBoard />
         </Grid>
         <Grid className={`${classes.playerHand} ${classes.section}`}>
           <PlayerHand />
