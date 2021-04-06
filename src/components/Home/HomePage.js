@@ -5,8 +5,9 @@ import {
   makeStyles,
   Paper,
   TextField,
-  FormControl
+  FormControl,
 } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import { GameContext } from "../../shared/GameContext";
 import { useHistory } from "react-router-dom";
 
@@ -34,47 +35,53 @@ const useStyles = makeStyles((theme) => ({
 }));
 export default function HomePage() {
   const [gameId, setGameId] = useState(
-    Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8)
+    Math.random().toString(36).substring(2, 4) +
+      Math.random().toString(36).substring(2, 8)
   );
   const [joinedRoom, setJoinedRoom] = useState();
-  const {setIsHost, createUserInfo} = useContext(GameContext);
+  const { setIsHost, createUserInfo } = useContext(GameContext);
   const [username, setUsername] = useState("username");
   const classes = useStyles();
   const history = useHistory();
   const [error, setError] = useState();
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
   function joinGame(e) {
     e.preventDefault();
-    if (gameId.length === 8 && username.length > 3 && username.length < 20){
-      return history.push(`/game/${gameId}`)
-    }
-    else {
-      return "Invalid data given"
+    if (gameId.length === 8 && username.length > 3 && username.length < 20) {
+      return history.push(`/game/${gameId}`);
+    } else {
+      return "Invalid data given";
     }
   }
-  
-  function createGame(e){
+
+  function createGame(e) {
     e.preventDefault();
     try {
       setIsHost(true);
       setGameId(gameId);
       history.push(`/game/${gameId}`);
     } catch (error) {
-      setError("Something went wrong, unable to create game")
+      setError("Something went wrong, unable to create game");
     }
   }
 
-  function handleUnique (e) {
+  function handleUnique(e) {
     e.preventDefault();
     if (username.length < 3 || username.length > 20) {
-      return setError("Username must be at least 3 characters and not more than 20.");}
-      try {
-        setError("");
-        createUserInfo(username)
-      } catch (error) {
-        setError("Something went wrong, unable to create a username");
-      }
+      return setError(
+        "Username must be at least 3 characters and not more than 20."
+      );
+    }
+    try {
+      setError("");
+      createUserInfo(username);
+    } catch (error) {
+      setError("Something went wrong, unable to create a username");
+    }
   }
-
 
   return (
     <>
@@ -104,7 +111,7 @@ export default function HomePage() {
               }}
             />
           </Grid>
-
+          {error && <Alert severity="error">{error}</Alert>}
           <Grid
             container
             alignItems="center"
@@ -127,7 +134,10 @@ export default function HomePage() {
             />
 
             <Button
-              onClick = {() => {joinGame(); handleUnique();}}
+              onClick={() => {
+                joinGame();
+                handleUnique();
+              }}
               variant="contained"
               color="primary"
             >
@@ -148,7 +158,10 @@ export default function HomePage() {
               <Paper className={classes.paper}>Game ID: {gameId}</Paper>
             </Grid>
             <Button
-              onClick={() => {createGame(gameId); handleUnique();}}
+              onClick={() => {
+                createGame(gameId);
+                handleUnique();
+              }}
               variant="contained"
               color="primary"
             >
