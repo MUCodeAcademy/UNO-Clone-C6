@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Grid,
@@ -7,8 +7,6 @@ import {
   TextField,
   FormControl
 } from "@material-ui/core";
-import useSocket from "../../hooks/useSocket";
-import { UserContext } from "../../shared/UserContext";
 import { GameContext } from "../../shared/GameContext";
 import { useHistory } from "react-router-dom";
 
@@ -39,7 +37,7 @@ export default function HomePage() {
     Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8)
   );
   const [joinedRoom, setJoinedRoom] = useState();
-  // const [isHost, setIsHost] = useState(false);
+  const {setIsHost, createUserInfo} = useContext(GameContext);
   const [userName, setUsername] = useState("username");
   const classes = useStyles();
   const history = useHistory();
@@ -71,7 +69,7 @@ export default function HomePage() {
       return setError("Username must be at least 3 characters and not more than 20.");}
       try {
         setError("");
-        createUserId(userName)
+        createUserInfo(userName)
       } catch (error) {
         setError("Something went wrong, unable to create a username");
       }
