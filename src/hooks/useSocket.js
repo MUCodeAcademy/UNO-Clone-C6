@@ -6,7 +6,7 @@ const SERVER_URL = "http://localhost:3001";
 const useSocket = (username, userID, room) => {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef();
-  const [isHostSoc, setIsHostSoc] = useState();
+  const [isHostSoc, setIsHostSoc] = useState(false);
   const [gameData, setGameData] = useState({
     drawDeck: [],
     discardDeck: [],
@@ -31,7 +31,7 @@ const useSocket = (username, userID, room) => {
       ]);
     });
 
-    if (isHost === true) {
+    if (isHostSoc === true) {
       socketRef.current.on("host data", (data) => {
         setGameData({ ...data });
         socketRef.current.emit("host data send", { ...gameData });

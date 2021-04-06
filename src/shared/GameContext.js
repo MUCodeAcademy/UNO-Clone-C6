@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import deck from "./deck";
+import { UserContext } from "../shared/UserContext";
 
 export const GameContext = React.createContext();
 
 export function GameProvider({ children }) {
   const [isHostCon, setIsHostCon] = useState(false);
-  const [playerArray, setPlayerArray] = useState();
+  const [playerArray, setPlayerArray] = useState([]);
   const [gameActive, setGameActive] = useState(false);
   const [canPlay, setCanPlay] = useState(false);
   const [drawDeck, setDrawDeck] = useState([]);
   const [discardDeck, setDiscardDeck] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const history = useHistory();
+  const { loading } = useContext(UserContext);
 
   function PlayerObject(username, userID, hand) {
     this.username = username;
@@ -28,7 +30,7 @@ export function GameProvider({ children }) {
   }
 
   useEffect(() => {
-    if (playerArray[0].userID === userInfo.userID) {
+    if (playerArray[0] && playerArray[0].userID === userInfo.userID) {
       setCanPlay(true);
     } else {
       setCanPlay(false);
@@ -37,7 +39,7 @@ export function GameProvider({ children }) {
   }, [playerArray]);
 
   useEffect(() => {
-    if (playerArray[1].hand === []) {
+    if (playerArray[1] && playerArray[1].hand === []) {
       setGameActive(false);
     }
   }, [playerArray]);
@@ -150,7 +152,7 @@ export function GameProvider({ children }) {
       newHand
     );
     setPlayerArray([...players, player]);
-    setDrawDeck[drawing];
+    setDrawDeck(drawing);
   }
 
   function setColor(playedCard, newColor) {

@@ -1,8 +1,8 @@
-import { React } from "react";
+import React, { useContext } from "react";
 import Card from "./Card";
 import { makeStyles } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import GameContext from "../../../shared/GameContext";
+import { GameContext } from "../../../shared/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 const OtherPlayers = () => {
   // Expecting a array of players, array is of objects containing username and array of cards in hand
   const classes = useStyles();
-  const { playerArray };
+  const { playerArray } = useContext(GameContext);
   return (
     <Box className={classes.root}>
       {playerArray.length > 0 &&
