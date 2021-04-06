@@ -1,64 +1,76 @@
-import {useState, useEffect, useRef} from "react"
-import socketIOClient from "socket.io-client"
+import { useState, useEffect, useRef } from "react";
+import socketIOClient from "socket.io-client";
 
-const SERVER_URL = "http://localhost:3001"
+const SERVER_URL = "http://localhost:3001";
 
-const useSocket = (username, room, host) =>{
-    const [messages, setMessages] = useState([])
-    const socketRef = useRef()
-    const [isHost, setIsHost] = useState(host)
-    const [gameData, setGameData] = useState({
-        deck: [],
-        room: "",
-        players:[],
-        turnPlayer: "",
-        playedCard: {},
-    })
-    useEffect(() => {
-        setMessages([])
-        socketRef.current = socketIOClient(SERVER_URL)
-        socketRef.current.on("leave room", (data)=>{
-            setMessages((newMsgs)=>[...newMsgs, data])
-        })
-        socketRef.current.on("message", (data)=>{
-            setMessages((newMsgs)=>[...newMsgs, data])
-            console.log([...messages])
-        })
-        socketRef.current.on("enter room", (data) =>{
-            console.log(data)
-            setMessages((newMsgs)=>[...newMsgs, {username: "SYSTEM", body: `${data.username} has entered the Room`}])
-        })
+const useSocket = (username, room, host) => {
+  const [messages, setMessages] = useState([]);
+  const socketRef = useRef();
+  const [isHost, setIsHost] = useState(host);
+  const [gameData, setGameData] = useState({
+    drawDeck: [],
+    discardDeck: [],
+    players: [],
+    // room: "",
+  });
+  useEffect(() => {
+    setMessages([]);
+    socketRef.current = socketIOClient(SERVER_URL);
+    socketRef.current.on("leave room", (data) => {
+      setMessages((newMsgs) => [...newMsgs, data]);
+    });
+    socketRef.current.on("message", (data) => {
+      setMessages((newMsgs) => [...newMsgs, data]);
+      console.log([...messages]);
+    });
+    socketRef.current.on("enter room", (data) => {
+      console.log(data);
+      setMessages((newMsgs) => [
+        ...newMsgs,
+        { username: "SYSTEM", body: `${data.username} has entered the Room` },
+      ]);
+    });
 
-        if(isHost === true){
-            socketRef.current.on("host data", (data)=>{
-                setGameData({...data})
-                socketRef.current.emit("host data send", {...gameData})
-            })
+    if (isHost === true) {
+      socketRef.current.on("host data", (data) => {
+        setGameData({ ...data });
+        socketRef.current.emit("host data send", { ...gameData });
+      });
 
-            socketRef.current.on("enter room", (data) =>{
-                sendPlayerData({...gameData, players: [...gameData.players, data]})
-            })
-        }
-
-        socketRef.current.on("update game", (data)=>{
-            setGameData({...data})})
-
-    }, [room])
-
-    function sendMessage(body){
-        console.log(body)
-        socketRef.current.emit("message", {username: username, body: body, room: room})
+      socketRef.current.on("enter room", (data) => {
+        sendPlayerData({ ...gameData, players: [...gameData.players, data] });
+      });
     }
 
-    function joinRoom(){
-        socketRef.current.emit("join room", {username: username, room: room})
-    }
+    socketRef.current.on("update game", (data) => {
+      setGameData({ ...data });
+    });
+  }, [room]);
 
-    function sendPlayerData(data){
-        socketRef.current.emit("send player data", {...data})
-    }
+  function sendMessage(body) {
+    console.log(body);
+    socketRef.current.emit("message", {
+      username: username,
+      body: body,
+      room: room,
+    });
+  }
 
-    return {messages: [messages], gameData: gameData, sendMessage, joinRoom, sendPlayerData}
-}
+  function joinRoom() {
+    socketRef.current.emit("join room", { username: username, room: room });
+  }
+
+  function sendPlayerData(data) {
+    socketRef.current.emit("send player data", { ...data });
+  }
+
+  return {
+    messages: [messages],
+    gameData: gameData,
+    sendMessage,
+    joinRoom,
+    sendPlayerData,
+  };
+};
 
 export default useSocket;

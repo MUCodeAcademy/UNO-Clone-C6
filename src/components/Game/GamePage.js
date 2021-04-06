@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useContext } from "react";
 import useSocket from "../../hooks/useSocket.js";
 import Chat from "./GameComponents/Chat";
 import OtherPlayers from "./GameComponents/OtherPlayers";
@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import GameInfo from "./GameComponents/GameInfo.js";
 import PlayerHand from "./GameComponents/PlayerHand.js";
-import GameBoard from "./GameComponents/GameBoard.js"
+import GameBoard from "./GameComponents/GameBoard.js";
+import { GameProvider } from "../../shared/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   gamePage: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gameBoard: {
     width: "calc(100% - 16px)",
-  
+
     flexBasis: 100,
     flexGrow: 1,
     margin: "8px auto",
@@ -63,10 +64,37 @@ const GamePage = (props) => {
     props.room,
     props.host
   ); //placeholder for testing
+  const {} = useContext(GameProvider);
 
   useEffect(() => {
     setPlayerArray([...gameData.players]);
   }, [gameData.players]);
+
+  useEffect(() => {
+    sendPlayerData({
+      ...gameData,
+      players: [...players, (players[0].hand = [...playerArray[0].hand])],
+    });
+  }, [playerArray[0].hand]);
+
+  useEffect(() => {
+    sendPlayerData({
+      ...gameData,
+      players: [...players, (players[1].hand = [playerArray[1].hand])],
+    });
+  }, [playerArray[1].hand]);
+
+  useEffect(() => {
+    sendPlayerData({ ...gameData, players: [...playerArray] });
+  }, [playerArray[0].username]);
+
+  useEffect(() => {
+    sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
+  }, [drawDeck]);
+
+  useEffect(() => {
+    sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
+  });
 
   const classes = useStyles();
   useEffect(() => {
@@ -137,7 +165,7 @@ const GamePage = (props) => {
           />
         </Grid>
         <Grid className={`${classes.gameBoard} ${classes.section}`}>
-            <GameBoard />
+          <GameBoard />
         </Grid>
         <Grid className={`${classes.playerHand} ${classes.section}`}>
           <PlayerHand

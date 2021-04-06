@@ -13,11 +13,11 @@ export function GameProvider({ children }) {
   const [discardDeck, setDiscardDeck] = useState([]);
   const [userInfo, setUserInfo] = useState({});
 
-  function PlayerObject(username, userID, hand) {
-    this.username = username;
-    this.userID = userID;
-    this.hand = hand;
-  }
+  // function PlayerObject(username, userID, hand) {
+  //   this.username = username;
+  //   this.userID = userID;
+  //   this.hand = hand;
+  // }
 
   function createUserInfo(providedName) {
     let ID =
@@ -230,6 +230,8 @@ export function GameProvider({ children }) {
     }
   }
   function quitGame() {}
+
+  const value = {};
 
   return (
     <GameContext.Provider value={value}>
