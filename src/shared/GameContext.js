@@ -150,12 +150,13 @@ export function GameProvider({ children }) {
       newHand
     );
     setPlayerArray([...players, player]);
+    setDrawDeck[drawing];
   }
 
   function setColor(playedCard, newColor) {
     let newCard = new WildCard(playedCard.value, newColor, playedCard.points);
     let discard = [...discardDeck];
-    // discard.shift();
+    discard.shift();
     discard.unshift(newCard);
     setDiscardDeck(discard);
   }
