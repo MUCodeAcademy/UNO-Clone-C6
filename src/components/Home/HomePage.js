@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Grid,
@@ -7,8 +7,6 @@ import {
   TextField,
   FormControl
 } from "@material-ui/core";
-import useSocket from "../../hooks/useSocket";
-import { UserContext } from "../../shared/UserContext";
 import { GameContext } from "../../shared/GameContext";
 import { useHistory } from "react-router-dom";
 
@@ -39,14 +37,14 @@ export default function HomePage() {
     Math.random().toString(36).substring(2, 4) + Math.random().toString(36).substring(2, 8)
   );
   const [joinedRoom, setJoinedRoom] = useState();
-  // const [isHost, setIsHost] = useState(false);
-  const [userName, setUsername] = useState("username");
+  const {setIsHost, createUserInfo} = useContext(GameContext);
+  const [username, setUsername] = useState("username");
   const classes = useStyles();
   const history = useHistory();
   const [error, setError] = useState();
   function joinGame(e) {
     e.preventDefault();
-    if (gameId.length === 8 && userName.length > 3 && userName.length < 20){
+    if (gameId.length === 8 && username.length > 3 && username.length < 20){
       return history.push(`/game/${gameId}`)
     }
     else {
@@ -67,11 +65,11 @@ export default function HomePage() {
 
   function handleUnique (e) {
     e.preventDefault();
-    if (userName.length < 3 || userName.length > 20) {
+    if (username.length < 3 || username.length > 20) {
       return setError("Username must be at least 3 characters and not more than 20.");}
       try {
         setError("");
-        createUserId(userName)
+        createUserInfo(username)
       } catch (error) {
         setError("Something went wrong, unable to create a username");
       }
