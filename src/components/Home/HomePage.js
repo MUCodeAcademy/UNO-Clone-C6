@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Button,
   Grid,
@@ -39,17 +39,20 @@ export default function HomePage() {
       Math.random().toString(36).substring(2, 8)
   );
   const [joinedRoom, setJoinedRoom] = useState();
-  const { setIsHost, createUserInfo } = useContext(GameContext);
-  const [username, setUsername] = useState("username");
+  const {
+    setIsHost,
+    createUserInfo,
+    setRoom,
+    userInfo,
+    setUserInfo,
+  } = useContext(GameContext);
+  const [username, setUsername] = useState("");
   const classes = useStyles();
   const history = useHistory();
   const [error, setError] = useState();
 
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
   function joinGame(e) {
-    e.preventDefault();
+    // e.preventDefault();
     if (gameId.length === 8 && username.length > 3 && username.length < 20) {
       return history.push(`/game/${gameId}`);
     } else {
@@ -57,29 +60,37 @@ export default function HomePage() {
     }
   }
 
+  // function createGameID() {
+  //   let id =
+  //     Math.random().toString(36).substring(2, 4) +
+  //     Math.random().toString(36).substring(2, 8);
+  //   setGameId(id);
+  // }
+
   function createGame(e) {
-    e.preventDefault();
+    // e.preventDefault();
     try {
-      setIsHost(true);
-      setGameId(gameId);
+      createUserInfo(username);
       history.push(`/game/${gameId}`);
+      setRoom(gameId);
+      setIsHost(true);
+      console.log(userInfo);
     } catch (error) {
-      setError("Something went wrong, unable to create game");
+      console.log();
+      setError("Unable to create game.");
     }
   }
 
   function handleUnique(e) {
-    e.preventDefault();
+    // e.preventDefault();
     if (username.length < 3 || username.length > 20) {
-      return setError(
-        "Username must be at least 3 characters and not more than 20."
-      );
+      return setError("Invalid username, must be between 3 and 20 characters.");
     }
     try {
       setError("");
       createUserInfo(username);
     } catch (error) {
-      setError("Something went wrong, unable to create a username");
+      setError("Unable to create username at this time.");
     }
   }
 
@@ -104,9 +115,10 @@ export default function HomePage() {
               label={`Unique username`}
               variant="outlined"
               helperText={
-                userName.length < 3 ? "Must be greater than 3 characters" : ""
+                username.length < 3 ? "Must be greater than 3 characters" : ""
               }
               onChange={(e) => {
+                e.preventDefault();
                 setUsername(e.target.value);
               }}
             />
@@ -129,14 +141,15 @@ export default function HomePage() {
               variant="outlined"
               defaultValue={joinedRoom}
               onChange={(e) => {
+                e.preventDefault();
                 setJoinedRoom(e.target.value);
               }}
             />
 
             <Button
               onClick={() => {
-                joinGame();
                 handleUnique();
+                joinGame();
               }}
               variant="contained"
               color="primary"
@@ -159,8 +172,8 @@ export default function HomePage() {
             </Grid>
             <Button
               onClick={() => {
-                createGame(gameId);
                 handleUnique();
+                createGame(gameId);
               }}
               variant="contained"
               color="primary"

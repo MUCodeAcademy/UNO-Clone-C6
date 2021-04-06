@@ -1,4 +1,4 @@
-import React, { useState, useEffect, } from "react";
+import React, { useState, useEffect } from "react";
 import { auth } from "../Firebase";
 
 export const UserContext = React.createContext();
@@ -34,7 +34,7 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
-      console.log(user);
+      // console.log(user);
       setLoading(false);
     });
     return unsubscribe;

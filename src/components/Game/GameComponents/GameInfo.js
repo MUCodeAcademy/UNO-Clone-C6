@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import GameContext from "../../shared/GameContext";
+import { GameContext } from "../../../shared/GameContext";
+import Container from "@material-ui/core/Container";
 
 const GameInfo = () => {
   const { playerArray, discardDeck } = useContext(GameContext);

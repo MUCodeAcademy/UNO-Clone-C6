@@ -59,10 +59,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const GamePage = (props) => {
-  const { messages, gameData, sendMessage, joinRoom } = useSocket(
-    props.username,
-    props.room
-  ); //placeholder for testing
+  const {
+    messages,
+    gameData,
+    isHostSoc,
+    setIsHostSoc,
+    sendPlayerData,
+    sendMessage,
+    joinRoom,
+  } = useSocket(userInfo.username, userInfo.userID, room); //placeholder for testing
   const {
     isHostCon,
     setIsHostCon,
@@ -82,13 +87,14 @@ const GamePage = (props) => {
     startGame,
     drawCard,
     playCard,
+    room,
   } = useContext(GameContext);
 
   useEffect(() => {
     if (isHostCon === true) {
       setIsHostSoc(true);
     }
-  }, [isHostC]);
+  }, [isHostCon]);
 
   useEffect(() => {
     setPlayerArray([...gameData.players]);
@@ -97,14 +103,20 @@ const GamePage = (props) => {
   useEffect(() => {
     sendPlayerData({
       ...gameData,
-      players: [...players, (players[0].hand = [...playerArray[0].hand])],
+      players: [
+        ...gameData.players,
+        (gameData.players[0].hand = [...playerArray[0].hand]),
+      ],
     });
   }, [playerArray[0].hand]);
 
   useEffect(() => {
     sendPlayerData({
       ...gameData,
-      players: [...players, (players[1].hand = [playerArray[1].hand])],
+      players: [
+        ...gameData.players,
+        (gameData.players[1].hand = [playerArray[1].hand]),
+      ],
     });
   }, [playerArray[1].hand]);
 
