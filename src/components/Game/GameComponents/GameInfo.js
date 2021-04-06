@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
 import GameContext from "../../shared/GameContext";
 
-const { playerArray, discardDeck } = useContext(GameContext);
-
 const GameInfo = () => {
+  const { playerArray, discardDeck } = useContext(GameContext);
+
   return (
     <Container>
       <h3>{playerArray[0].username} turn!</h3>;
