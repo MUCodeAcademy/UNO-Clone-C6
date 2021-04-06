@@ -38,13 +38,13 @@ export default function HomePage() {
   );
   const [joinedRoom, setJoinedRoom] = useState();
   const {setIsHost, createUserInfo} = useContext(GameContext);
-  const [userName, setUsername] = useState("username");
+  const [username, setUsername] = useState("username");
   const classes = useStyles();
   const history = useHistory();
   const [error, setError] = useState();
   function joinGame(e) {
     e.preventDefault();
-    if (gameId.length === 8 && userName.length > 3 && userName.length < 20){
+    if (gameId.length === 8 && username.length > 3 && username.length < 20){
       return history.push(`/game/${gameId}`)
     }
     else {
@@ -65,11 +65,11 @@ export default function HomePage() {
 
   function handleUnique (e) {
     e.preventDefault();
-    if (userName.length < 3 || userName.length > 20) {
+    if (username.length < 3 || username.length > 20) {
       return setError("Username must be at least 3 characters and not more than 20.");}
       try {
         setError("");
-        createUserInfo(userName)
+        createUserInfo(username)
       } catch (error) {
         setError("Something went wrong, unable to create a username");
       }
