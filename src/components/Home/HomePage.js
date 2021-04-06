@@ -33,6 +33,10 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
   },
 }));
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 export default function HomePage() {
   const [gameId, setGameId] = useState(
     Math.random().toString(36).substring(2, 4) +
