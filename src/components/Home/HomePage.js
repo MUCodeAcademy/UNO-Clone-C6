@@ -38,9 +38,13 @@ export default function HomePage() {
       Math.random().toString(36).substring(2, 8)
   );
   const [joinedRoom, setJoinedRoom] = useState();
-  const { setIsHost, createUserInfo, setRoom, setUserInfo } = useContext(
-    GameContext
-  );
+  const {
+    setIsHost,
+    createUserInfo,
+    setRoom,
+    userInfo,
+    setUserInfo,
+  } = useContext(GameContext);
   const [username, setUsername] = useState("");
   const classes = useStyles();
   const history = useHistory();
@@ -65,13 +69,14 @@ export default function HomePage() {
   function createGame(e) {
     // e.preventDefault();
     try {
+      createUserInfo(username);
       history.push(`/game/${gameId}`);
-      setUserInfo(username);
       setRoom(gameId);
       setIsHost(true);
+      console.log(userInfo);
     } catch (error) {
       console.log();
-      setError(true);
+      setError("Unable to create game.");
     }
   }
 

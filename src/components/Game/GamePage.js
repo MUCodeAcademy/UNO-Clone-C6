@@ -67,7 +67,7 @@ const GamePage = (props) => {
     sendPlayerData,
     sendMessage,
     joinRoom,
-  } = useSocket(userInfo.username, room); //placeholder for testing
+  } = useSocket(userInfo.username, userInfo.userID, room); //placeholder for testing
   const {
     isHostCon,
     setIsHostCon,
