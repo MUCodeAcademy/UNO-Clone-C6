@@ -1,9 +1,8 @@
-import { React, useState, useRef, useEffect, useContext } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import useSocket from "../../../hooks/useSocket.js";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import GameContext from "../../../shared/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,18 +34,16 @@ const useStyles = makeStyles((theme) => ({
   chat: {},
 }));
 const Chat = (props) => {
-  const { username } = useContext(GameContext);
+  //Chat will need the Username and the Room passed through props
   const msgEndRef = useRef(null);
   const scrollToBottom = () => {
     msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
   const [msg, setMsg] = useState("");
   useEffect(() => {
     scrollToBottom();
   }, [props.messages]);
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <div className={classes.chatDisplay}>
@@ -93,5 +90,4 @@ const Chat = (props) => {
     </div>
   );
 };
-
 export default Chat;
