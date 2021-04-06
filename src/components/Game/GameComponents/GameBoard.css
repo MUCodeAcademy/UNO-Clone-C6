@@ -13,7 +13,6 @@
     font-family: Arial, Helvetica, sans-serif
   }
  
- 
 
   .discard {
       width: 116px;
@@ -36,7 +35,7 @@
     justify-content: center;
     /* margin-top: 150px; */
   }
-
+/* 
   .drawContainer {
     max-height: 100px;
     margin: auto;
@@ -45,7 +44,7 @@
   .discardContainer {
     max-height: 100px;
     margin: auto;
-  }
+  } */
   
   .cardback {
     /* width: 81px;
@@ -80,4 +79,30 @@
 
   .quitGame {
     height: 48px;
+  }
+
+  .right-area {
+    display: column;
+  }
+
+  .color-area {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100px;
+  }
+
+  .color-box {
+    width: 40px;
+    height: 57px;
+    margin: 2px;
+    border-radius: 5px
+  }
+
+  .thebigthree {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  .alert {
+    width: 150px;
   }
