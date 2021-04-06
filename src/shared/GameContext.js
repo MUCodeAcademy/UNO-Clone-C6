@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import deck from "./deck";
 
 export const GameContext = React.createContext();
 
 export function GameProvider({ children }) {
-  const [isHost, setIsHost] = useState(false);
-  const [canPlay, setCanPlay] = useState(false);
+  const [isHostCon, setIsHostCon] = useState(false);
   const [playerArray, setPlayerArray] = useState();
   const [gameActive, setGameActive] = useState(false);
-  // const [cards, setCards] = useState(deck);
+  const [canPlay, setCanPlay] = useState(false);
   const [drawDeck, setDrawDeck] = useState([]);
   const [discardDeck, setDiscardDeck] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const history = useHistory();
 
   function PlayerObject(username, userID, hand) {
     this.username = username;
@@ -31,6 +32,7 @@ export function GameProvider({ children }) {
       setCanPlay(true);
     } else {
       setCanPlay(false);
+      console.log("IT'S YOUR TURN");
     }
   }, [playerArray]);
 
@@ -209,27 +211,52 @@ export function GameProvider({ children }) {
           setColor(playCard, wildToColor);
           if (playCard.value.toString().includes("Four")) {
             drawFour();
-            regularTurn();
             return;
           } else {
             regularTurn();
             return;
           }
         }
-        if (playCard.value === "Reverse") {
-          reverseCard();
-          return;
-        }
-        if (playCard.value === "Skip") {
-          skip();
-          return;
-        }
       }
-    } else {
-      return;
+      if (playCard.value === "Reverse") {
+        reverseCard();
+        return;
+      }
+      if (playCard.value === "Skip") {
+        skip();
+        return;
+      }
     }
+    return;
   }
-  function quitGame() {}
+
+  function quitGame(e) {
+    e.preventDefault();
+    return history.push("/home");
+  }
+
+  const value = {
+    isHostCon,
+    setIsHostCon,
+    playerArray,
+    setPlayerArray,
+    gameActive,
+    setGameActive,
+    canPlay,
+    setCanPlay,
+    drawDeck,
+    setDrawDeck,
+    discardDeck,
+    setDiscardDeck,
+    userInfo,
+    setUserInfo,
+    createUserInfo,
+    deal,
+    startGame,
+    drawCard,
+    playCard,
+    quitGame,
+  };
 
   return (
     <GameContext.Provider value={value}>
