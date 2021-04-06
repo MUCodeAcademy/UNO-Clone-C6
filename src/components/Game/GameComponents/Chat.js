@@ -39,13 +39,11 @@ const Chat = (props) => {
   const scrollToBottom = () => {
     msgEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
-
   const [msg, setMsg] = useState("");
   useEffect(() => {
     scrollToBottom();
   }, [props.messages]);
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <div className={classes.chatDisplay}>
@@ -92,5 +90,4 @@ const Chat = (props) => {
     </div>
   );
 };
-
 export default Chat;

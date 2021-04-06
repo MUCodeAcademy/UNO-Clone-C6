@@ -3,11 +3,14 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserProvider } from "./shared/UserContext";
+import { GameProvider } from "./shared/GameContext";
 import "./index.css";
 
 ReactDOM.render(
   <UserProvider>
-    <App />
+    <GameProvider>
+      <App />
+    </GameProvider>
   </UserProvider>,
   document.getElementById("root")
 );

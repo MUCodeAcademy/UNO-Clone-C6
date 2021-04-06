@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useState, useContext } from "react";
 import useSocket from "../../hooks/useSocket.js";
 import Chat from "./GameComponents/Chat";
 import OtherPlayers from "./GameComponents/OtherPlayers";
@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import GameInfo from "./GameComponents/GameInfo.js";
 import PlayerHand from "./GameComponents/PlayerHand.js";
-import GameBoard from "./GameComponents/GameBoard.js"
+import GameBoard from "./GameComponents/GameBoard.js";
+import { GameContext } from "../../shared/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   gamePage: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gameBoard: {
     width: "calc(100% - 16px)",
-  
+
     flexBasis: 100,
     flexGrow: 1,
     margin: "8px auto",
@@ -60,9 +61,65 @@ const useStyles = makeStyles((theme) => ({
 const GamePage = (props) => {
   const { messages, gameData, sendMessage, joinRoom } = useSocket(
     props.username,
-    props.room,
-    props.host
+    props.room
   ); //placeholder for testing
+  const {
+    isHostCon,
+    setIsHostCon,
+    playerArray,
+    setPlayerArray,
+    gameActive,
+    setGameActive,
+    canPlay,
+    setCanPlay,
+    drawDeck,
+    setDrawDeck,
+    discardDeck,
+    setDiscardDeck,
+    userInfo,
+    setUserInfo,
+    deal,
+    startGame,
+    drawCard,
+    playCard,
+  } = useContext(GameContext);
+
+  useEffect(() => {
+    if (isHostCon === true) {
+      setIsHostSoc(true);
+    }
+  }, [isHostC]);
+
+  useEffect(() => {
+    setPlayerArray([...gameData.players]);
+  }, [gameData.players]);
+
+  useEffect(() => {
+    sendPlayerData({
+      ...gameData,
+      players: [...players, (players[0].hand = [...playerArray[0].hand])],
+    });
+  }, [playerArray[0].hand]);
+
+  useEffect(() => {
+    sendPlayerData({
+      ...gameData,
+      players: [...players, (players[1].hand = [playerArray[1].hand])],
+    });
+  }, [playerArray[1].hand]);
+
+  useEffect(() => {
+    sendPlayerData({ ...gameData, players: [...playerArray] });
+  }, [playerArray[0].username]);
+
+  useEffect(() => {
+    sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
+  }, [drawDeck]);
+
+  useEffect(() => {
+    sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
+  });
+
   const classes = useStyles();
   useEffect(() => {
     joinRoom(props.room);
@@ -84,75 +141,13 @@ const GamePage = (props) => {
       </Grid>
       <Grid item xs={9} className={classes.sectionContainer}>
         <Grid className={`${classes.otherPlayers} ${classes.section}`}>
-          <OtherPlayers
-            players={[
-              {
-                username: "jimbo",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                ],
-              },
-
-              {
-                username: "jimbo",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                ],
-              },
-
-              {
-                username: "Nivo",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                  { color: "blue", value: "Reverse" },
-                ],
-              },
-
-              {
-                username: "Dude",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                  { color: "blue", value: "Reverse" },
-                ],
-              },
-
-              {
-                username: "Man",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                  { color: "blue", value: "Reverse" },
-                ],
-              },
-            ]}
-          />
+          <OtherPlayers />
         </Grid>
         <Grid className={`${classes.gameBoard} ${classes.section}`}>
-            <GameBoard />
+          <GameBoard />
         </Grid>
         <Grid className={`${classes.playerHand} ${classes.section}`}>
-          <PlayerHand
-            hand={[
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-              { color: "blue", value: "Reverse" },
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-              { color: "blue", value: "Reverse" },
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-              { color: "blue", value: "Reverse" },
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-              { color: "blue", value: "Reverse" },
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-            ]}
-          />
+          <PlayerHand />
         </Grid>
       </Grid>
       {/* </div> */}
