@@ -7,7 +7,7 @@ import Grid from "@material-ui/core/Grid";
 import GameInfo from "./GameComponents/GameInfo.js";
 import PlayerHand from "./GameComponents/PlayerHand.js";
 import GameBoard from "./GameComponents/GameBoard.js";
-import { GameProvider } from "../../shared/GameContext";
+import { GameContext } from "../../shared/GameContext";
 
 const useStyles = makeStyles((theme) => ({
   gamePage: {
@@ -61,10 +61,34 @@ const useStyles = makeStyles((theme) => ({
 const GamePage = (props) => {
   const { messages, gameData, sendMessage, joinRoom } = useSocket(
     props.username,
-    props.room,
-    props.host
+    props.room
   ); //placeholder for testing
-  const {} = useContext(GameProvider);
+  const {
+    isHostCon,
+    setIsHostCon,
+    playerArray,
+    setPlayerArray,
+    gameActive,
+    setGameActive,
+    canPlay,
+    setCanPlay,
+    drawDeck,
+    setDrawDeck,
+    discardDeck,
+    setDiscardDeck,
+    userInfo,
+    setUserInfo,
+    deal,
+    startGame,
+    drawCard,
+    playCard,
+  } = useContext(GameProvider);
+
+  useEffect(() => {
+    if (isHostCon === true) {
+      setIsHostSoc(true);
+    }
+  }, [isHostC]);
 
   useEffect(() => {
     setPlayerArray([...gameData.players]);
@@ -117,75 +141,21 @@ const GamePage = (props) => {
       </Grid>
       <Grid item xs={9} className={classes.sectionContainer}>
         <Grid className={`${classes.otherPlayers} ${classes.section}`}>
-          <OtherPlayers
-            players={[
-              {
-                username: "jimbo",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                ],
-              },
-
-              {
-                username: "jimbo",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                ],
-              },
-
-              {
-                username: "Nivo",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                  { color: "blue", value: "Reverse" },
-                ],
-              },
-
-              {
-                username: "Dude",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                  { color: "blue", value: "Reverse" },
-                ],
-              },
-
-              {
-                username: "Man",
-                hand: [
-                  { color: "green", value: "7" },
-                  { color: "red", value: "2" },
-                  { color: "blue", value: "Reverse" },
-                ],
-              },
-            ]}
-          />
+          <OtherPlayers playerArray={playerArray} />
         </Grid>
         <Grid className={`${classes.gameBoard} ${classes.section}`}>
-          <GameBoard />
+          <GameBoard
+            drawCard={drawCard}
+            regularTurn={regularTurn}
+            canPlay={canPlay}
+            drawCard={drawCard}
+            isHost={isHost}
+            startGame={startGame}
+            quitGame={quitGame}
+          />
         </Grid>
         <Grid className={`${classes.playerHand} ${classes.section}`}>
-          <PlayerHand
-            hand={[
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-              { color: "blue", value: "Reverse" },
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-              { color: "blue", value: "Reverse" },
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-              { color: "blue", value: "Reverse" },
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-              { color: "blue", value: "Reverse" },
-              { color: "green", value: "7" },
-              { color: "red", value: "2" },
-            ]}
-          />
+          <PlayerHand />
         </Grid>
       </Grid>
       {/* </div> */}

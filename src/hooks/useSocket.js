@@ -3,10 +3,10 @@ import socketIOClient from "socket.io-client";
 
 const SERVER_URL = "http://localhost:3001";
 
-const useSocket = (username, room, host) => {
+const useSocket = (username, userID, room) => {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef();
-  const [isHost, setIsHost] = useState(host);
+  const [isHostSoc, setIsHostSoc] = useState();
   const [gameData, setGameData] = useState({
     drawDeck: [],
     discardDeck: [],
