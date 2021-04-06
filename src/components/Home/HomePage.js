@@ -17,8 +17,6 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(2),
       width: "25ch",
     },
-  },
-  root: {
     flexGrow: 1,
   },
   paper: {
@@ -43,13 +41,9 @@ export default function HomePage() {
       Math.random().toString(36).substring(2, 8)
   );
   const [joinedRoom, setJoinedRoom] = useState();
-  const {
-    setIsHost,
-    createUserInfo,
-    setRoom,
-    userInfo,
-    setUserInfo,
-  } = useContext(GameContext);
+  const { setIsHost, createUserInfo, setRoom, userInfo } = useContext(
+    GameContext
+  );
   const [username, setUsername] = useState("");
   const classes = useStyles();
   const history = useHistory();
@@ -115,7 +109,7 @@ export default function HomePage() {
             <TextField
               className={classes.TextField}
               error={error}
-              id="outlined-basic"
+              id="outlined-basic1"
               label={`Unique username`}
               variant="outlined"
               helperText={

@@ -1,4 +1,4 @@
-import { React, useEffect, useState, useContext } from "react";
+import { React, useEffect, useContext } from "react";
 import useSocket from "../../hooks/useSocket.js";
 import Chat from "./GameComponents/Chat";
 import OtherPlayers from "./GameComponents/OtherPlayers";
@@ -60,45 +60,32 @@ const useStyles = makeStyles((theme) => ({
 
 const GamePage = (props) => {
   const {
+    isHostCon,
+    playerArray,
+    setPlayerArray,
+    drawDeck,
+    discardDeck,
+    userInfo,
+    room,
+  } = useContext(GameContext);
+  const {
     messages,
     gameData,
-    isHostSoc,
     setIsHostSoc,
     sendPlayerData,
     sendMessage,
     joinRoom,
   } = useSocket(userInfo.username, userInfo.userID, room); //placeholder for testing
-  const {
-    isHostCon,
-    setIsHostCon,
-    playerArray,
-    setPlayerArray,
-    gameActive,
-    setGameActive,
-    canPlay,
-    setCanPlay,
-    drawDeck,
-    setDrawDeck,
-    discardDeck,
-    setDiscardDeck,
-    userInfo,
-    setUserInfo,
-    deal,
-    startGame,
-    drawCard,
-    playCard,
-    room,
-  } = useContext(GameContext);
 
   useEffect(() => {
     if (isHostCon === true) {
       setIsHostSoc(true);
     }
-  }, [isHostCon]);
+  }, [isHostCon, setIsHostSoc]);
 
   useEffect(() => {
     setPlayerArray([...gameData.players]);
-  }, [gameData.players]);
+  }, [gameData.players, setPlayerArray]);
 
   useEffect(() => {
     sendPlayerData({
@@ -108,7 +95,7 @@ const GamePage = (props) => {
         (gameData.players[0].hand = [...playerArray[0].hand]),
       ],
     });
-  }, [playerArray[0].hand]);
+  }, [gameData, playerArray, sendPlayerData]);
 
   useEffect(() => {
     sendPlayerData({
@@ -118,15 +105,15 @@ const GamePage = (props) => {
         (gameData.players[1].hand = [playerArray[1].hand]),
       ],
     });
-  }, [playerArray[1].hand]);
+  }, [playerArray, gameData, sendPlayerData]);
 
   useEffect(() => {
     sendPlayerData({ ...gameData, players: [...playerArray] });
-  }, [playerArray[0].username]);
+  }, [playerArray, gameData, sendPlayerData]);
 
   useEffect(() => {
     sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
-  }, [drawDeck]);
+  }, [drawDeck, sendPlayerData, gameData]);
 
   useEffect(() => {
     sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
