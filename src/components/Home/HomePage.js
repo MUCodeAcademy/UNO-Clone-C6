@@ -66,9 +66,9 @@ export default function HomePage() {
     }
   }
 
-  function createGame(e) {
+  function createGame() {
     // e.preventDefault();
-    if (error.length > 0) {
+    if (error.length === 0) {
       try {
         createUserInfo(username);
         setRoom(gameId);
