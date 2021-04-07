@@ -68,6 +68,8 @@ const GamePage = (props) => {
     userInfo,
     room,
   } = useContext(GameContext);
+
+  console.log(playerArray);
   const {
     messages,
     gameData,
@@ -90,20 +92,14 @@ const GamePage = (props) => {
   useEffect(() => {
     sendPlayerData({
       ...gameData,
-      players: [
-        ...gameData.players,
-        (gameData.players[0].hand = [...playerArray[0].hand]),
-      ],
+      players: [...gameData.players],
     });
   }, [gameData, playerArray, sendPlayerData]);
 
   useEffect(() => {
     sendPlayerData({
       ...gameData,
-      players: [
-        ...gameData.players,
-        (gameData.players[1].hand = [playerArray[1].hand]),
-      ],
+      players: [...gameData.players],
     });
   }, [playerArray, gameData, sendPlayerData]);
 
