@@ -36,6 +36,7 @@ const GameBoard = (props) => {
   } = useContext(GameContext);
 
   useEffect(() => {
+    if (!canPlay) return;
     setTimeout(() => {
       setMsg(<Countdown renderer={renderer} date={Date.now() + 3000} />);
       setOpen(true);
@@ -43,7 +44,7 @@ const GameBoard = (props) => {
         drawCard();
       }, 30500);
     }, 2000);
-  }, [canPlay, drawCard, msg]);
+  }, [canPlay, drawCard]);
 
   return (
     <div className="boardContainer">
