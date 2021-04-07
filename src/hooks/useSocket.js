@@ -15,7 +15,7 @@ const useSocket = (room) => {
   });
   useEffect(() => {
     setMessages(() => []);
-    socketRef.current = socketIOClient(SERVER_URL);
+    socketRef.current = socketIOClient(SERVER_URL, { query: { room } });
     socketRef.current.on("leave room", (data) => {
       setMessages((msgs) => [...msgs, data]);
     });

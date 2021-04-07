@@ -51,7 +51,12 @@ export default function HomePage() {
 
   function joinGame(e) {
     // e.preventDefault();
-    if (joinedRoom.length === 8 && username.length > 3 && username.length < 20) {
+    if (
+      joinedRoom.length === 8 &&
+      username.length > 3 &&
+      username.length < 20
+    ) {
+      setRoom(joinedRoom);
       return history.push(`/game/${joinedRoom}`);
     } else {
       setError("Invalid game room id given.");

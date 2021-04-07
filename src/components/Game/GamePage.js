@@ -68,7 +68,7 @@ const GamePage = (props) => {
     userInfo,
     room,
   } = useContext(GameContext);
-
+  console.log(room);
   const {
     messages,
     gameData,
@@ -78,7 +78,6 @@ const GamePage = (props) => {
     joinRoom,
   } = useSocket(room); //placeholder for testing
 
-  console.log(messages);
   useEffect(() => {
     joinRoom(userInfo.username);
   }, [room]);
