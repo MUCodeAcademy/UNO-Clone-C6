@@ -52,9 +52,15 @@ export default function HomePage() {
   const history = useHistory();
   const [error, setError] = useState("");
 
-  function joinGame() {
-    if (gameId.length === 8 && username.length > 3 && username.length < 20) {
-      return history.push(`/game/${gameId}`);
+  function joinGame(e) {
+    // e.preventDefault();
+    if (
+      joinedRoom.length === 8 &&
+      username.length > 3 &&
+      username.length < 20
+    ) {
+      setRoom(joinedRoom);
+      return history.push(`/game/${joinedRoom}`);
     } else {
       setError("Invalid game room id given.");
     }

@@ -3,7 +3,7 @@ import socketIOClient from "socket.io-client";
 
 const SERVER_URL = "http://localhost:3001";
 
-const useSocket = (username, userID, room) => {
+const useSocket = (room) => {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef();
   const [isHostSoc, setIsHostSoc] = useState(false);
@@ -14,22 +14,21 @@ const useSocket = (username, userID, room) => {
     // room: "",
   });
   useEffect(() => {
-    setMessages([]);
-    socketRef.current = socketIOClient(SERVER_URL);
+    setMessages(() => []);
+    socketRef.current = socketIOClient(SERVER_URL, { query: { room } });
     socketRef.current.on("leave room", (data) => {
-      setMessages((newMsgs) => [...newMsgs, data]);
+      setMessages((msgs) => [...msgs, data]);
     });
     socketRef.current.on("message", (data) => {
-      setMessages((newMsgs) => [...newMsgs, data]);
-      console.log([...messages]);
+      setMessages((msgs) => [...msgs, data]);
     });
-    socketRef.current.on("enter room", (data) => {
-      console.log(data);
-      setMessages((newMsgs) => [
-        ...newMsgs,
-        { username: "SYSTEM", body: `${data.username} has entered the Room` },
-      ]);
-    });
+    // socketRef.current.on("enter room", (data) => {
+    //   socketRef.current.emit("message", {
+    //     username: "SYSTEM",
+    //     body: `${data.username} has entered the chat`,
+    //     room: room,
+    //   });
+    // });
 
     if (isHostSoc === true) {
       socketRef.current.on("host data", (data) => {
@@ -45,19 +44,18 @@ const useSocket = (username, userID, room) => {
     socketRef.current.on("update game", (data) => {
       setGameData({ ...data });
     });
-  }, [room]);
+  }, []);
 
-  const sendMessage = useCallback((body) => {
-    console.log(body);
+  const sendMessage = useCallback((body, username) => {
     socketRef.current.emit("message", {
-      username: username,
-      body: body,
-      room: room,
+      username,
+      body,
+      room,
     });
   }, []);
 
-  const joinRoom = useCallback(() => {
-    socketRef.current.emit("join room", { username: username, room: room });
+  const joinRoom = useCallback((username) => {
+    socketRef.current.emit("join room", { username, room });
   }, []);
 
   const sendPlayerData = useCallback((data) => {
@@ -65,6 +63,9 @@ const useSocket = (username, userID, room) => {
   }, []);
 
   return {
+
+    messages,
+    gameData,
     messages: [messages],
     gameData: gameData,
     setGameData,

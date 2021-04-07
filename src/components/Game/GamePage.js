@@ -69,6 +69,7 @@ const GamePage = (props) => {
     room,
     PlayerObject,
   } = useContext(GameContext);
+
   const {
     messages,
     gameData,
@@ -77,10 +78,7 @@ const GamePage = (props) => {
     sendPlayerData,
     sendMessage,
     joinRoom,
-  } = useSocket(userInfo.username, userInfo.userID, room); //placeholder for testing
-
-  console.log(playerArray);
-  console.log(gameData);
+  } = useSocket(room); //placeholder for testing
 
   useEffect(() => {
     let newGuy = new PlayerObject(userInfo.username, userInfo.userID, []);
@@ -90,6 +88,7 @@ const GamePage = (props) => {
 
   useEffect(() => {
     joinRoom(userInfo.username, room);
+
   }, [room]);
 
   useEffect(() => {
@@ -141,7 +140,7 @@ const GamePage = (props) => {
         <Grid className={`${classes.chat} ${classes.section}`}>
           <Chat
             messages={messages}
-            username={props.username}
+            username={userInfo.username}
             sendMessage={sendMessage}
             joinRoom={joinRoom}
           ></Chat>
