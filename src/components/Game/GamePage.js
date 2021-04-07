@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 const GamePage = (props) => {
   const {
     isHostCon,
+    gameActive,
     setGameActive,
     playerArray,
     setPlayerArray,
@@ -94,8 +95,23 @@ const GamePage = (props) => {
   }, [gameData.players]);
 
   useEffect(() => {
-    setGameActive(gameData.gameActive);
-  });
+    if (isHostCon === true) {
+      sendPlayerData({ ...gameData, gameActive: gameActive });
+    } else {
+      setGameActive(gameData.gameActive);
+    }
+  }, [gameActive, sendPlayerData]);
+
+  // useEffect(() => {
+  //   if (
+  //     isHostCon === true &&
+  //     playerArray[1] &&
+  //     playerArray[1].hand.length === 0 &&
+  //     playerArray[0].hand.length > 0
+  //   ) {
+  //     setGameActive(false);
+  //   }
+  // });
 
   useEffect(() => {
     sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
@@ -104,6 +120,13 @@ const GamePage = (props) => {
   useEffect(() => {
     sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
   }, [discardDeck]);
+
+  // THIS IS THE START OF THE GAMEOVER CONDITION //
+  // function gameOver(me) {
+  //   if (gameActive === true && me.hand.length === 0) {
+  //     sendPlayerData({ ...gameData, gameActive: false });
+  //   }
+  // }
 
   console.log(gameData);
 
