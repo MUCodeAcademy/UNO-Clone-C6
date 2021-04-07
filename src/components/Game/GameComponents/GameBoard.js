@@ -35,10 +35,11 @@ const GameBoard = (props) => {
     setColor,
     gameActive,
     setGameActive,
+
     discardDeck,
     setDiscardDeck,
-    // drawDeck,
-    // setDrawDeck
+    
+    userInfo,
   } = useContext(GameContext);
 
   useEffect(() => {
