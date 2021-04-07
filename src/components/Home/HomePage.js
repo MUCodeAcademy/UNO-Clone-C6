@@ -62,12 +62,10 @@ export default function HomePage() {
     // e.preventDefault();
     try {
       createUserInfo(username);
-      history.push(`/game/${gameId}`);
       setRoom(gameId);
       setIsHostCon(true);
-      console.log(userInfo);
+      history.push(`/game/${gameId}`);
     } catch (error) {
-      console.log();
       setError("Unable to create game.");
     }
   }

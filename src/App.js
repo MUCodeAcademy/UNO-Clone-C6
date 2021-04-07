@@ -48,15 +48,15 @@ function App() {
           />
           <ProtectedRoutes
             currentUser={currentUser}
-            path="/"
-            authRequired={true}
-            component={HomePage}
-          />
-          <ProtectedRoutes
-            currentUser={currentUser}
             path="/game/:gameId"
             authRequired={true}
             component={GamePage}
+          />
+          <ProtectedRoutes
+            currentUser={currentUser}
+            path="/home"
+            authRequired={true}
+            component={HomePage}
           />
         </Switch>
         <Route path="*">
