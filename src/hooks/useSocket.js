@@ -13,18 +13,14 @@ const useSocket = (room) => {
     players: [],
     // room: "",
   });
-  console.log(messages);
   useEffect(() => {
-    console.log;
-    setMessages([]);
+    setMessages(() => []);
     socketRef.current = socketIOClient(SERVER_URL);
     socketRef.current.on("leave room", (data) => {
-      let newMsgs = [...messages, data];
-      setMessages(newMsgs);
+      setMessages((msgs) => [...msgs, data]);
     });
     socketRef.current.on("message", (data) => {
-      let newMsgs = [...messages, data];
-      setMessages(newMsgs);
+      setMessages((msgs) => [...msgs, data]);
     });
     socketRef.current.on("enter room", (data) => {
       socketRef.current.emit("message", {
