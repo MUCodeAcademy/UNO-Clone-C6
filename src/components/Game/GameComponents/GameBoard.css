@@ -128,3 +128,6 @@ height: 178px; */
   background-origin: padding-box;
   background-size: cover;
 }
+h1{
+  margin: auto;
+}

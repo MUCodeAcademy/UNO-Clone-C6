@@ -16,6 +16,9 @@ const GameBoard = (props) => {
   const [msg, setMsg] = useState("");
   const [drawnCard, setDrawnCard] = useState(false);
   const [open, setOpen] = useState(false);
+  const [discardDeck,setDiscardDeck] = useState([ { value: 2, color: "yellow", points: 2 },])
+  const [color,setColor] = useState(discardDeck[0].color)
+  
   // const [wildCard, setWildCard] = useState(true)
   const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -32,12 +35,12 @@ const GameBoard = (props) => {
     startGame,
     quitGame,
     regularTurn,
-    setColor,
+    // setColor,
     gameActive,
     setGameActive,
 
-    discardDeck,
-    setDiscardDeck,
+    // discardDeck,
+    // setDiscardDeck,
     
     userInfo,
   } = useContext(GameContext);
@@ -94,11 +97,10 @@ const GameBoard = (props) => {
         </div>
 
         <div className="discardContainer">
-          <div style={{ backgroundColor: "white" }} className={`discard`}></div>
-          {/* NEED TO DISPLAY THE TOP CARD OF THE DISCARD DECK (VALUE, COLOR, POINTS) */}
+          <div style={{ backgroundColor:  color  }} className={`discard`}><h1>{discardDeck[0].value}</h1></div>
         </div>
 
-        <div className="conditionContainer">
+        <div className="conditionalContainer">
           {isHostCon !== false && gameActive !== true && (
             <div className="startDiv">
               <div
@@ -132,7 +134,7 @@ const GameBoard = (props) => {
             </Button>
           )}
 
-          {/* { discardDeck[0].value.includes("Wild") !== false && ( */}
+          {`${discardDeck[0].value}`.includes("Wild") !== false && (
           <div className="color-area">
             <div
               className="color-box"
@@ -155,7 +157,7 @@ const GameBoard = (props) => {
               onClick={() => setColor("yellow")}
             ></div>
           </div>
-          {/* )} */}
+           )} 
         </div>
       </div>
 
