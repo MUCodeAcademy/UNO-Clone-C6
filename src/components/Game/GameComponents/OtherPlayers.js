@@ -31,13 +31,16 @@ const useStyles = makeStyles((theme) => ({
 const OtherPlayers = () => {
   // Expecting a array of players, array is of objects containing username and array of cards in hand
   const classes = useStyles();
-  const { playerArray } = useContext(GameContext);
+  const { playerArray, userInfo } = useContext(GameContext);
   return (
     <Box className={classes.root}>
       {playerArray[0] &&
-        playerArray[0].hand &&
-        playerArray[0].hand.length > 0 &&
+        playerArray[0].playerHand &&
+        playerArray[0].playerHand.length > 0 &&
         playerArray.map((m, idx) => {
+          if (userInfo.username === m.username) {
+            return;
+          }
           //this may need to be changed since we are mapping an array of objects
           return (
             <Box key={idx} className={classes.opponentHand}>
@@ -47,7 +50,8 @@ const OtherPlayers = () => {
               </div>
               {/* Card is a placeholder for when we get a back of card finalized */}
               <div className={classes.text}>
-                {m.hand.length} {m.hand.length === 1 ? "card" : "cards"}
+                {m.playerHand.length}{" "}
+                {m.playerHand.length === 1 ? "card" : "cards"}
               </div>
             </Box>
           );
