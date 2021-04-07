@@ -256,6 +256,7 @@ export function GameProvider({ children }) {
     setUserInfo,
     room,
     setRoom,
+    PlayerObject,
     createUserInfo,
     deal,
     startGame,

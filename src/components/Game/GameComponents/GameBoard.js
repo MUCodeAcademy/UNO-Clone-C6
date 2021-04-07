@@ -33,6 +33,7 @@ const GameBoard = (props) => {
     setColor,
     gameActive,
     setGameActive,
+    userInfo,
   } = useContext(GameContext);
 
   useEffect(() => {
