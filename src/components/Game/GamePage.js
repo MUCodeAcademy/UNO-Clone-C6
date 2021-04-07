@@ -85,7 +85,7 @@ const GamePage = (props) => {
   useEffect(() => {
     let newGuy = new PlayerObject(userInfo.username, userInfo.userID, []);
     let newPlayerArray = [...playerArray, newGuy];
-    setGameData({ ...gameData, players: [newPlayerArray] });
+    setGameData({ ...gameData, players: newPlayerArray });
   }, []);
 
   useEffect(() => {
