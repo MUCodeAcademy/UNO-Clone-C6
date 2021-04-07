@@ -21,13 +21,14 @@ const useSocket = (room, isHost) => {
     socketRef.current.on("message", (data) => {
       setMessages((msgs) => [...msgs, data]);
     });
-    // socketRef.current.on("enter room", (data) => {
-    //   socketRef.current.emit("message", {
-    //     username: "SYSTEM",
-    //     body: `${data.username} has entered the chat`,
-    //     room: room,
-    //   });
-    // });
+
+    socketRef.current.on("enter room", (data) => {
+      console.log(data)
+      socketRef.current.emit("send enter room to host", {...data})
+      // let newPlayers = [...gameData.players, {...data}]
+      // sendPlayerData((ply) => {return{...ply, players: [...ply.players, data]}})
+      // console.log(gameData.players)
+    });
 
     if (isHostSoc === true) {
       socketRef.current.on("host data", (data) => {
@@ -35,9 +36,18 @@ const useSocket = (room, isHost) => {
         socketRef.current.emit("host data send", { ...gameData });
       });
 
-      socketRef.current.on("enter room", (data) => {
-        sendPlayerData({ ...gameData, players: [...gameData.players, data] });
-      });
+      socketRef.current.on("send enter room to host", (data) =>{
+        setGameData({...gameData, players:[...gameData.players, data]})
+        console.log(gameData.players)
+        socketRef.current.emit("host data send", {...gameData})
+      })
+      // socketRef.current.on("enter room", (data) => {
+      //   console.log(data)
+      //   socketRef.current.emit("send enter room to host", {...data})
+      //   // let newPlayers = [...gameData.players, {...data}]
+      //   // sendPlayerData((ply) => {return{...ply, players: [...ply.players, data]}})
+      //   // console.log(gameData.players)
+      // });
     } else {
       socketRef.current.on("update game", (data) => {
         setGameData({ ...data });
