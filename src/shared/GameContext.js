@@ -260,6 +260,7 @@ export function GameProvider({ children }) {
     createUserInfo,
     deal,
     startGame,
+    setColor,
     drawCard,
     playCard,
     quitGame,
