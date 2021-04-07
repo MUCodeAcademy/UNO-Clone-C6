@@ -67,6 +67,7 @@ const useSocket = (username, userID, room) => {
   return {
     messages: [messages],
     gameData: gameData,
+    setGameData,
     sendMessage,
     joinRoom,
     sendPlayerData,
