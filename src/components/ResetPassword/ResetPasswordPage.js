@@ -1,16 +1,18 @@
 import React, { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { UserContext } from "../../shared/UserContext";
-import Button from "@material-ui/core/Button";
+import {
+  Button,
+  TextField,
+  CssBaseline,
+  Link,
+  Box,
+  Grid,
+  Typography,
+  makeStyles,
+  Container,
+} from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -60,8 +62,8 @@ export default function ResetPasswordPage() {
     setLoading(false);
   }
   return (
-    <>
-      <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="xs">
+      <Box borderRadius={25} p={2} border={1} borderColor="#000">
         <CssBaseline />
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">
@@ -110,7 +112,7 @@ export default function ResetPasswordPage() {
           </form>
         </div>
         <Box mt={5}></Box>
-      </Container>
-    </>
+      </Box>
+    </Container>
   );
 }

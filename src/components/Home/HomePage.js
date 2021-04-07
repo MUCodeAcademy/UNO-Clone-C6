@@ -6,6 +6,8 @@ import {
   Paper,
   TextField,
   FormControl,
+  Container,
+  Box,
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { GameContext } from "../../shared/GameContext";
@@ -15,8 +17,14 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       margin: theme.spacing(2),
-      width: "25ch",
+      // width: "65ch",
+      maxWidth: "65ch",
+      minWidth: "25ch",
+      marginLeft: 0,
+      marginRight: 0,
     },
+    paddingLeft: 0,
+    paddingRight: 0,
     flexGrow: 1,
   },
   paper: {
@@ -60,13 +68,15 @@ export default function HomePage() {
 
   function createGame(e) {
     // e.preventDefault();
-    try {
-      createUserInfo(username);
-      setRoom(gameId);
-      setIsHostCon(true);
-      history.push(`/game/${gameId}`);
-    } catch (error) {
-      setError("Unable to create game.");
+    if (error.length > 0) {
+      try {
+        createUserInfo(username);
+        setRoom(gameId);
+        setIsHostCon(true);
+        history.push(`/game/${gameId}`);
+      } catch (error) {
+        setError("Unable to create game.");
+      }
     }
   }
 
@@ -84,94 +94,102 @@ export default function HomePage() {
   }
 
   return (
-    <>
-      <FormControl noValidate autoComplete="off">
-        <div className={classes.root}>
-          <Grid
-            container
-            alignItems="center"
-            direction="row"
-            spacing={1}
-            justify="center"
-          >
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>Username:</Paper>
-            </Grid>
-            <TextField
-              className={classes.TextField}
-              error={error.length > 0}
-              id="outlined-basic1"
-              label={`Unique username`}
-              variant="outlined"
-              helperText={
-                username.length < 3 ? "Must be greater than 3 characters" : ""
-              }
-              onChange={(e) => {
-                e.preventDefault();
-                setUsername(e.target.value);
-              }}
-            />
-          </Grid>
-          {error && <Alert severity="error">{error}</Alert>}
-          <Grid
-            container
-            alignItems="center"
-            direction="row"
-            spacing={1}
-            justify="center"
-          >
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>Join game:</Paper>
-            </Grid>
-            <TextField
-              className={classes.TextField}
-              id="outlined-basic"
-              label={`ID for room to join`}
-              variant="outlined"
-              defaultValue={joinedRoom}
-              onChange={(e) => {
-                e.preventDefault();
-                setJoinedRoom(e.target.value);
-              }}
-            />
-
-            <Button
-              onClick={() => {
-                handleUnique();
-                joinGame();
-              }}
-              variant="contained"
-              color="primary"
+    <Container component="main" maxWidth="sm">
+      <Box borderRadius={25} p={2} border={1} borderColor="#000">
+        <FormControl noValidate autoComplete="off">
+          <div className={classes.root}>
+            <Grid
+              container
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              justify="center"
             >
-              Join Game
-            </Button>
-          </Grid>
-          <Grid
-            container
-            alignItems="center"
-            direction="row"
-            spacing={1}
-            justify="center"
-          >
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>Create new game:</Paper>
+              {/* <h2>Create a Username and Game or Join a Game</h2> */}
+              <Grid item sm={12}>
+                <Paper className={classes.paper}>
+                  <h2>Create a Username and Game or Join a Game</h2>
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>Username:</Paper>
+              </Grid>
+              <TextField
+                className={classes.TextField}
+                error={error.length > 0}
+                id="outlined-basic1"
+                label={`Unique username`}
+                variant="outlined"
+                autoFocus
+                helperText={
+                  username.length < 3 ? "Must be greater than 3 characters" : ""
+                }
+                onChange={(e) => {
+                  e.preventDefault();
+                  setUsername(e.target.value);
+                }}
+              />
             </Grid>
-            <Grid item xs={4} sm={4}>
-              <Paper className={classes.paper}>Game ID: {gameId}</Paper>
-            </Grid>
-            <Button
-              onClick={() => {
-                handleUnique();
-                createGame(gameId);
-              }}
-              variant="contained"
-              color="primary"
+            {error && <Alert severity="error">{error}</Alert>}
+            <Grid
+              container
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              justify="center"
             >
-              Create Game
-            </Button>
-          </Grid>
-        </div>
-      </FormControl>
-    </>
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>Join game:</Paper>
+              </Grid>
+              <TextField
+                className={classes.TextField}
+                id="outlined-basic"
+                label={`ID for room to join`}
+                variant="outlined"
+                defaultValue={joinedRoom}
+                onChange={(e) => {
+                  e.preventDefault();
+                  setJoinedRoom(e.target.value);
+                }}
+              />
+              <Button
+                onClick={() => {
+                  handleUnique();
+                  joinGame();
+                }}
+                variant="contained"
+                color="primary"
+              >
+                Join Game
+              </Button>
+            </Grid>
+            <Grid
+              container
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              justify="center"
+            >
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>Create new game:</Paper>
+              </Grid>
+              <Grid item xs={4} sm={4}>
+                <Paper className={classes.paper}>Game ID: {gameId}</Paper>
+              </Grid>
+              <Button
+                onClick={() => {
+                  handleUnique();
+                  createGame(gameId);
+                }}
+                variant="contained"
+                color="primary"
+              >
+                Create Game
+              </Button>
+            </Grid>
+          </div>
+        </FormControl>
+      </Box>
+    </Container>
   );
 }
