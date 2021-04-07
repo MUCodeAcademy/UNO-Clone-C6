@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 const GamePage = (props) => {
   const {
     isHostCon,
+    setGameActive,
     playerArray,
     setPlayerArray,
     drawDeck,
@@ -91,6 +92,10 @@ const GamePage = (props) => {
   useEffect(() => {
     setPlayerArray([...gameData.players]);
   }, [gameData.players]);
+
+  useEffect(() => {
+    setGameActive(gameData.gameActive);
+  });
 
   console.log(gameData);
   useEffect(() => {
