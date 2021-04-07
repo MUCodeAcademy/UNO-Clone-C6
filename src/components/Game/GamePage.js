@@ -77,6 +77,10 @@ const GamePage = (props) => {
     joinRoom,
   } = useSocket(userInfo.username, userInfo.userID, room); //placeholder for testing
 
+  useEffect(()=>{
+    joinRoom(userInfo.username, room)
+  },[room])
+
   useEffect(() => {
     if (isHostCon === true) {
       setIsHostSoc(true);
