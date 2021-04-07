@@ -17,10 +17,40 @@ export function GameProvider({ children }) {
   const history = useHistory();
   const { loading } = useContext(UserContext);
 
+  useEffect(() => {
+    if (playerArray[0] && playerArray[0].userID === userInfo.userID) {
+      setCanPlay(true);
+    } else {
+      setCanPlay(false);
+      console.log("IT'S YOUR TURN");
+    }
+  }, [playerArray, setCanPlay]);
+
+  useEffect(() => {
+    if (gameActive === true && drawDeck === []) {
+      let move = shuffleDeck([...discardDeck]);
+      setDrawDeck(move);
+      setDiscardDeck([]);
+      console.log("End of draw deck reached, cards shuffled and replaced.");
+    }
+  });
+
+  useEffect(() => {
+    if (playerArray[1] && playerArray[1].hand === []) {
+      setGameActive(false);
+    }
+  }, [playerArray]);
+
   function PlayerObject(username, userID, hand) {
     this.username = username;
     this.userID = userID;
     this.hand = hand;
+  }
+
+  function WildCard(value, color, points) {
+    this.value = value;
+    this.color = color;
+    this.points = points;
   }
 
   function createUserInfo(providedName) {
@@ -29,21 +59,6 @@ export function GameProvider({ children }) {
       Math.random().toString(36).substring(2, 6);
     setUserInfo({ username: providedName, userID: ID });
   }
-
-  useEffect(() => {
-    if (playerArray[0] && playerArray[0].userID === userInfo.userID) {
-      setCanPlay(true);
-    } else {
-      setCanPlay(false);
-      console.log("IT'S YOUR TURN");
-    }
-  }, [playerArray]);
-
-  useEffect(() => {
-    if (playerArray[1] && playerArray[1].hand === []) {
-      setGameActive(false);
-    }
-  }, [playerArray]);
 
   function oneShuffle(toShuffle) {
     let pre = [...toShuffle];
@@ -69,12 +84,6 @@ export function GameProvider({ children }) {
     return shuffled;
   }
 
-  function WildCard(value, color, points) {
-    this.value = value;
-    this.color = color;
-    this.points = points;
-  }
-
   function deal() {
     let shuffled = shuffleDeck(deck);
     let newPlayerArray = [...playerArray];
@@ -94,7 +103,7 @@ export function GameProvider({ children }) {
     let discard = [...discardDeck];
     discard.push(draw.shift());
     setDiscardDeck(discard);
-    console.log(playerArray);
+    console.log("Player array", playerArray);
   }
 
   function startGame() {
@@ -258,8 +267,8 @@ export function GameProvider({ children }) {
     setRoom,
     PlayerObject,
     createUserInfo,
-    deal,
     startGame,
+    setColor,
     drawCard,
     playCard,
     quitGame,
