@@ -34,7 +34,9 @@ const OtherPlayers = () => {
   const { playerArray } = useContext(GameContext);
   return (
     <Box className={classes.root}>
-      {playerArray.length > 0 &&
+      {playerArray[0] &&
+        playerArray[0].hand &&
+        playerArray[0].hand.length > 0 &&
         playerArray.map((m, idx) => {
           //this may need to be changed since we are mapping an array of objects
           return (

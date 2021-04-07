@@ -3,32 +3,35 @@ import {
   Button,
   Grid,
   makeStyles,
-  Paper,
   TextField,
-  FormControl,
+  Container,
+  Box,
+  CssBaseline,
+  Typography,
 } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 import { GameContext } from "../../shared/GameContext";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(2),
-      width: "25ch",
-    },
-    flexGrow: 1,
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(3),
   },
   paper: {
-    padding: theme.spacing(1),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
+    marginTop: theme.spacing(4),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   testErr: {
     color: "red",
   },
-  TextField: {
-    margin: theme.spacing(1),
+  join: {
+    marginTop: theme.spacing(2),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
   },
 }));
 
@@ -40,7 +43,7 @@ export default function HomePage() {
     Math.random().toString(36).substring(2, 4) +
       Math.random().toString(36).substring(2, 8)
   );
-  const [joinedRoom, setJoinedRoom] = useState();
+  const [joinedRoom, setJoinedRoom] = useState("");
   const { setIsHostCon, createUserInfo, setRoom, userInfo } = useContext(
     GameContext
   );
@@ -63,20 +66,20 @@ export default function HomePage() {
     }
   }
 
-  function createGame(e) {
-    // e.preventDefault();
-    try {
-      createUserInfo(username);
-      setRoom(gameId);
-      setIsHostCon(true);
-      history.push(`/game/${gameId}`);
-    } catch (error) {
-      setError("Unable to create game.");
+  function createGame() {
+    if (error.length === 0) {
+      try {
+        createUserInfo(username);
+        setRoom(gameId);
+        setIsHostCon(true);
+        history.push(`/game/${gameId}`);
+      } catch (error) {
+        setError("Unable to create game.");
+      }
     }
   }
 
-  function handleUnique(e) {
-    // e.preventDefault();
+  function handleUnique() {
     if (username.length < 3 || username.length > 20) {
       return setError("Invalid username, must be between 3 and 20 characters.");
     }
@@ -89,86 +92,85 @@ export default function HomePage() {
   }
 
   return (
-    <>
-      <FormControl noValidate autoComplete="off">
-        <div className={classes.root}>
-          <Grid
-            container
-            alignItems="center"
-            direction="row"
-            spacing={1}
-            justify="center"
-          >
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>Username:</Paper>
-            </Grid>
-            <TextField
-              className={classes.TextField}
-              error={error.length > 0}
-              id="outlined-basic1"
-              label={`Unique username`}
-              variant="outlined"
-              helperText={
-                username.length < 3 ? "Must be greater than 3 characters" : ""
-              }
-              onChange={(e) => {
-                e.preventDefault();
-                setUsername(e.target.value);
-              }}
-            />
-          </Grid>
+    <Container component="main" maxWidth="sm">
+      <Box borderRadius={25} p={2} border={1} borderColor="#000">
+        <CssBaseline />
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Username
+          </Typography>
           {error && <Alert severity="error">{error}</Alert>}
-          <Grid
-            container
-            alignItems="center"
-            direction="row"
-            spacing={1}
-            justify="center"
-          >
+          <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Paper className={classes.paper}>Join game:</Paper>
+              <TextField
+                variant="outlined"
+                error={error.length > 0}
+                label="Unique username"
+                fullWidth
+                required
+                name="username"
+                autoComplete="username"
+                helperText={
+                  username.length < 3 ? "Must be greater than 3 characters" : ""
+                }
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+                value={username}
+              />
             </Grid>
-            <TextField
-              className={classes.TextField}
-              id="outlined-basic"
-              label={`ID for room to join`}
-              variant="outlined"
-              defaultValue={joinedRoom}
-              onChange={(e) => {
-                e.preventDefault();
-                setJoinedRoom(e.target.value);
-              }}
-            />
-
+          </Grid>
+        </div>
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            Game ID to Join
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                name="joined-room"
+                label="Room to Join"
+                variant="outlined"
+                value={joinedRoom}
+                onChange={(e) => {
+                  setJoinedRoom(e.target.value);
+                }}
+              />
+            </Grid>
             <Button
+              fullWidth
+              type="submit"
               onClick={() => {
                 handleUnique();
                 joinGame();
               }}
+              disabled={
+                joinedRoom.length !== 8 ||
+                username.length < 3 ||
+                username.length > 20
+              }
               variant="contained"
               color="primary"
             >
               Join Game
             </Button>
           </Grid>
-          <Grid
-            container
-            alignItems="center"
-            direction="row"
-            spacing={1}
-            justify="center"
-          >
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>Create new game:</Paper>
-            </Grid>
-            <Grid item xs={4} sm={4}>
-              <Paper className={classes.paper}>Game ID: {gameId}</Paper>
-            </Grid>
+        </div>
+        <div className={classes.paper}>
+          <Typography component="h1" variant="h5">
+            New Game ID: {gameId}
+          </Typography>
+          <Grid container spacing={2}>
             <Button
+              fullWidth
+              className={classes.join}
+              type="submit"
               onClick={() => {
                 handleUnique();
                 createGame(gameId);
               }}
+              disabled={username.length < 3 || username.length > 20}
               variant="contained"
               color="primary"
             >
@@ -176,7 +178,7 @@ export default function HomePage() {
             </Button>
           </Grid>
         </div>
-      </FormControl>
-    </>
+      </Box>
+    </Container>
   );
 }

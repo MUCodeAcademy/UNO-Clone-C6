@@ -63,8 +63,12 @@ const useSocket = (room) => {
   }, []);
 
   return {
+
     messages,
     gameData,
+    messages: [messages],
+    gameData: gameData,
+    setGameData,
     sendMessage,
     joinRoom,
     sendPlayerData,

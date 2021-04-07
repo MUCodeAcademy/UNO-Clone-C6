@@ -67,19 +67,28 @@ const GamePage = (props) => {
     discardDeck,
     userInfo,
     room,
+    PlayerObject,
   } = useContext(GameContext);
-  console.log(room);
+
   const {
     messages,
     gameData,
     setIsHostSoc,
+    setGameData,
     sendPlayerData,
     sendMessage,
     joinRoom,
   } = useSocket(room); //placeholder for testing
 
   useEffect(() => {
-    joinRoom(userInfo.username);
+    let newGuy = new PlayerObject(userInfo.username, userInfo.userID, []);
+    let newPlayerArray = [...playerArray, newGuy];
+    setGameData({ ...gameData, players: newPlayerArray });
+  }, [userInfo, setGameData]);
+
+  useEffect(() => {
+    joinRoom(userInfo.username, room);
+
   }, [room]);
 
   useEffect(() => {
@@ -142,7 +151,16 @@ const GamePage = (props) => {
           <OtherPlayers />
         </Grid>
         <Grid className={`${classes.gameBoard} ${classes.section}`}>
-          <GameBoard />
+          <GameBoard>
+            <button
+              onClick={() => {
+                console.log(playerArray);
+                console.log(gameData.players);
+              }}
+            >
+              PlayerArray and GameData.players
+            </button>
+          </GameBoard>
         </Grid>
         <Grid className={`${classes.playerHand} ${classes.section}`}>
           <PlayerHand />
