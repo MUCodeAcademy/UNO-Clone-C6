@@ -73,59 +73,33 @@ const GamePage = (props) => {
   const {
     messages,
     gameData,
-    setIsHostSoc,
-    setGameData,
     sendPlayerData,
     sendMessage,
     joinRoom,
-  } = useSocket(room); //placeholder for testing
-
+  } = useSocket(room, isHostCon); //placeholder for testing
   useEffect(() => {
     let newGuy = new PlayerObject(userInfo.username, userInfo.userID, []);
     let newPlayerArray = [...playerArray, newGuy];
-    setGameData({ ...gameData, players: newPlayerArray });
-  }, [userInfo, setGameData]);
+    sendPlayerData({ ...gameData, players: newPlayerArray });
+    console.log(gameData);
+  }, [userInfo]);
 
   useEffect(() => {
     joinRoom(userInfo.username, room);
-
   }, [room]);
 
   useEffect(() => {
-    if (isHostCon === true) {
-      setIsHostSoc(true);
-    }
-  }, [isHostCon, setIsHostSoc]);
-
-  useEffect(() => {
     setPlayerArray([...gameData.players]);
-  }, [gameData.players, setPlayerArray]);
+  }, [gameData.players]);
 
-  useEffect(() => {
-    sendPlayerData({
-      ...gameData,
-      players: [...gameData.players],
-    });
-  }, [gameData, playerArray, sendPlayerData]);
-
-  useEffect(() => {
-    sendPlayerData({
-      ...gameData,
-      players: [...gameData.players],
-    });
-  }, [playerArray, gameData, sendPlayerData]);
-
-  useEffect(() => {
-    sendPlayerData({ ...gameData, players: [...playerArray] });
-  }, [playerArray, gameData, sendPlayerData]);
-
+  console.log(gameData);
   useEffect(() => {
     sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
-  }, [drawDeck, sendPlayerData, gameData]);
+  }, [drawDeck]);
 
   useEffect(() => {
     sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
-  });
+  }, [discardDeck]);
 
   const classes = useStyles();
   // useEffect(() => {

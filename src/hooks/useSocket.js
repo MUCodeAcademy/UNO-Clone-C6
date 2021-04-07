@@ -3,15 +3,14 @@ import socketIOClient from "socket.io-client";
 
 const SERVER_URL = "http://localhost:3001";
 
-const useSocket = (room) => {
+const useSocket = (room, isHost) => {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef();
-  const [isHostSoc, setIsHostSoc] = useState(false);
+  const [isHostSoc] = useState(isHost);
   const [gameData, setGameData] = useState({
     drawDeck: [],
     discardDeck: [],
     players: [],
-    // room: "",
   });
   useEffect(() => {
     setMessages(() => []);
@@ -39,11 +38,11 @@ const useSocket = (room) => {
       socketRef.current.on("enter room", (data) => {
         sendPlayerData({ ...gameData, players: [...gameData.players, data] });
       });
+    } else {
+      socketRef.current.on("update game", (data) => {
+        setGameData({ ...data });
+      });
     }
-
-    socketRef.current.on("update game", (data) => {
-      setGameData({ ...data });
-    });
   }, []);
 
   const sendMessage = useCallback((body, username) => {
@@ -63,16 +62,11 @@ const useSocket = (room) => {
   }, []);
 
   return {
-
     messages,
     gameData,
-    messages: [messages],
-    gameData: gameData,
-    setGameData,
     sendMessage,
     joinRoom,
     sendPlayerData,
-    setIsHostSoc,
   };
 };
 
