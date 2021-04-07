@@ -86,7 +86,7 @@ const GamePage = (props) => {
     let newGuy = new PlayerObject(userInfo.username, userInfo.userID, []);
     let newPlayerArray = [...playerArray, newGuy];
     setGameData({ ...gameData, players: newPlayerArray });
-  }, [gameData.players, setGameData]);
+  }, [userInfo, setGameData]);
 
   useEffect(() => {
     joinRoom(userInfo.username, room);
