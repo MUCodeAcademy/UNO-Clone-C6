@@ -20,15 +20,17 @@ const useSocket = (username, userID, room) => {
       setMessages((newMsgs) => [...newMsgs, data]);
     });
     socketRef.current.on("message", (data) => {
+      console.log(data)
       setMessages((newMsgs) => [...newMsgs, data]);
-      console.log([...messages]);
+      console.log(messages);
     });
     socketRef.current.on("enter room", (data) => {
       console.log(data);
-      setMessages((newMsgs) => [
-        ...newMsgs,
-        { username: "SYSTEM", body: `${data.username} has entered the Room` },
-      ]);
+      socketRef.current.emit("message", {
+        username: "SYSTEM",
+        body: `${data.username} has entered the chat`,
+        room: room,
+      });
     });
 
     if (isHostSoc === true) {

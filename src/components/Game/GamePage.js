@@ -132,7 +132,7 @@ const GamePage = (props) => {
         <Grid className={`${classes.chat} ${classes.section}`}>
           <Chat
             messages={messages}
-            username={props.username}
+            username={userInfo.username}
             sendMessage={sendMessage}
             joinRoom={joinRoom}
           ></Chat>
