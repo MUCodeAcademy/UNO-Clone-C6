@@ -88,7 +88,7 @@ const AppMenu = () => {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose} component={NavLink} to="/">
+              <MenuItem onClick={handleClose} component={NavLink} to="/home">
                 <ListItemIcon>
                   <HomeIcon fontSize="small" />
                   <div className={classes.iconText}>Home</div>
