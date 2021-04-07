@@ -22,13 +22,13 @@ const useSocket = (room) => {
     socketRef.current.on("message", (data) => {
       setMessages((msgs) => [...msgs, data]);
     });
-    socketRef.current.on("enter room", (data) => {
-      socketRef.current.emit("message", {
-        username: "SYSTEM",
-        body: `${data.username} has entered the chat`,
-        room: room,
-      });
-    });
+    // socketRef.current.on("enter room", (data) => {
+    //   socketRef.current.emit("message", {
+    //     username: "SYSTEM",
+    //     body: `${data.username} has entered the chat`,
+    //     room: room,
+    //   });
+    // });
 
     if (isHostSoc === true) {
       socketRef.current.on("host data", (data) => {
