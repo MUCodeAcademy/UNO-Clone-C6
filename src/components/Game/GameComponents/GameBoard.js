@@ -159,7 +159,6 @@ const GameBoard = (props) => {
             Quit Game
           </Button>
         )}
-        <div>{msg}</div>
       </div>
     </div>
   );
