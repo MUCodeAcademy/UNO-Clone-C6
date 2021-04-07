@@ -122,7 +122,7 @@ const GamePage = (props) => {
   const classes = useStyles();
   useEffect(() => {
     joinRoom(props.room);
-  }, []);
+  }, [props.room, joinRoom]);
   return (
     <Grid container spacing={2} className={classes.gamePage}>
       <Grid xs={3} item className={classes.sectionContainer}>

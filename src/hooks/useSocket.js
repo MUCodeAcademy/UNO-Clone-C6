@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import socketIOClient from "socket.io-client";
 
 const SERVER_URL = "http://localhost:3001";
@@ -47,22 +47,22 @@ const useSocket = (username, userID, room) => {
     });
   }, [room]);
 
-  function sendMessage(body) {
+  const sendMessage = useCallback((body) => {
     console.log(body);
     socketRef.current.emit("message", {
       username: username,
       body: body,
       room: room,
     });
-  }
+  }, []);
 
-  function joinRoom() {
+  const joinRoom = useCallback(() => {
     socketRef.current.emit("join room", { username: username, room: room });
-  }
+  }, []);
 
-  function sendPlayerData(data) {
+  const sendPlayerData = useCallback((data) => {
     socketRef.current.emit("send player data", { ...data });
-  }
+  }, []);
 
   return {
     messages: [messages],

@@ -36,34 +36,27 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 export default function HomePage() {
-  const [gameId, setGameId] = useState(
+  const [gameId] = useState(
     Math.random().toString(36).substring(2, 4) +
       Math.random().toString(36).substring(2, 8)
   );
   const [joinedRoom, setJoinedRoom] = useState();
-  const { setIsHost, createUserInfo, setRoom, userInfo } = useContext(
+  const { setIsHostCon, createUserInfo, setRoom, userInfo } = useContext(
     GameContext
   );
   const [username, setUsername] = useState("");
   const classes = useStyles();
   const history = useHistory();
-  const [error, setError] = useState();
+  const [error, setError] = useState("");
 
   function joinGame(e) {
     // e.preventDefault();
     if (gameId.length === 8 && username.length > 3 && username.length < 20) {
       return history.push(`/game/${gameId}`);
     } else {
-      return "Invalid data given";
+      setError("Invalid game room id given.");
     }
   }
-
-  // function createGameID() {
-  //   let id =
-  //     Math.random().toString(36).substring(2, 4) +
-  //     Math.random().toString(36).substring(2, 8);
-  //   setGameId(id);
-  // }
 
   function createGame(e) {
     // e.preventDefault();
@@ -71,7 +64,7 @@ export default function HomePage() {
       createUserInfo(username);
       history.push(`/game/${gameId}`);
       setRoom(gameId);
-      setIsHost(true);
+      setIsHostCon(true);
       console.log(userInfo);
     } catch (error) {
       console.log();
@@ -108,7 +101,7 @@ export default function HomePage() {
             </Grid>
             <TextField
               className={classes.TextField}
-              error={error}
+              error={error.length > 0}
               id="outlined-basic1"
               label={`Unique username`}
               variant="outlined"

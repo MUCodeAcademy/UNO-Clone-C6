@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import deck from "./deck";
 import { UserContext } from "../shared/UserContext";
@@ -23,12 +23,12 @@ export function GameProvider({ children }) {
     this.hand = hand;
   }
 
-  function createUserInfo(providedName) {
+  const createUserInfo = useCallback((providedName) => {
     let ID =
       Math.random().toString(36).substring(2, 4) +
       Math.random().toString(36).substring(2, 6);
     setUserInfo({ username: providedName, userID: ID });
-  }
+  }, []);
 
   useEffect(() => {
     if (playerArray[0] && playerArray[0].userID === userInfo.userID) {
@@ -45,7 +45,7 @@ export function GameProvider({ children }) {
     }
   }, [playerArray]);
 
-  function oneShuffle(toShuffle) {
+  const oneShuffle = useCallback((toShuffle) => {
     let pre = [...toShuffle];
     let post = [];
     for (let i = 0; i <= pre.length; i++) {
@@ -58,16 +58,16 @@ export function GameProvider({ children }) {
     }
     let ult = pen.filter((x) => x !== undefined);
     return ult;
-  }
+  }, []);
 
-  function shuffleDeck(toBeShuffled) {
+  const shuffleDeck = useCallback((toBeShuffled) => {
     let shuffled = oneShuffle(
       oneShuffle(
         oneShuffle(oneShuffle(oneShuffle(oneShuffle(oneShuffle(toBeShuffled)))))
       )
     );
     return shuffled;
-  }
+  }, []);
 
   function WildCard(value, color, points) {
     this.value = value;
@@ -75,7 +75,7 @@ export function GameProvider({ children }) {
     this.points = points;
   }
 
-  function deal() {
+  const deal = useCallback(() => {
     let shuffled = shuffleDeck(deck);
     let newPlayerArray = [...playerArray];
     for (let i = 0; i < newPlayerArray.length; i++) {
@@ -95,34 +95,34 @@ export function GameProvider({ children }) {
     discard.push(draw.shift());
     setDiscardDeck(discard);
     console.log(playerArray);
-  }
+  }, []);
 
-  function startGame() {
+  const startGame = useCallback(() => {
     setGameActive(true);
     deal();
-  }
+  }, []);
 
-  function regularTurn() {
+  const regularTurn = useCallback(() => {
     let players = [...playerArray];
     let justPlayed = players.shift();
     let newOrder = [...players, justPlayed];
     setPlayerArray(newOrder);
-  }
+  }, []);
 
-  function reverseCard() {
+  const reverseCard = useCallback(() => {
     let currentOrder = [...playerArray];
     setPlayerArray(currentOrder.reverse());
-  }
+  }, []);
 
-  function skip() {
+  const skip = useCallback(() => {
     let players = [...playerArray];
     let skipper = players.shift();
     let skippee = players.shift();
     let newOrder = [...players, skipper, skippee];
     setPlayerArray(newOrder);
-  }
+  }, []);
 
-  function drawTwo() {
+  const drawTwo = useCallback(() => {
     let drawing = [...drawDeck];
     let cards = [drawing.shift(), drawing.shift()];
     let newHand = [...playerArray[1].hand];
@@ -134,9 +134,9 @@ export function GameProvider({ children }) {
       newHand
     );
     setPlayerArray([...players, player]);
-  }
+  }, []);
 
-  function drawFour() {
+  const drawFour = useCallback(() => {
     let drawing = [...drawDeck];
     let cards = [
       drawing.shift(),
@@ -154,17 +154,17 @@ export function GameProvider({ children }) {
     );
     setPlayerArray([...players, player]);
     setDrawDeck(drawing);
-  }
+  }, []);
 
-  function setColor(playedCard, newColor) {
+  const setColor = useCallback((playedCard, newColor) => {
     let newCard = new WildCard(playedCard.value, newColor, playedCard.points);
     let discard = [...discardDeck];
     discard.shift();
     discard.unshift(newCard);
     setDiscardDeck(discard);
-  }
+  }, []);
 
-  function drawCard(playerID) {
+  const drawCard = useCallback((playerID) => {
     if (gameActive && canPlay) {
       let draw = [...drawDeck];
       let player = playerArray.filter((p) => p.userID === playerID);
@@ -194,9 +194,9 @@ export function GameProvider({ children }) {
     } else {
       return;
     }
-  }
+  }, []);
 
-  function playCard(playCard, topDiscard, wildToColor) {
+  const playCard = useCallback((playCard, topDiscard, wildToColor) => {
     if (gameActive && canPlay) {
       let discard = [...discardDeck];
       if (
@@ -232,12 +232,12 @@ export function GameProvider({ children }) {
       }
     }
     return;
-  }
+  }, []);
 
-  function quitGame(e) {
+  const quitGame = useCallback((e) => {
     e.preventDefault();
     return history.push("/home");
-  }
+  }, []);
 
   const value = {
     isHostCon,
