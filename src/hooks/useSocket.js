@@ -70,6 +70,7 @@ const useSocket = (username, userID, room) => {
     sendMessage,
     joinRoom,
     sendPlayerData,
+    setIsHostSoc,
   };
 };
 

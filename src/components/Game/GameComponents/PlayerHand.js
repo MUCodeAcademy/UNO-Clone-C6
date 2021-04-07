@@ -15,13 +15,17 @@ const useStyles = makeStyles((theme) => ({
 const PlayerHand = (props) => {
   const classes = useStyles();
   const { playerArray, userInfo } = useContext(GameContext);
-  const me = playerArray.filter((player) => player.userID === userInfo.userID);
+  const me = playerArray.filter(
+    (player) => player.userID === userInfo.userID
+  )[0];
   return (
     <>
       <div className={classes.playArea}>
-        {me.hand.map((card, idx) => (
-          <Card color={`${card.color}`} value={`${card.value}`} key={idx} />
-        ))}
+        {me &&
+          me.hand &&
+          me.hand.map((card, idx) => (
+            <Card color={`${card.color}`} value={`${card.value}`} key={idx} />
+          ))}
       </div>
     </>
   );
