@@ -97,7 +97,6 @@ const GamePage = (props) => {
     setGameActive(gameData.gameActive);
   });
 
-  console.log(gameData);
   useEffect(() => {
     sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
   }, [drawDeck]);
@@ -105,6 +104,8 @@ const GamePage = (props) => {
   useEffect(() => {
     sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
   }, [discardDeck]);
+
+  console.log(gameData);
 
   const classes = useStyles();
   // useEffect(() => {
