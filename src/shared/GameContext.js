@@ -243,8 +243,7 @@ export function GameProvider({ children }) {
     return;
   }
 
-  function quitGame(e) {
-    e.preventDefault();
+  function quitGame() {
     return history.push("/home");
   }
 
