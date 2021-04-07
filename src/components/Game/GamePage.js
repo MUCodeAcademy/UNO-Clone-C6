@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 const GamePage = (props) => {
   const {
     isHostCon,
+    setGameActive,
     playerArray,
     setPlayerArray,
     drawDeck,
@@ -92,7 +93,10 @@ const GamePage = (props) => {
     setPlayerArray([...gameData.players]);
   }, [gameData.players]);
 
-  console.log(gameData);
+  useEffect(() => {
+    setGameActive(gameData.gameActive);
+  });
+
   useEffect(() => {
     sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
   }, [drawDeck]);
@@ -100,6 +104,8 @@ const GamePage = (props) => {
   useEffect(() => {
     sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
   }, [discardDeck]);
+
+  console.log(gameData);
 
   const classes = useStyles();
   // useEffect(() => {

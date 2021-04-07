@@ -8,6 +8,7 @@ const useSocket = (room, isHost) => {
   const socketRef = useRef();
   const [isHostSoc] = useState(isHost);
   const [gameData, setGameData] = useState({
+    gameActive: false,
     drawDeck: [],
     discardDeck: [],
     players: [],
