@@ -12,7 +12,13 @@ const useSocket = (room, isHost) => {
     discardDeck: [],
     players: [],
   });
+  const gameRef = useRef();
   useEffect(() => {
+    gameRef.current = {
+      drawDeck: [],
+      discardDeck: [],
+      players: [],
+    };
     setMessages(() => []);
     socketRef.current = socketIOClient(SERVER_URL, { query: { room } });
     socketRef.current.on("leave room", (data) => {
@@ -24,20 +30,21 @@ const useSocket = (room, isHost) => {
 
     socketRef.current.on(`update players on join`, (data) => {
       if (isHostSoc && data.room == room) {
-        console.log(data, room);
-        setGameData((oldData) => ({
-          ...oldData,
-          players: [...gameData.players, data.user],
-        }));
-        // console.log;
-        socketRef.current.emit("host data send", { ...gameData });
+        const newGameData = {
+          ...gameRef.current,
+          players: [...gameRef.current.players, data.user],
+        };
+        setGameData({ ...newGameData });
+        gameRef.current = newGameData;
+        socketRef.current.emit("host data send", newGameData);
       }
     });
 
     socketRef.current.on("host data", (data) => {
       if (!isHostSoc) return;
+      gameRef.current = { ...data };
       setGameData({ ...data });
-      socketRef.current.emit("host data send", { ...gameData });
+      socketRef.current.emit("host data send", { ...data });
     });
 
     socketRef.current.on("update game", (data) => {

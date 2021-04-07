@@ -92,13 +92,13 @@ const GamePage = (props) => {
     setPlayerArray([...gameData.players]);
   }, [gameData]);
 
-  useEffect(() => {
-    sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
-  }, [drawDeck]);
+  // useEffect(() => {
+  //   sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
+  // }, [drawDeck]);
 
-  useEffect(() => {
-    sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
-  }, [discardDeck]);
+  // useEffect(() => {
+  //   sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
+  // }, [discardDeck]);
 
   const classes = useStyles();
 
