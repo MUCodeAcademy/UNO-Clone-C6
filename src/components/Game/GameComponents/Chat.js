@@ -46,8 +46,8 @@ const Chat = (props) => {
   return (
     <div className={classes.root}>
       <div className={classes.chatDisplay}>
-        {props.messages[0].length > 0 &&
-          props.messages[0].map((m, idx) => {
+        {props.messages.length > 0 &&
+          props.messages.map((m, idx) => {
             return (
               <div
                 className={classes.chat}
@@ -77,7 +77,7 @@ const Chat = (props) => {
           color="primary"
           onClick={() => {
             if (msg) {
-              props.sendMessage(msg);
+              props.sendMessage(msg, props.username);
               setMsg("");
             }
           }}

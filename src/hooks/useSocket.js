@@ -3,7 +3,7 @@ import socketIOClient from "socket.io-client";
 
 const SERVER_URL = "http://localhost:3001";
 
-const useSocket = (username, userID, room) => {
+const useSocket = (room) => {
   const [messages, setMessages] = useState([]);
   const socketRef = useRef();
   const [isHostSoc, setIsHostSoc] = useState(false);
@@ -13,19 +13,20 @@ const useSocket = (username, userID, room) => {
     players: [],
     // room: "",
   });
+  console.log(messages);
   useEffect(() => {
+    console.log;
     setMessages([]);
     socketRef.current = socketIOClient(SERVER_URL);
     socketRef.current.on("leave room", (data) => {
-      setMessages((newMsgs) => [...newMsgs, data]);
+      let newMsgs = [...messages, data];
+      setMessages(newMsgs);
     });
     socketRef.current.on("message", (data) => {
-      console.log(data)
-      setMessages((newMsgs) => [...newMsgs, data]);
-      console.log(messages);
+      let newMsgs = [...messages, data];
+      setMessages(newMsgs);
     });
     socketRef.current.on("enter room", (data) => {
-      console.log(data);
       socketRef.current.emit("message", {
         username: "SYSTEM",
         body: `${data.username} has entered the chat`,
@@ -47,19 +48,18 @@ const useSocket = (username, userID, room) => {
     socketRef.current.on("update game", (data) => {
       setGameData({ ...data });
     });
-  }, [room]);
+  }, []);
 
-  const sendMessage = useCallback((body) => {
-    console.log(body);
+  const sendMessage = useCallback((body, username) => {
     socketRef.current.emit("message", {
-      username: username,
-      body: body,
-      room: room,
+      username,
+      body,
+      room,
     });
   }, []);
 
-  const joinRoom = useCallback(() => {
-    socketRef.current.emit("join room", { username: username, room: room });
+  const joinRoom = useCallback((username) => {
+    socketRef.current.emit("join room", { username, room });
   }, []);
 
   const sendPlayerData = useCallback((data) => {
@@ -67,8 +67,8 @@ const useSocket = (username, userID, room) => {
   }, []);
 
   return {
-    messages: [messages],
-    gameData: gameData,
+    messages,
+    gameData,
     sendMessage,
     joinRoom,
     sendPlayerData,
