@@ -14,12 +14,8 @@ import {
 
 const GameBoard = (props) => {
   const [msg, setMsg] = useState("");
-  const [drawnCard, setDrawnCard] = useState(false);
   const [open, setOpen] = useState(false);
-  const [discardDeck,setDiscardDeck] = useState([ { value: 2, color: "yellow", points: 2 },])
-  const [color,setColor] = useState(discardDeck[0].color)
   
-  // const [wildCard, setWildCard] = useState(true)
   const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
     } else {
@@ -29,18 +25,17 @@ const GameBoard = (props) => {
 
   const {
     drawCard,
-    // playCard,
+    playCard,
     canPlay,
     isHostCon,
     startGame,
     quitGame,
     regularTurn,
-    // setColor,
+    setColor,
     gameActive,
     setGameActive,
-
-    // discardDeck,
-    // setDiscardDeck,
+    discardDeck,
+    setDiscardDeck,
     
     userInfo,
   } = useContext(GameContext);
@@ -48,14 +43,13 @@ const GameBoard = (props) => {
   useEffect(() => {
     if (!canPlay) return;
     setTimeout(() => {
-      setMsg(<Countdown renderer={renderer} date={Date.now() + 3000} />);
+      setMsg(<Countdown renderer={renderer} date={Date.now() + 30000} />);
       setOpen(true);
       setTimeout(() => {
         drawCard();
-      }, 30500);
+      }, 30000);
     }, 90000);
   }, [canPlay, drawCard]);
-  // fix timer for Alert function!
 
   return (
     <div className="boardContainer">
@@ -91,13 +85,12 @@ const GameBoard = (props) => {
             className={`cardback`}
             onClick={() => {
               drawCard();
-              setDrawnCard(true);
             }}
           ></div>
         </div>
 
         <div className="discardContainer">
-          <div style={{ backgroundColor:  color  }} className={`discard`}><h1>{discardDeck[0].value}</h1></div>
+          <div style={{ backgroundColor: discardDeck.length>0? discardDeck[0].color: "white"  }} className={`discard`}><h1>{discardDeck.length>0?discardDeck[0].value:""}</h1></div>
         </div>
 
         <div className="conditionalContainer">
@@ -106,7 +99,6 @@ const GameBoard = (props) => {
               <div
                 className="startButton"
                 onClick={() => {
-                  setGameActive();
                   startGame();
                 }}
               >
@@ -119,22 +111,8 @@ const GameBoard = (props) => {
             <div className="text">Waiting on host...</div>
           )}
 
-          {drawnCard !== false && (
-            <Button
-              variant="contained"
-              color="primary"
-              value="regularTurn"
-              className="regularTurn"
-              onClick={() => {
-                regularTurn();
-                setDrawnCard(false);
-              }}
-            >
-              Next Turn
-            </Button>
-          )}
 
-          {`${discardDeck[0].value}`.includes("Wild") !== false && (
+          {discardDeck.length>0?`${discardDeck[0].value}`.includes("Wild"):false && (
           <div className="color-area">
             <div
               className="color-box"
