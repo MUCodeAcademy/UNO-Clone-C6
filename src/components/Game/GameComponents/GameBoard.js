@@ -21,6 +21,7 @@ const GameBoard = (props) => {
 
   const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
+      return null;
     } else {
       return <span>{seconds}</span>;
     }
