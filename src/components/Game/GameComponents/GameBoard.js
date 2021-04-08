@@ -86,14 +86,14 @@ const GameBoard = (props) => {
 
       <div className="conditionalContainer">
         <div className="drawContainer">
-          <Card size="small" style={{ backgroundColor: "black" }} className={`cardback`}
+          <Card img="https://i.ibb.co/6t4vgbM/unoblack.jpg" size="small" color="black" value=""/*style={{ backgroundColor: "black" }} className="cardback"*/
             onClick={() => {
               drawCard();
             }} />
         </div>
 
         <div className="discardContainer">
-        <Card size="small" color={discardDeck.length>0 ? discardDeck[0].color: "white"} value={discardDeck.length>0?discardDeck[0].value:"" } />
+        <Card img="" size="small"  color={discardDeck.length>0 ? discardDeck[0].color: "white"} value={discardDeck.length>0?discardDeck[0].value:"" } />
           {/* <div style={{ backgroundColor: discardDeck.length>0? discardDeck[0].color: "white"  }} className={`discard`}><h1>{discardDeck.length>0?discardDeck[0].value:""}</h1></div> */}
         </div>
 
