@@ -102,7 +102,6 @@ export function GameProvider({ children }) {
     let discard = [...discardDeck];
     discard.push(draw.shift());
     setDiscardDeck(discard);
-    console.log("Player array", playerArray);
   }
 
   function startGame() {
@@ -136,6 +135,7 @@ export function GameProvider({ children }) {
   function drawTwo() {
     let drawing = [...drawDeck];
     let cards = [drawing.shift(), drawing.shift()];
+    setDrawDeck(drawing);
     let newHand = [...playerArray[1].hand, ...cards];
     let sender = playerArray[0];
     let receiver = { ...playerArray[1], hand: newHand };
@@ -216,7 +216,7 @@ export function GameProvider({ children }) {
         playCard.color === topDiscard.color ||
         playCard.value.toString().includes("Wild")
       ) {
-        console.log(idx);
+        console.log("Index of card played was ", idx);
         if (idx !== null) {
           let playerHand = [...playerArray[0].hand];
           playerHand.splice(idx, 1);
