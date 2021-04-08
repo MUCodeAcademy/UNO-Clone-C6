@@ -15,6 +15,18 @@ export function GameProvider({ children }) {
   const { loading } = useContext(UserContext);
   const [hasWinner, setHasWinner] = useState(false);
   const [actionCount, setActionCount] = useState(0);
+
+  function resetContext() {
+    setIsHostCon(false);
+    setPlayerArray([]);
+    setGameActive(false);
+    setDrawDeck([]);
+    setDiscardDeck([]);
+    setUserInfo({});
+    setRoom("");
+    setHasWinner(false);
+  }
+
   const winner = useMemo(() => {
     if (!gameActive && !hasWinner) return null;
     setHasWinner(true);
@@ -303,6 +315,7 @@ export function GameProvider({ children }) {
     setUserInfo,
     room,
     setRoom,
+    resetContext,
     PlayerObject,
     createUserInfo,
     startGame,
