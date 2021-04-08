@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import socketIOClient from "socket.io-client";
 
-const SERVER_URL = "http://localhost:3001";
+const SERVER_URL = "https://midland-uno-clone.herokuapp.com";
 
 const useSocket = (room, isHost) => {
   const [messages, setMessages] = useState([]);
@@ -68,7 +68,6 @@ const useSocket = (room, isHost) => {
   }, []);
 
   const sendPlayerData = useCallback((data) => {
-    console.log(data);
     socketRef.current.emit("send player data", { ...data });
   }, []);
 

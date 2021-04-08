@@ -177,14 +177,7 @@ const GamePage = (props) => {
         </Grid>
         <Grid className={`${classes.gameBoard} ${classes.section}`}>
           <GameBoard>
-            <button
-              onClick={() => {
-                console.log(playerArray);
-                console.log(gameData.players);
-              }}
-            >
-              PlayerArray and GameData.players
-            </button>
+            <button onClick={() => {}}>PlayerArray and GameData.players</button>
           </GameBoard>
         </Grid>
         <Grid className={`${classes.playerHand} ${classes.section}`}>

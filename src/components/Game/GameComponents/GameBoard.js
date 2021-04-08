@@ -42,17 +42,16 @@ const GameBoard = (props) => {
 
     userInfo,
   } = useContext(GameContext);
-  // console.log(discardDeck[0].points)
-  useEffect(() => {
-    if (!canPlay) return;
-    setTimeout(() => {
-      setMsg(<Countdown renderer={renderer} date={Date.now() + 30000} />);
-      setOpen(true);
-      setTimeout(() => {
-        drawCard(userInfo.userID);
-      }, 30000);
-    }, 90000);
-  }, [canPlay, drawCard]);
+  // useEffect(() => {
+  //   if (!canPlay) return;
+  //   setTimeout(() => {
+  //     setMsg(<Countdown renderer={renderer} date={Date.now() + 30000} />);
+  //     setOpen(true);
+  //     setTimeout(() => {
+  //       drawCard(userInfo.userID);
+  //     }, 30000);
+  //   }, 90000);
+  // }, [canPlay, drawCard]);
 
   const redirect = () => {
     history.push("/home");

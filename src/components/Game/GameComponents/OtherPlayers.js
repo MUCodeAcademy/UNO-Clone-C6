@@ -32,7 +32,6 @@ const OtherPlayers = () => {
   // Expecting a array of players, array is of objects containing username and array of cards in hand
   const classes = useStyles();
   const { playerArray, userInfo } = useContext(GameContext);
-  console.log(playerArray);
   return (
     <Box className={classes.root}>
       {playerArray &&
