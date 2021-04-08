@@ -35,6 +35,7 @@ const GameBoard = (props) => {
     startGame,
     regularTurn,
     setColor,
+    playerArray,
     gameActive,
     setGameActive,
     discardDeck,
@@ -110,7 +111,10 @@ const GameBoard = (props) => {
               color="primary"
               value="startGame"
               className="startButton"
-              onClick={() => startGame()}
+              onClick={() => {
+                if (playerArray.length === 1) return;
+                startGame();
+              }}
             >
               Start Game
             </Button>

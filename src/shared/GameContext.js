@@ -125,7 +125,7 @@ export function GameProvider({ children }) {
       setPlayerArray([...players, receiver]);
       setActionCount(actionCount + 1);
     }
-    if (firstCard.value.includes("Four")) {
+    if (firstCard.value.toString().includes("Four")) {
       let drawing = [...drawDeck];
       let cards = [
         drawing.shift(),
