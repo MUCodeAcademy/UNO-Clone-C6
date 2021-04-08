@@ -15,7 +15,9 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerHand = (props) => {
   const classes = useStyles();
-  const { playerArray, discardDeck, userInfo } = useContext(GameContext);
+  const { playerArray, discardDeck, userInfo, playCard } = useContext(
+    GameContext
+  );
   const me = playerArray.filter(
     (player) => player.username === userInfo.username
   )[0];
