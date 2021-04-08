@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { GameContext } from "../../../shared/GameContext";
 import Button from "@material-ui/core/Button";
 import { Alert } from "@material-ui/lab";
@@ -14,12 +14,11 @@ import {
 } from "@material-ui/core";
 import Card from "../GameComponents/Card";
 
-
 const GameBoard = (props) => {
   const [msg, setMsg] = useState("");
   const [open, setOpen] = useState(false);
   const history = useHistory();
-  
+
   const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
     } else {
@@ -40,22 +39,29 @@ const GameBoard = (props) => {
     discardDeck,
     setDiscardDeck,
     userInfo,
+playerArray
   } = useContext(GameContext);
-// console.log(discardDeck[0].points)
+  // console.log(discardDeck[0].points)
+  const [ jsSucks, setJsSucks]= useState("")
+  const [ jsSucks2, setJsSucks2] = useState("");
   useEffect(() => {
-    if (!canPlay) return;
-    setTimeout(() => {
+    if (!canPlay) {
+      clearTimeout(jsSucks);
+      clearTimeout(jsSucks2);
+      return;}
+    setJsSucks(setTimeout(() => {
       setMsg(<Countdown renderer={renderer} date={Date.now() + 30000} />);
       setOpen(true);
-      setTimeout(() => {
-        drawCard();
-      }, 30000);
-    }, 90000);
+      setJsSucks2( setTimeout(() => {
+        // drawCard(userInfo.userID);
+      }, 3000))
+    }, 9000))
   }, [canPlay, drawCard]);
-
+  console.log("FFFFFFFFF")
+console.log(canPlay)
   const redirect = () => {
-    history.push("/home")
-  }
+    history.push("/home");
+  };
 
   return (
     <div className="boardContainer">
@@ -66,11 +72,11 @@ const GameBoard = (props) => {
       >
         <DialogTitle id="alert-dialog-title">{"Player Timeout"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <Alert severity="error" className="alert">
-              You have {msg} to make a choice or lose a turn!
-            </Alert>
-          </DialogContentText>
+          {/* <DialogContentText id="alert-dialog-description"> */}
+          <Alert severity="error" className="alert">
+            You have {msg} to make a choice or lose a turn!
+          </Alert>
+          {/* </DialogContentText> */}
         </DialogContent>
         <DialogActions>
           <Button
@@ -86,62 +92,70 @@ const GameBoard = (props) => {
 
       <div className="conditionalContainer">
         <div className="drawContainer">
-          <Card img="https://i.ibb.co/6t4vgbM/unoblack.jpg" size="small" color="black" value=""/*style={{ backgroundColor: "black" }} className="cardback"*/
+          <Card
+            img="https://i.ibb.co/6t4vgbM/unoblack.jpg"
+            size="small"
+            color="black"
+            value="" /*style={{ backgroundColor: "black" }} className="cardback"*/
             onClick={() => {
               drawCard();
-            }} />
+            }}
+          />
         </div>
 
         <div className="discardContainer">
-        <Card img="" size="small"  color={discardDeck.length>0 ? discardDeck[0].color: "white"} value={discardDeck.length>0?discardDeck[0].value:"" } />
+          <Card
+            img=""
+            size="small"
+            color={discardDeck.length > 0 ? discardDeck[0].color : "white"}
+            value={discardDeck.length > 0 ? discardDeck[0].value : ""}
+          />
           {/* <div style={{ backgroundColor: discardDeck.length>0? discardDeck[0].color: "white"  }} className={`discard`}><h1>{discardDeck.length>0?discardDeck[0].value:""}</h1></div> */}
         </div>
 
         <div className="conditionalContainer">
-          
-         { isHostCon !== false && gameActive !== true 
-          && (
-              <Button
-            variant="contained"
-            color="primary"
-            value="startGame"
-            className="startButton"
-            onClick={() => startGame()}
-          >
-            Start Game
-          </Button>
-         
+          {isHostCon !== false && gameActive !== true && (
+            <Button
+              variant="contained"
+              color="primary"
+              value="startGame"
+              className="startButton"
+              onClick={() => startGame()}
+            >
+              Start Game
+            </Button>
           )}
 
           {isHostCon !== true && gameActive !== true && (
             <div className="text">Waiting on host...</div>
           )}
 
-
-          {discardDeck.length === 0 || discardDeck[0].points !==50 ? (<></>): (
-          <div className="color-area">
-            <div
-              className="color-box"
-              style={{ backgroundColor: "blue" }}
-              onClick={() => setColor(discardDeck[0], "blue")}
-            ></div>
-            <div
-              className="color-box"
-              style={{ backgroundColor: "green" }}
-              onClick={() => setColor(discardDeck[0], "green")}
-            ></div>
-            <div
-              className="color-box"
-              style={{ backgroundColor: "red" }}
-              onClick={() => setColor(discardDeck[0], "red")}
-            ></div>
-            <div
-              className="color-box"
-              style={{ backgroundColor: "yellow" }}
-              onClick={() => setColor(discardDeck[0], "yellow")}
-            ></div>
-          </div>
-           )}
+          {discardDeck.length === 0 || discardDeck[0].points !== 50 ? (
+            <></>
+          ) : (
+            <div className="color-area">
+              <div
+                className="color-box"
+                style={{ backgroundColor: "blue" }}
+                onClick={() => setColor(discardDeck[0], "blue")}
+              ></div>
+              <div
+                className="color-box"
+                style={{ backgroundColor: "green" }}
+                onClick={() => setColor(discardDeck[0], "green")}
+              ></div>
+              <div
+                className="color-box"
+                style={{ backgroundColor: "red" }}
+                onClick={() => setColor(discardDeck[0], "red")}
+              ></div>
+              <div
+                className="color-box"
+                style={{ backgroundColor: "yellow" }}
+                onClick={() => setColor(discardDeck[0], "yellow")}
+              ></div>
+            </div>
+          )}
         </div>
       </div>
 
