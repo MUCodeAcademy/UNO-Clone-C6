@@ -4,7 +4,7 @@ import "./Card.css"
 
 
 const Card = (props) =>{
-    let firstChar = props.value.charAt(0)
+    let firstChar = `${props.value}`.charAt(0)
     return(
         <>
         {props.size === "small" ?
