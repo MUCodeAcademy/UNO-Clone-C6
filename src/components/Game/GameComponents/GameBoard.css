@@ -126,4 +126,5 @@ h1 {
 
 .gameStart {
   margin-top: 34px;
+  cursor: pointer;
 }

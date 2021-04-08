@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useHistory} from "react-router-dom";
 import { GameContext } from "../../../shared/GameContext";
 import Button from "@material-ui/core/Button";
 import { Alert } from "@material-ui/lab";
@@ -17,6 +18,7 @@ import Card from "../GameComponents/Card";
 const GameBoard = (props) => {
   const [msg, setMsg] = useState("");
   const [open, setOpen] = useState(false);
+  const history = useHistory();
   
   const renderer = ({ hours, minutes, seconds, completed }) => {
     if (completed) {
@@ -31,7 +33,6 @@ const GameBoard = (props) => {
     canPlay,
     isHostCon,
     startGame,
-    quitGame,
     regularTurn,
     setColor,
     gameActive,
@@ -52,6 +53,10 @@ const GameBoard = (props) => {
       }, 30000);
     }, 90000);
   }, [canPlay, drawCard]);
+
+  const redirect = () => {
+    history.push("/home")
+  }
 
   return (
     <div className="boardContainer">
@@ -97,19 +102,19 @@ const GameBoard = (props) => {
         </div>
 
         <div className="conditionalContainer">
-          {discardDeck.length==0
-          // isHostCon !== false && gameActive !== true 
+          
+         { isHostCon !== false && gameActive !== true 
           && (
-            <div className="startDiv">
-              <div
-                className="startButton"
-                onClick={() => {
-                  startGame();
-                }}
-              >
-                <div className="gameStart">GAME START</div>
-              </div>
-            </div>
+              <Button
+            variant="contained"
+            color="primary"
+            value="startGame"
+            className="startButton"
+            onClick={() => startGame()}
+          >
+            Start Game
+          </Button>
+         
           )}
 
           {isHostCon !== true && gameActive !== true && (
@@ -151,7 +156,7 @@ const GameBoard = (props) => {
             color="primary"
             value="quitGame"
             className="quitGame"
-            onClick={() => quitGame()}
+            onClick={redirect}
           >
             Quit Game
           </Button>
