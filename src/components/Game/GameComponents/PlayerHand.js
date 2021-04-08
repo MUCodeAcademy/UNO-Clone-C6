@@ -28,7 +28,9 @@ const PlayerHand = (props) => {
           me.hand &&
           me.hand.map((card, idx) => (
             <Card
-              onClick={() => playCard(card, discardDeck[0])}
+              topCard={discardDeck[0]}
+              playCard={playCard}
+              card={card}
               color={`${card.color}`}
               value={`${card.value}`}
               key={idx}

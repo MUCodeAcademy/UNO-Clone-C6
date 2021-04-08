@@ -124,13 +124,15 @@ const GamePage = (props) => {
   //   }
   // });
 
-  // useEffect(() => {
-  //   sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
-  // }, [drawDeck]);
+  useEffect(() => {
+    if (!gameActive) return;
+    sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
+  }, [drawDeck]);
 
-  // useEffect(() => {
-  //   sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
-  // }, [discardDeck]);
+  useEffect(() => {
+    if (!gameActive) return;
+    sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
+  }, [discardDeck]);
 
   console.log(gameData);
 
