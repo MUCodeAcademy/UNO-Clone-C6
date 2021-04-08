@@ -35,11 +35,11 @@ export function GameProvider({ children }) {
     }
   });
 
-  useEffect(() => {
-    if (playerArray[1] && playerArray[1].hand === []) {
-      setGameActive(false);
-    }
-  }, [playerArray]);
+  // useEffect(() => {
+  //   if (playerArray[1] && playerArray[1].hand === []) {
+  //     setGameActive(false);
+  //   }
+  // }, [playerArray]);
 
   function PlayerObject(username, userID, hand) {
     this.username = username;
@@ -107,8 +107,8 @@ export function GameProvider({ children }) {
   }
 
   function startGame() {
-    setGameActive(true);
     deal();
+    setGameActive(true);
   }
 
   function regularTurn() {
