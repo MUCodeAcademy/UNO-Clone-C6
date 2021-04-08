@@ -39,7 +39,6 @@ const GameBoard = (props) => {
     setGameActive,
     discardDeck,
     setDiscardDeck,
-    
     userInfo,
   } = useContext(GameContext);
 // console.log(discardDeck[0].points)
@@ -87,17 +86,14 @@ const GameBoard = (props) => {
 
       <div className="conditionalContainer">
         <div className="drawContainer">
-          <div
-            style={{ backgroundColor: "black" }}
-            className={`cardback`}
+          <Card size="small" style={{ backgroundColor: "black" }} className={`cardback`}
             onClick={() => {
               drawCard();
-            }}
-          ></div>
+            }} />
         </div>
 
         <div className="discardContainer">
-        <Card color={discardDeck.length>0 ? discardDeck[0].color: "white"} value={discardDeck.length>0?discardDeck[0].value:""} />
+        <Card size="small" color={discardDeck.length>0 ? discardDeck[0].color: "white"} value={discardDeck.length>0?discardDeck[0].value:"" } />
           {/* <div style={{ backgroundColor: discardDeck.length>0? discardDeck[0].color: "white"  }} className={`discard`}><h1>{discardDeck.length>0?discardDeck[0].value:""}</h1></div> */}
         </div>
 
@@ -127,22 +123,22 @@ const GameBoard = (props) => {
             <div
               className="color-box"
               style={{ backgroundColor: "blue" }}
-              onClick={() => setColor("blue")}
+              onClick={() => setColor(discardDeck[0], "blue")}
             ></div>
             <div
               className="color-box"
               style={{ backgroundColor: "green" }}
-              onClick={() => setColor("green")}
+              onClick={() => setColor(discardDeck[0], "green")}
             ></div>
             <div
               className="color-box"
               style={{ backgroundColor: "red" }}
-              onClick={() => setColor("red")}
+              onClick={() => setColor(discardDeck[0], "red")}
             ></div>
             <div
               className="color-box"
               style={{ backgroundColor: "yellow" }}
-              onClick={() => setColor("yellow")}
+              onClick={() => setColor(discardDeck[0], "yellow")}
             ></div>
           </div>
            )}
