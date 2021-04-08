@@ -207,7 +207,6 @@ export function GameProvider({ children }) {
 
   function playCard(playCard, topDiscard, idx = null) {
     if (winner) {
-      console.log("has won");
       return;
     }
     if (gameActive && canPlay) {
