@@ -40,7 +40,7 @@ const GameInfo = () => {
 
       {gameActive === false && winner && (
         <>
-          <h3>Game is over!</h3>:<h3>{winner.username} has won the game!</h3>}
+          <h3>Game is over!</h3>:<h3>{winner.username} has won the game!</h3>
         </>
       )}
 
