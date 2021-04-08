@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import Card from "../GameComponents/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import { GameContext } from "../../../shared/GameContext";
-import { PlaylistAddCheckRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   playArea: {
@@ -33,6 +32,7 @@ const PlayerHand = (props) => {
               card={card}
               color={`${card.color}`}
               value={`${card.value}`}
+              idx={idx}
               key={idx}
             />
           ))}

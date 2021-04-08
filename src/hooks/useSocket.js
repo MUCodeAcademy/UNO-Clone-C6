@@ -16,6 +16,7 @@ const useSocket = (room, isHost) => {
   const gameRef = useRef();
   useEffect(() => {
     gameRef.current = {
+      gameActive: false,
       drawDeck: [],
       discardDeck: [],
       players: [],
@@ -67,6 +68,7 @@ const useSocket = (room, isHost) => {
   }, []);
 
   const sendPlayerData = useCallback((data) => {
+    console.log(data);
     socketRef.current.emit("send player data", { ...data });
   }, []);
 

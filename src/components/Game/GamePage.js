@@ -69,6 +69,9 @@ const GamePage = (props) => {
     discardDeck,
     userInfo,
     room,
+    setDrawDeck,
+    actionCount,
+    setDiscardDeck,
     PlayerObject,
   } = useContext(GameContext);
 
@@ -124,17 +127,32 @@ const GamePage = (props) => {
   //   }
   // });
 
-  useEffect(() => {
-    if (!gameActive) return;
-    sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
-  }, [drawDeck]);
+  // useEffect(() => {
+  //   if (!gameActive) return;
+  //   sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
+  // }, [drawDeck]);
+
+  // useEffect(() => {
+  //   if (!gameActive) return;
+  //   sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
+  // }, [discardDeck]);
 
   useEffect(() => {
-    if (!gameActive) return;
-    sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
-  }, [discardDeck]);
+    setGameActive(gameData.gameActive);
+  }, [gameData.gameActive]);
 
-  console.log(gameData);
+  useEffect(() => {
+    setDiscardDeck(gameData.discardDeck);
+  }, [gameData.discardDeck]);
+
+  useEffect(() => {
+    setDrawDeck(gameData.drawDeck);
+  }, [gameData.drawDeck]);
+
+  useEffect(() => {
+    if (actionCount === 0) return;
+    sendPlayerData({ players: playerArray, discardDeck, drawDeck, gameActive });
+  }, [actionCount]);
 
   const classes = useStyles();
 

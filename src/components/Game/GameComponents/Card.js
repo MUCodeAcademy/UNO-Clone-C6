@@ -8,7 +8,8 @@ const Card = (props) => {
       {props.size === "small" ? (
         <div
           onClick={() => {
-            if (props.playCard) props.playCard(props.card, props.topCard);
+            if (props.playCard)
+              props.playCard(props.card, props.topCard, props.idx);
           }}
           style={{ backgroundColor: `${props.color}` }}
           className={`cardSmall`}
@@ -20,7 +21,8 @@ const Card = (props) => {
       ) : (
         <div
           onClick={() => {
-            if (props.playCard) props.playCard(props.card, props.topCard);
+            if (props.playCard)
+              props.playCard(props.card, props.topCard, props.idx);
           }}
           style={{ backgroundColor: `${props.color}` }}
           className={`card`}

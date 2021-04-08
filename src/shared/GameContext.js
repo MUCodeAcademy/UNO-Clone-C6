@@ -14,6 +14,7 @@ export function GameProvider({ children }) {
   const [room, setRoom] = useState("");
   const { loading } = useContext(UserContext);
   const [hasWinner, setHasWinner] = useState(false);
+  const [actionCount, setActionCount] = useState(0);
   const winner = useMemo(() => {
     if (!gameActive && !hasWinner) return null;
     setHasWinner(true);
@@ -34,6 +35,7 @@ export function GameProvider({ children }) {
 
   useEffect(() => {
     if (winner) {
+      setActionCount(actionCount + 1);
       setGameActive(false);
     }
   }, [winner]);
@@ -113,11 +115,13 @@ export function GameProvider({ children }) {
     let justPlayed = players.shift();
     let newOrder = [...players, justPlayed];
     setPlayerArray(newOrder);
+    setActionCount(actionCount + 1);
   }
 
   function reverseCard() {
     let currentOrder = [...playerArray];
     setPlayerArray(currentOrder.reverse());
+    setActionCount(actionCount + 1);
   }
 
   function skip() {
@@ -126,6 +130,7 @@ export function GameProvider({ children }) {
     let skippee = players.shift();
     let newOrder = [...players, skipper, skippee];
     setPlayerArray(newOrder);
+    setActionCount(actionCount + 1);
   }
 
   function drawTwo() {
@@ -140,6 +145,7 @@ export function GameProvider({ children }) {
       newHand
     );
     setPlayerArray([...players, player]);
+    setActionCount(actionCount + 1);
   }
 
   function drawFour() {
@@ -159,6 +165,7 @@ export function GameProvider({ children }) {
     players.shift();
     players.shift();
     setPlayerArray([...players, giver, receiver]);
+    setActionCount(actionCount + 1);
   }
 
   function setColor(/*playedCard,*/ newColor) {
@@ -172,6 +179,7 @@ export function GameProvider({ children }) {
     } else {
       regularTurn();
     }
+    setActionCount(actionCount + 1);
   }
 
   function drawCard(playerID) {
@@ -201,12 +209,13 @@ export function GameProvider({ children }) {
         players.shift();
         setPlayerArray([...players, afterDraw]);
       }
+      setActionCount(actionCount + 1);
     } else {
       return;
     }
   }
 
-  function playCard(playCard, topDiscard /*wildToColor*/) {
+  function playCard(playCard, topDiscard, idx = null) {
     if (gameActive && canPlay) {
       let discard = [...discardDeck];
       if (
@@ -214,6 +223,14 @@ export function GameProvider({ children }) {
         playCard.color === topDiscard.color ||
         playCard.value.toString().includes("Wild")
       ) {
+        console.log(idx);
+        if (idx !== null) {
+          let playerHand = [...playerArray[0].hand];
+          playerHand.splice(idx, 1);
+          let newPlayerArray = [...playerArray];
+          newPlayerArray[0].hand = playerHand;
+          setPlayerArray(newPlayerArray);
+        }
         discard.unshift(playCard);
         setDiscardDeck(discard);
         if (!isNaN(playCard.val) || playCard.value === "Draw Two") {
@@ -241,6 +258,8 @@ export function GameProvider({ children }) {
         skip();
         return;
       }
+      regularTurn();
+      setActionCount(actionCount + 1);
     }
     return;
   }
@@ -254,6 +273,7 @@ export function GameProvider({ children }) {
     setGameActive,
     canPlay,
     winner,
+    actionCount,
     drawDeck,
     setDrawDeck,
     discardDeck,
