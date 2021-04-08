@@ -44,9 +44,13 @@ export default function HomePage() {
       Math.random().toString(36).substring(2, 8)
   );
   const [joinedRoom, setJoinedRoom] = useState("");
-  const { setIsHostCon, createUserInfo, setRoom, userInfo } = useContext(
-    GameContext
-  );
+  const {
+    setIsHostCon,
+    createUserInfo,
+    setRoom,
+    userInfo,
+    resetContext,
+  } = useContext(GameContext);
   const [username, setUsername] = useState("");
   const classes = useStyles();
   const history = useHistory();
