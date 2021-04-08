@@ -68,7 +68,7 @@ const useSocket = (room, isHost) => {
   }, []);
 
   const sendPlayerData = useCallback((data) => {
-    console.log(data);
+    // console.log(data);
     socketRef.current.emit("send player data", { ...data });
   }, []);
 
