@@ -136,15 +136,13 @@ export function GameProvider({ children }) {
   function drawTwo() {
     let drawing = [...drawDeck];
     let cards = [drawing.shift(), drawing.shift()];
-    let newHand = [...playerArray[1].hand];
-    newHand.push(cards);
+    let newHand = [...playerArray[1].hand, ...cards];
+    let sender = playerArray[0];
+    let receiver = { ...playerArray[1], hand: newHand };
     let players = [...playerArray];
-    let player = new PlayerObject(
-      playerArray[1].username,
-      playerArray[1].userID,
-      newHand
-    );
-    setPlayerArray([...players, player]);
+    players.shift();
+    players.shift();
+    setPlayerArray([...players, sender, receiver]);
     setActionCount(actionCount + 1);
   }
 
@@ -157,14 +155,13 @@ export function GameProvider({ children }) {
       drawing.shift(),
     ];
     setDrawDeck(drawing);
-    let newHand = [...playerArray[1].hand];
-    newHand.push(cards);
+    let newHand = [...playerArray[1].hand, ...cards];
+    let sender = playerArray[0];
     let receiver = { ...playerArray[1], hand: newHand };
-    let giver = playerArray[0];
     let players = [...playerArray];
     players.shift();
     players.shift();
-    setPlayerArray([...players, giver, receiver]);
+    setPlayerArray([...players, sender, receiver]);
     setActionCount(actionCount + 1);
   }
 
@@ -185,7 +182,7 @@ export function GameProvider({ children }) {
   function drawCard(playerID) {
     if (gameActive && canPlay) {
       let draw = [...drawDeck];
-      let player = playerArray.filter((p) => p.userID === playerID);
+      let player = playerArray.find((p) => p.userID === playerID);
       let card = draw.shift();
       console.log("Top card:", discardDeck[0]);
       console.log("Drawn card:", card);
@@ -199,12 +196,8 @@ export function GameProvider({ children }) {
         console.log("Playing drawn card");
         playCard(card, discardDeck[0]);
       } else {
-        let newHand = [...player[0].hand, card];
-        let afterDraw = new PlayerObject(
-          player[0].username,
-          player[0].userID,
-          newHand
-        );
+        let newHand = [...player.hand, card];
+        let afterDraw = { ...player, hand: newHand };
         let players = [...playerArray];
         players.shift();
         setPlayerArray([...players, afterDraw]);
@@ -235,7 +228,6 @@ export function GameProvider({ children }) {
         setDiscardDeck(discard);
         if (!isNaN(playCard.val) || playCard.value === "Draw Two") {
           drawTwo();
-          regularTurn();
           return;
         }
         if (playCard.value.toString().includes("Wild")) {
