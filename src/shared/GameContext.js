@@ -44,11 +44,11 @@ export function GameProvider({ children }) {
     this.hand = hand;
   }
 
-  function WildCard(value, color, points) {
-    this.value = value;
-    this.color = color;
-    this.points = points;
-  }
+  // function WildCard(value, color, points) {
+  //   this.value = value;
+  //   this.color = color;
+  //   this.points = points;
+  // }
 
   function createUserInfo(providedName) {
     let ID =
@@ -150,24 +150,28 @@ export function GameProvider({ children }) {
       drawing.shift(),
       drawing.shift(),
     ];
+    setDrawDeck(drawing);
     let newHand = [...playerArray[1].hand];
     newHand.push(cards);
+    let receiver = { ...playerArray[1], hand: newHand };
+    let giver = playerArray[0];
     let players = [...playerArray];
-    let player = new PlayerObject(
-      playerArray[1].username,
-      playerArray[1].userID,
-      newHand
-    );
-    setPlayerArray([...players, player]);
-    setDrawDeck(drawing);
+    players.shift();
+    players.shift();
+    setPlayerArray([...players, giver, receiver]);
   }
 
-  function setColor(playedCard, newColor) {
-    let newCard = new WildCard(playedCard.value, newColor, playedCard.points);
+  function setColor(/*playedCard,*/ newColor) {
+    // let newCard = new WildCard(playedCard.value, newColor, playedCard.points);
+    let newWild = { ...discardDeck[0], color: newColor };
     let discard = [...discardDeck];
-    discard.shift();
-    discard.unshift(newCard);
+    discard.splice(0, 1, newWild);
     setDiscardDeck(discard);
+    if (newWild.value.includes("Draw Four")) {
+      drawFour();
+    } else {
+      regularTurn();
+    }
   }
 
   function drawCard(playerID) {
@@ -202,7 +206,7 @@ export function GameProvider({ children }) {
     }
   }
 
-  function playCard(playCard, topDiscard, wildToColor) {
+  function playCard(playCard, topDiscard /*wildToColor*/) {
     if (gameActive && canPlay) {
       let discard = [...discardDeck];
       if (
@@ -218,14 +222,15 @@ export function GameProvider({ children }) {
           return;
         }
         if (playCard.value.toString().includes("Wild")) {
-          setColor(playCard, wildToColor);
-          if (playCard.value.toString().includes("Four")) {
-            drawFour();
-            return;
-          } else {
-            regularTurn();
-            return;
-          }
+          // setColor(playCard, wildToColor);
+          // if (playCard.value.toString().includes("Four")) {
+          //   drawFour();
+          //   return;
+          // } else {
+          //   regularTurn();
+          //   return;
+          // }
+          return;
         }
       }
       if (playCard.value === "Reverse") {
