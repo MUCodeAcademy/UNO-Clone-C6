@@ -91,16 +91,22 @@ const GamePage = (props) => {
   }, [room]);
 
   useEffect(() => {
+    if (!gameActive || !isHostCon) return;
+    if (gameActive && !isHostCon) setGameActive(true);
+    sendPlayerData({ ...gameData, gameActive: true });
+  }, [gameActive]);
+
+  useEffect(() => {
     setPlayerArray([...gameData.players]);
   }, [gameData]);
 
-  useEffect(() => {
-    if (isHostCon === true) {
-      sendPlayerData({ ...gameData, gameActive: gameActive });
-    } else {
-      setGameActive(gameData.gameActive);
-    }
-  }, [gameActive, sendPlayerData]);
+  // useEffect(() => {
+  //   if (isHostCon === true) {
+  //     sendPlayerData({ ...gameData, gameActive: gameActive });
+  //   } else {
+  //     setGameActive(gameData.gameActive);
+  //   }
+  // }, [gameActive, sendPlayerData]);
 
   // useEffect(() => {
   //   if (

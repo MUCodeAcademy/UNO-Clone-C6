@@ -32,11 +32,10 @@ const OtherPlayers = () => {
   // Expecting a array of players, array is of objects containing username and array of cards in hand
   const classes = useStyles();
   const { playerArray, userInfo } = useContext(GameContext);
+  console.log(playerArray);
   return (
     <Box className={classes.root}>
-      {playerArray[0] &&
-        playerArray[0].playerHand &&
-        playerArray[0].playerHand.length > 0 &&
+      {playerArray &&
         playerArray.map((m, idx) => {
           if (userInfo.username === m.username) {
             return;
@@ -50,8 +49,7 @@ const OtherPlayers = () => {
               </div>
               {/* Card is a placeholder for when we get a back of card finalized */}
               <div className={classes.text}>
-                {m.playerHand.length}{" "}
-                {m.playerHand.length === 1 ? "card" : "cards"}
+                {m.hand.length} {m.hand.length === 1 ? "card" : "cards"}
               </div>
             </Box>
           );

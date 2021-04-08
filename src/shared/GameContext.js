@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import deck from "./deck";
 import { UserContext } from "../shared/UserContext";
 
@@ -9,37 +8,35 @@ export function GameProvider({ children }) {
   const [isHostCon, setIsHostCon] = useState(false);
   const [playerArray, setPlayerArray] = useState([]);
   const [gameActive, setGameActive] = useState(false);
-  const [canPlay, setCanPlay] = useState(false);
   const [drawDeck, setDrawDeck] = useState([]);
   const [discardDeck, setDiscardDeck] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [room, setRoom] = useState("");
-  const history = useHistory();
   const { loading } = useContext(UserContext);
+  const [hasWinner, setHasWinner] = useState(false);
+  const winner = useMemo(() => {
+    if (!gameActive && !hasWinner) return null;
+    setHasWinner(true);
+    return playerArray.find((v) => v.hand.length === 0);
+  }, [playerArray]);
 
-  useEffect(() => {
-    if (playerArray[0] && playerArray[0].userID === userInfo.userID) {
-      setCanPlay(true);
-    } else {
-      setCanPlay(false);
-      console.log("IT'S YOUR TURN");
-    }
-  }, [playerArray, setCanPlay]);
+  const canPlay = useMemo(() => {
+    return playerArray[0] && playerArray[0].userID === userInfo.userID;
+  }, [playerArray]);
 
   useEffect(() => {
     if (gameActive === true && drawDeck === []) {
       let move = shuffleDeck([...discardDeck]);
       setDrawDeck(move);
       setDiscardDeck([]);
-      console.log("End of draw deck reached, cards shuffled and replaced.");
     }
   });
 
-  // useEffect(() => {
-  //   if (playerArray[1] && playerArray[1].hand === []) {
-  //     setGameActive(false);
-  //   }
-  // }, [playerArray]);
+  useEffect(() => {
+    if (winner) {
+      setGameActive(false);
+    }
+  }, [winner]);
 
   function PlayerObject(username, userID, hand) {
     this.username = username;
@@ -243,10 +240,6 @@ export function GameProvider({ children }) {
     return;
   }
 
-  // function quitGame() {
-    // return history.push("/home");
-  // }
-
   const value = {
     isHostCon,
     setIsHostCon,
@@ -255,7 +248,7 @@ export function GameProvider({ children }) {
     gameActive,
     setGameActive,
     canPlay,
-    setCanPlay,
+    winner,
     drawDeck,
     setDrawDeck,
     discardDeck,
@@ -270,7 +263,6 @@ export function GameProvider({ children }) {
     setColor,
     drawCard,
     playCard,
-    // quitGame,
   };
 
   return (
