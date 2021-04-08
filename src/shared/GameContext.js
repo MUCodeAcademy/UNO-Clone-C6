@@ -243,9 +243,9 @@ export function GameProvider({ children }) {
     return;
   }
 
-  function quitGame() {
-    return history.push("/home");
-  }
+  // function quitGame() {
+    // return history.push("/home");
+  // }
 
   const value = {
     isHostCon,
@@ -270,7 +270,7 @@ export function GameProvider({ children }) {
     setColor,
     drawCard,
     playCard,
-    quitGame,
+    // quitGame,
   };
 
   return (
