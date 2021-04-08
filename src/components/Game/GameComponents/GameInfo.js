@@ -28,7 +28,7 @@ const GameInfo = () => {
 
   return (
     <Container className={classes.root}>
-      {gameActive === false && !winner && (
+      {!gameActive && !winner && (
         <>
           {isHostCon === false ? (
             <h3>Waiting for host to start game...</h3>
@@ -38,13 +38,14 @@ const GameInfo = () => {
         </>
       )}
 
-      {gameActive === false && winner && (
+      {winner && (
         <>
-          <h3>Game is over!</h3>:<h3>{winner.username} has won the game!</h3>
+          <h3>Game is over!</h3>
+          <h3>{winner.username} has won the game!</h3>
         </>
       )}
 
-      {gameActive === true && (
+      {gameActive && (
         <div>
           <h3>{playerArray[0] && `${playerArray[0].username}'s`} turn!</h3>
           <div>

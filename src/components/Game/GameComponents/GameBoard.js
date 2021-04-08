@@ -120,7 +120,9 @@ const GameBoard = (props) => {
             <div className="text">Waiting on host...</div>
           )}
 
-          {discardDeck.length === 0 || discardDeck[0].points !== 50 ? (
+          {discardDeck.length === 0 ||
+          discardDeck[0].color !== "black" ||
+          !canPlay ? (
             <></>
           ) : (
             <div className="color-area">
