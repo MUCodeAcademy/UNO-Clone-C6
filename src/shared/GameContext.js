@@ -254,7 +254,7 @@ export function GameProvider({ children }) {
         }
         discard.unshift(playCard);
         setDiscardDeck(discard);
-        if (!isNaN(playCard.val) || playCard.value === "Draw Two") {
+        if (playCard.value === "Draw Two") {
           drawTwo();
           return;
         }
@@ -269,17 +269,17 @@ export function GameProvider({ children }) {
           // }
           return;
         }
+        if (playCard.value === "Reverse") {
+          reverseCard();
+          return;
+        }
+        if (playCard.value === "Skip") {
+          skip();
+          return;
+        }
+        regularTurn();
+        setActionCount(actionCount + 1);
       }
-      if (playCard.value === "Reverse") {
-        reverseCard();
-        return;
-      }
-      if (playCard.value === "Skip") {
-        skip();
-        return;
-      }
-      regularTurn();
-      setActionCount(actionCount + 1);
     }
     return;
   }
