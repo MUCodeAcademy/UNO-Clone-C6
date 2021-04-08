@@ -11,6 +11,8 @@ import {
   DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
+import Card from "../GameComponents/Card";
+
 
 const GameBoard = (props) => {
   const [msg, setMsg] = useState("");
@@ -39,7 +41,7 @@ const GameBoard = (props) => {
     
     userInfo,
   } = useContext(GameContext);
-
+// console.log(discardDeck[0].points)
   useEffect(() => {
     if (!canPlay) return;
     setTimeout(() => {
@@ -90,11 +92,14 @@ const GameBoard = (props) => {
         </div>
 
         <div className="discardContainer">
-          <div style={{ backgroundColor: discardDeck.length>0? discardDeck[0].color: "white"  }} className={`discard`}><h1>{discardDeck.length>0?discardDeck[0].value:""}</h1></div>
+        <Card color={discardDeck.length>0 ? discardDeck[0].color: "white"} value={discardDeck.length>0?discardDeck[0].value:""} />
+          {/* <div style={{ backgroundColor: discardDeck.length>0? discardDeck[0].color: "white"  }} className={`discard`}><h1>{discardDeck.length>0?discardDeck[0].value:""}</h1></div> */}
         </div>
 
         <div className="conditionalContainer">
-          {isHostCon !== false && gameActive !== true && (
+          {discardDeck.length==0
+          // isHostCon !== false && gameActive !== true 
+          && (
             <div className="startDiv">
               <div
                 className="startButton"
@@ -102,7 +107,7 @@ const GameBoard = (props) => {
                   startGame();
                 }}
               >
-                <p>GAME START</p>
+                <div className="gameStart">GAME START</div>
               </div>
             </div>
           )}
@@ -112,7 +117,7 @@ const GameBoard = (props) => {
           )}
 
 
-          {discardDeck.length>0?`${discardDeck[0].value}`.includes("Wild"):false && (
+          {discardDeck.length === 0 || discardDeck[0].points !==50 ? (<></>): (
           <div className="color-area">
             <div
               className="color-box"
@@ -135,7 +140,7 @@ const GameBoard = (props) => {
               onClick={() => setColor("yellow")}
             ></div>
           </div>
-           )} 
+           )}
         </div>
       </div>
 
