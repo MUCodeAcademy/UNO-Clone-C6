@@ -100,8 +100,37 @@ export function GameProvider({ children }) {
     shuffled.splice(0);
     setDrawDeck(draw);
     let discard = [...discardDeck];
-    discard.push(draw.shift());
+    let firstCard = draw.shift();
+    discard.push(firstCard);
     setDiscardDeck(discard);
+    if (firstCard.value === "Draw Two") {
+      let drawing = [...drawDeck];
+      let cards = [drawing.shift(), drawing.shift()];
+      setDrawDeck(drawing);
+      let newHand = [...playerArray[0].hand, ...cards];
+      let receiver = { ...playerArray[0], hand: newHand };
+      let players = [...playerArray];
+      players.shift();
+      setPlayerArray([...players, receiver]);
+      setActionCount(actionCount + 1);
+    }
+    if (firstCard.value.includes("Four")) {
+      let drawing = [...drawDeck];
+      let cards = [
+        drawing.shift(),
+        drawing.shift(),
+        drawing.shift(),
+        drawing.shift(),
+      ];
+      setDrawDeck(drawing);
+      let newHand = [...playerArray[0].hand, ...cards];
+      let receiver = { ...playerArray[0], hand: newHand };
+      let players = [...playerArray];
+      players.shift();
+      setPlayerArray([...players, receiver]);
+      setActionCount(actionCount + 1);
+    }
+    setActionCount(actionCount + 1);
   }
 
   function startGame() {
