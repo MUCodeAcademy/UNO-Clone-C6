@@ -34,7 +34,7 @@ export function GameProvider({ children }) {
   });
 
   useEffect(() => {
-    if (winner) {
+    if (winner && !gameActive) {
       setActionCount(actionCount + 1);
       setGameActive(false);
     }
