@@ -13,8 +13,10 @@ export function GameProvider({ children }) {
   const [userInfo, setUserInfo] = useState({});
   const [room, setRoom] = useState("");
   const { loading } = useContext(UserContext);
+  const [hasWinner, setHasWinner] = useState(false);
   const winner = useMemo(() => {
-    if (!gameActive && !winner) return null;
+    if (!gameActive && !hasWinner) return null;
+    setHasWinner(true);
     return playerArray.find((v) => v.hand.length === 0).username;
   }, [playerArray]);
 
