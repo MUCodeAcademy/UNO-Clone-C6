@@ -77,13 +77,13 @@ const GamePage = (props) => {
     sendPlayerData,
     sendMessage,
     joinRoom,
+    sendJoinGame,
   } = useSocket(room, isHostCon); //placeholder for testing
+
   useEffect(() => {
     let newGuy = new PlayerObject(userInfo.username, userInfo.userID, []);
-    let newPlayerArray = [...playerArray, newGuy];
-    sendPlayerData({ ...gameData, players: newPlayerArray });
-    console.log(gameData);
-  }, [userInfo]);
+    sendJoinGame({ ...newGuy });
+  }, []);
 
   useEffect(() => {
     joinRoom(userInfo.username, room);
@@ -91,26 +91,20 @@ const GamePage = (props) => {
 
   useEffect(() => {
     setPlayerArray([...gameData.players]);
-  }, [gameData.players]);
+  }, [gameData]);
 
-  useEffect(() => {
-    setGameActive(gameData.gameActive);
-  });
+  // useEffect(() => {
+  //   sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
+  // }, [drawDeck]);
 
-  useEffect(() => {
-    sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
-  }, [drawDeck]);
-
-  useEffect(() => {
-    sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
-  }, [discardDeck]);
+  // useEffect(() => {
+  //   sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
+  // }, [discardDeck]);
 
   console.log(gameData);
 
   const classes = useStyles();
-  // useEffect(() => {
-  //   joinRoom(props.room);
-  // }, [props.room, joinRoom]);
+
   return (
     <Grid container spacing={2} className={classes.gamePage}>
       <Grid xs={3} item className={classes.sectionContainer}>

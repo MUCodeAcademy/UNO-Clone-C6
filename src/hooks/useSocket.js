@@ -13,7 +13,13 @@ const useSocket = (room, isHost) => {
     discardDeck: [],
     players: [],
   });
+  const gameRef = useRef();
   useEffect(() => {
+    gameRef.current = {
+      drawDeck: [],
+      discardDeck: [],
+      players: [],
+    };
     setMessages(() => []);
     socketRef.current = socketIOClient(SERVER_URL, { query: { room } });
     socketRef.current.on("leave room", (data) => {
@@ -22,28 +28,30 @@ const useSocket = (room, isHost) => {
     socketRef.current.on("message", (data) => {
       setMessages((msgs) => [...msgs, data]);
     });
-    // socketRef.current.on("enter room", (data) => {
-    //   socketRef.current.emit("message", {
-    //     username: "SYSTEM",
-    //     body: `${data.username} has entered the chat`,
-    //     room: room,
-    //   });
-    // });
 
-    if (isHostSoc === true) {
-      socketRef.current.on("host data", (data) => {
-        setGameData({ ...data });
-        socketRef.current.emit("host data send", { ...gameData });
-      });
+    socketRef.current.on(`update players on join`, (data) => {
+      if (isHostSoc && data.room == room) {
+        const newGameData = {
+          ...gameRef.current,
+          players: [...gameRef.current.players, data.user],
+        };
+        setGameData({ ...newGameData });
+        gameRef.current = newGameData;
+        socketRef.current.emit("host data send", newGameData);
+      }
+    });
 
-      socketRef.current.on("enter room", (data) => {
-        sendPlayerData({ ...gameData, players: [...gameData.players, data] });
-      });
-    } else {
-      socketRef.current.on("update game", (data) => {
-        setGameData({ ...data });
-      });
-    }
+    socketRef.current.on("host data", (data) => {
+      if (!isHostSoc) return;
+      gameRef.current = { ...data };
+      setGameData({ ...data });
+      socketRef.current.emit("host data send", { ...data });
+    });
+
+    socketRef.current.on("update game", (data) => {
+      if (isHostSoc) return;
+      setGameData({ ...data });
+    });
   }, []);
 
   const sendMessage = useCallback((body, username) => {
@@ -62,12 +70,17 @@ const useSocket = (room, isHost) => {
     socketRef.current.emit("send player data", { ...data });
   }, []);
 
+  const sendJoinGame = useCallback((data) => {
+    socketRef.current.emit("send enter room to host", { ...data });
+  });
+
   return {
     messages,
     gameData,
     sendMessage,
     joinRoom,
     sendPlayerData,
+    sendJoinGame,
   };
 };
 
