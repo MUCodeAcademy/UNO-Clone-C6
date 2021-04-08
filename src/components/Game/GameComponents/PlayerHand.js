@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Card from "../GameComponents/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import { GameContext } from "../../../shared/GameContext";
+import { PlaylistAddCheckRounded } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   playArea: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 const PlayerHand = (props) => {
   const classes = useStyles();
-  const { playerArray, userInfo } = useContext(GameContext);
+  const { playerArray, discardDeck, userInfo } = useContext(GameContext);
   const me = playerArray.filter(
     (player) => player.username === userInfo.username
   )[0];
@@ -24,7 +25,12 @@ const PlayerHand = (props) => {
         {me &&
           me.hand &&
           me.hand.map((card, idx) => (
-            <Card color={`${card.color}`} value={`${card.value}`} key={idx} />
+            <Card
+              onClick={() => playCard(card, discardDeck[0])}
+              color={`${card.color}`}
+              value={`${card.value}`}
+              key={idx}
+            />
           ))}
       </div>
     </>
