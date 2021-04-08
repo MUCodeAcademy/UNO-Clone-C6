@@ -93,7 +93,12 @@ const GamePage = (props) => {
   useEffect(() => {
     if (!gameActive || !isHostCon) return;
     if (gameActive && !isHostCon) setGameActive(true);
-    sendPlayerData({ ...gameData, gameActive: true });
+    sendPlayerData({
+      ...gameData,
+      gameActive: true,
+      drawDeck: [...drawDeck],
+      discardDeck: [...discardDeck],
+    });
   }, [gameActive]);
 
   useEffect(() => {
@@ -119,13 +124,13 @@ const GamePage = (props) => {
   //   }
   // });
 
-  useEffect(() => {
-    sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
-  }, [drawDeck]);
+  // useEffect(() => {
+  //   sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
+  // }, [drawDeck]);
 
-  useEffect(() => {
-    sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
-  }, [discardDeck]);
+  // useEffect(() => {
+  //   sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
+  // }, [discardDeck]);
 
   console.log(gameData);
 
