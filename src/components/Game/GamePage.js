@@ -119,20 +119,13 @@ const GamePage = (props) => {
   //   }
   // });
 
-  // useEffect(() => {
-  //   sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
-  // }, [drawDeck]);
+  useEffect(() => {
+    sendPlayerData({ ...gameData, drawDeck: [...drawDeck] });
+  }, [drawDeck]);
 
-  // useEffect(() => {
-  //   sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
-  // }, [discardDeck]);
-
-  // THIS IS THE START OF THE GAMEOVER CONDITION //
-  // function gameOver(me) {
-  //   if (gameActive === true && me.hand.length === 0) {
-  //     sendPlayerData({ ...gameData, gameActive: false });
-  //   }
-  // }
+  useEffect(() => {
+    sendPlayerData({ ...gameData, discardDeck: [...discardDeck] });
+  }, [discardDeck]);
 
   console.log(gameData);
 
