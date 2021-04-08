@@ -17,7 +17,7 @@ export function GameProvider({ children }) {
   const winner = useMemo(() => {
     if (!gameActive && !hasWinner) return null;
     setHasWinner(true);
-    return playerArray.find((v) => v.hand.length === 0).username;
+    return playerArray.find((v) => v.hand.length === 0);
   }, [playerArray]);
 
   const canPlay = useMemo(() => {

@@ -91,6 +91,12 @@ const GamePage = (props) => {
   }, [room]);
 
   useEffect(() => {
+    if (!gameActive || !isHostCon) return;
+    if (gameActive && !isHostCon) setGameActive(true);
+    sendPlayerData({ ...gameData, gameActive: true });
+  }, [gameActive]);
+
+  useEffect(() => {
     setPlayerArray([...gameData.players]);
   }, [gameData]);
 
