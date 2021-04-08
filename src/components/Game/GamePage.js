@@ -94,13 +94,13 @@ const GamePage = (props) => {
     setPlayerArray([...gameData.players]);
   }, [gameData]);
 
-  useEffect(() => {
-    if (isHostCon === true) {
-      sendPlayerData({ ...gameData, gameActive: gameActive });
-    } else {
-      setGameActive(gameData.gameActive);
-    }
-  }, [gameActive, sendPlayerData]);
+  // useEffect(() => {
+  //   if (isHostCon === true) {
+  //     sendPlayerData({ ...gameData, gameActive: gameActive });
+  //   } else {
+  //     setGameActive(gameData.gameActive);
+  //   }
+  // }, [gameActive, sendPlayerData]);
 
   // useEffect(() => {
   //   if (

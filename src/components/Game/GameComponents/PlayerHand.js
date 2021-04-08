@@ -22,8 +22,8 @@ const PlayerHand = (props) => {
     <>
       <div className={classes.playArea}>
         {me &&
-          me.playerHand &&
-          me.playerHand.map((card, idx) => (
+          me.hand &&
+          me.hand.map((card, idx) => (
             <Card color={`${card.color}`} value={`${card.value}`} key={idx} />
           ))}
       </div>
