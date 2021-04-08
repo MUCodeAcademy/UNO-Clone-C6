@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   Button,
   Grid,
@@ -51,6 +51,10 @@ export default function HomePage() {
   const classes = useStyles();
   const history = useHistory();
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    resetContext();
+  }, []);
 
   function joinGame(e) {
     // e.preventDefault();
