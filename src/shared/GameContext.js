@@ -315,6 +315,7 @@ export function GameProvider({ children }) {
     setRoom,
     PlayerObject,
     createUserInfo,
+    shuffleDeck,
     startGame,
     setColor,
     drawCard,

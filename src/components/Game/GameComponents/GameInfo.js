@@ -45,7 +45,7 @@ const GameInfo = () => {
         </>
       )}
 
-      {gameActive && (
+      {gameActive && discardDeck.length > 0 && (
         <div>
           <h3>{playerArray[0] && `${playerArray[0].username}'s`} turn!</h3>
           <div>

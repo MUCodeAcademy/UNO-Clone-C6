@@ -73,6 +73,7 @@ const GamePage = (props) => {
     actionCount,
     setDiscardDeck,
     PlayerObject,
+    shuffleDeck,
   } = useContext(GameContext);
 
   const {
@@ -153,6 +154,15 @@ const GamePage = (props) => {
     if (actionCount === 0) return;
     sendPlayerData({ players: playerArray, discardDeck, drawDeck, gameActive });
   }, [actionCount]);
+
+  useEffect(() => {
+    if (gameActive && drawDeck.length === 0) {
+      let shuffled = shuffleDeck([...discardDeck]);
+      let firstCard = shuffled.shift();
+      setDrawDeck(shuffled);
+      setDiscardDeck([firstCard]);
+    }
+  }, [drawDeck]);
 
   const classes = useStyles();
 
